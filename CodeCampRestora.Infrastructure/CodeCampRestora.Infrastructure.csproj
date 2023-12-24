@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -7,7 +6,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CodeCampRestora.Application\CodeCampRestora.Application.csproj" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0"/>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CodeCampRestora.Application\CodeCampRestora.Application.csproj"/>
   </ItemGroup>
 
 </Project>
