@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CodeCampRestora.Domain\CodeCampRestora.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
