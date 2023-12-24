@@ -1,8 +1,10 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace CodeCampRestora.Application;
 
 public static class ServicesConfiguration
 {
-    public static IServiceProvider AddApplicationServices(this IServiceProvider services)
+    public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
 
         return services;
