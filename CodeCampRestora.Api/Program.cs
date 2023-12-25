@@ -1,10 +1,14 @@
+using CodeCampRestora.Application;
 using CodeCampRestora.Api.Settings;
+using CodeCampRestora.Infrastructure;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services
     .AddApi()
-    .AddSwagger();
+    .AddSwagger()
+    .AddApplicationServices()
+    .AddInfrastructureServices();
 
 var app = builder.Build();
 
