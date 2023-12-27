@@ -1,38 +1,49 @@
 ﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CodeCampRestora.Infrastructure.Data.DbContexts;
+using Microsoft.EntityFrameworkCore;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IRepository<T> where T : class
     {
+        private readonly AppDbContext _blogDbContext;
 
-        public Task<T?> GetByIdAsync(int id)
+        public GenericRepository(AppDbContext blogDbContext)
         {
-            throw new NotImplementedException();
+            _blogDbContext = blogDbContext;
         }
 
-        public Task<IList<T>> GetAllAsync()
+        public async Task<IList<T>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _blogDbContext.Set<T>().ToListAsync();
         }
 
-        public Task AddAsync(T entity)
+        public async Task<T?> GetByIdAsync(int id)
         {
-            throw new NotImplementedException();
+            return await _blogDbContext.Set<T>().FindAsync(id);
         }
 
-        public Task UpdateAsync(T entity)
+        public async Task AddAsync(T entity)
         {
-            throw new NotImplementedException();
+            await _blogDbContext.Set<T>().AddAsync(entity);
+            await _blogDbContext.SaveChangesAsync();
         }
 
-        public Task DeleteAsync(int id)
+        public async Task DeleteAsync(int id)
         {
-            throw new NotImplementedException();
+            var result = await GetByIdAsync(id);
+            if (result is null)
+            {
+                return;
+            }
+            _blogDbContext.Set<T>().Remove(result);
+            await _blogDbContext.SaveChangesAsync();
+        }
+
+        public async Task UpdateAsync(int id, T entity)
+        {
+            _blogDbContext.Set<T>().Update(entity);
+            await _blogDbContext.SaveChangesAsync();
         }
     }
 }
