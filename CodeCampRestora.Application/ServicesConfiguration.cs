@@ -1,7 +1,5 @@
 using System.Reflection;
-using CodeCampRestora.Application.Services;
 using Microsoft.Extensions.DependencyInjection;
-using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Attributes;
 
 namespace CodeCampRestora.Application;
