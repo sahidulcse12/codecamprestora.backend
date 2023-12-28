@@ -1,5 +1,4 @@
 using CodeCampRestora.Api.Settings;
-using CodeCampRestora.Infrastructure;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Infrastructure.Data.Repositories;
 using CodeCampRestora.Infrastructure.Services;
@@ -14,7 +13,7 @@ builder.Services
 
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
-    options.UseNpgsql(builder.Configuration.GetConnectionString("BlogBbContext"),
+    options.UseNpgsql(builder.Configuration.GetConnectionString("BlogDbContext"),
         b => b.MigrationsAssembly("CodeCampRestora.Api"));
 });
 
