@@ -1,6 +1,6 @@
 ﻿namespace CodeCampRestora.Domain.Entities.Branch
 {
-    public class TagLine : BaseEntity
+    public class CuisingType : BaseEntity
     {
         public required string CuisinTag { get; set; }
     }

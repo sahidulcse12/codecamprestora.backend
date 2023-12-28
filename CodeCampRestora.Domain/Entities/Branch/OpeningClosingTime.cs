@@ -11,4 +11,5 @@ public class OpeningClosingTime : BaseEntity
     public DayOfWeek DayOfWeek { get; set; }
     public TimeOnly Opening { get; set; }
     public TimeOnly Closing { get; set; }
+    public bool IsClosed { get; set; }
 }
