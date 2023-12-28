@@ -6,27 +6,27 @@ namespace CodeCampRestora.Infrastructure.Data.Repositories
 {
     public class GenericRepository<T> : IRepository<T> where T : class
     {
-        private readonly AppDbContext _blogDbContext;
+        private readonly AppDbContext _applicationDbContext;
 
-        public GenericRepository(AppDbContext blogDbContext)
+        public GenericRepository(AppDbContext applicationDbContext)
         {
-            _blogDbContext = blogDbContext;
+            _applicationDbContext = applicationDbContext;
         }
 
         public async Task<IList<T>> GetAllAsync()
         {
-            return await _blogDbContext.Set<T>().ToListAsync();
+            return await _applicationDbContext.Set<T>().ToListAsync();
         }
 
         public async Task<T?> GetByIdAsync(int id)
         {
-            return await _blogDbContext.Set<T>().FindAsync(id);
+            return await _applicationDbContext.Set<T>().FindAsync(id);
         }
 
         public async Task AddAsync(T entity)
         {
-            await _blogDbContext.Set<T>().AddAsync(entity);
-            await _blogDbContext.SaveChangesAsync();
+            await _applicationDbContext.Set<T>().AddAsync(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task DeleteAsync(int id)
@@ -36,14 +36,14 @@ namespace CodeCampRestora.Infrastructure.Data.Repositories
             {
                 return;
             }
-            _blogDbContext.Set<T>().Remove(result);
-            await _blogDbContext.SaveChangesAsync();
+            _applicationDbContext.Set<T>().Remove(result);
+            await _applicationDbContext.SaveChangesAsync();
         }
 
         public async Task UpdateAsync(int id, T entity)
         {
-            _blogDbContext.Set<T>().Update(entity);
-            await _blogDbContext.SaveChangesAsync();
+            _applicationDbContext.Set<T>().Update(entity);
+            await _applicationDbContext.SaveChangesAsync();
         }
     }
 }
