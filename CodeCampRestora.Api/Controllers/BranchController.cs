@@ -5,23 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace CodeCampRestora.Api.Controllers
 {
-    [Route("api/branch")]
-    [ApiController]
-    public class BranchController : BaseController
+    public class BranchController : ApiBaseController
     {
         private readonly ILogger<BranchController> _logger;
+
         public BranchController(ILogger<BranchController> logger)
         {
             _logger = logger;
         }
-        [HttpGet]
+
+        [HttpGet("/GetAll")]
         public ActionResult<IEnumerable<Branch>> GetAll()
         {
             return Ok();
         }
 
 
-        [HttpGet("{id}")]
+        [HttpGet("Get/{id}")]
         public ActionResult<Branch> Get(int id)
         {
             return Ok();

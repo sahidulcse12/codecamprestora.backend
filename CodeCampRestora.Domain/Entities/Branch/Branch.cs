@@ -25,7 +25,7 @@ namespace CodeCampRestora.Domain.Entities.Branch
         //public IList<BranchImage> BranchImages { get; set; }
         public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
         public Resturant Resturant { get; set; }
-        public IList<CuisingType> CuisingTypes { get; set; }
+        public IList<CuisineType> CuisineTypes { get; set; }
 
     }
 
