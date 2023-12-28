@@ -5,7 +5,7 @@ namespace CodeCampRestora.Api.Controllers;
 
 [ApiController]
 [Route("/api/[controller]")]
-public abstract class BaseController : ControllerBase
+public abstract class ApiBaseController : ControllerBase
 {
     private ISender? _sender = default;
     public ISender Sender => _sender ??= HttpContext.RequestServices.GetService<ISender>()!;
