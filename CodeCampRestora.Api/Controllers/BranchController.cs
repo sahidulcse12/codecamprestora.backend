@@ -27,20 +27,20 @@ namespace CodeCampRestora.Api.Controllers
             return Ok();
         }
 
-        [HttpPost]
+        [HttpPost("/Post")]
         public IActionResult Post([FromBody] Branch newItem)
         {
             return Ok(newItem);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("update/id")]
         public IActionResult Put(int id, [FromBody] Branch updatedItem)
         {
               return Ok();
         }
 
 
-        [HttpDelete("{id}")]
+        [HttpDelete("/Delete")]
         public IActionResult Delete(int id)
         {
             return Ok();
