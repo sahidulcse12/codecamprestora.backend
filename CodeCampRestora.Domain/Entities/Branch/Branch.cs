@@ -12,8 +12,7 @@ namespace CodeCampRestora.Domain.Entities.Branch
         //public Guid Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public bool IsAvailable { get; set; }
-       
-        
+   
         //public List<string> TagLine { get; set; }
 
         //public Guid ResturantId { get; set; }
@@ -22,6 +21,7 @@ namespace CodeCampRestora.Domain.Entities.Branch
         // Relationship 
         public Address? Address { get; set; }
         public PriceRange? PriceRange { get; set; }
+
         //public IList<BranchImage> BranchImages { get; set; }
         public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
         public Resturant Resturant { get; set; }

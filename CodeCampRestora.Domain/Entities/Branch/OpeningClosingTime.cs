@@ -11,5 +11,8 @@ public class OpeningClosingTime : BaseEntity
     public DayOfWeek DayOfWeek { get; set; }
     public TimeOnly Opening { get; set; }
     public TimeOnly Closing { get; set; }
+<<<<<<< HEAD
     public bool IsClosed { get; set; }
+=======
+>>>>>>> 5ae0055 (feat : branc entities completed)
 }
