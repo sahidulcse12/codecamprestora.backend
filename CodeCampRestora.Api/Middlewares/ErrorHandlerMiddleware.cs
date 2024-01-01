@@ -13,12 +13,10 @@ namespace WebApi.Middlewares
     public class ErrorHandlerMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger _logger;
 
-        public ErrorHandlerMiddleware(RequestDelegate next, ILogger<ErrorHandlerMiddleware> logger)
+        public ErrorHandlerMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
         }
 
         public async Task Invoke(HttpContext context)
@@ -27,29 +25,74 @@ namespace WebApi.Middlewares
             {
                 await _next(context);
             }
-            catch (Exception error)
+            catch (CommonException ex)
             {
-                var response = context.Response;
-                response.ContentType = "application/json";
-                var responseModel = new Response<string>() { Succeeded = false, Message = error.Message };
-                
-                switch (error)
+                context.Response.StatusCode = (int)ex.StatusCode;
+                context.Response.ContentType = "application/json";
+
+                switch (ex)
                 {
-                    case CommonException e:
-                        response.StatusCode = (int)HttpStatusCode.BadRequest;
+                    case BadRequestException validationEx:
+                        await HandleValidationException(context, validationEx);
                         break;
-                    case KeyNotFoundException e:  
-                        response.StatusCode = (int)HttpStatusCode.NotFound;
+                    case AuthorizationException authEx:
+                        await HandleAuthorizationException(context, authEx);
+                        break;
+                    case DataAccessException dataEx:
+                        await HandleDataAccessException(context, dataEx);
+                        break;
+                    case ResourceNotFoundException resourceEx:
+                        await HandleResourceNotFoundException(context, resourceEx);
+                        break;
+                    case NotImplementationException notImplementationEx:
+                        await HandleNotImplementationException(context, notImplementationEx);
                         break;
                     default:
-                        _logger.LogError(error, error?.Message);
-                        response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                        await HandleUnknownException(context, ex);
                         break;
                 }
-                var result = JsonSerializer.Serialize(responseModel);
-
-                await response.WriteAsync(result);
+            }
+            catch (Exception ex)
+            {
+                await HandleUnknownException(context, ex);
             }
         }
+
+        private async Task HandleValidationException(HttpContext context, BadRequestException ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            await context.Response.WriteAsync(error);
+        }
+
+        private async Task HandleAuthorizationException(HttpContext context, AuthorizationException ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            await context.Response.WriteAsync(error);
+        }
+
+        private async Task HandleDataAccessException(HttpContext context, DataAccessException ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            await context.Response.WriteAsync(error);
+        }
+
+        private async Task HandleResourceNotFoundException(HttpContext context, ResourceNotFoundException ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = ex.Message, statusCode = context.Response.StatusCode });
+            await context.Response.WriteAsync(error);
+        }
+
+        private async Task HandleNotImplementationException(HttpContext context, Exception ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = ex.Message, statusCode = context.Response.StatusCode });
+            await context.Response.WriteAsync(error);
+        }
+
+        private async Task HandleUnknownException(HttpContext context, Exception ex)
+        {
+            var error = JsonConvert.SerializeObject(new { error = "An unexpected error occurred." });
+            await context.Response.WriteAsync(error);
+        }
+        
     }
 }
