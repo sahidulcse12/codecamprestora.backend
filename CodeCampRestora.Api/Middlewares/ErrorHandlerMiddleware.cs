@@ -92,7 +92,7 @@ namespace WebApi.Middlewares
 
         private async Task HandleUnknownException(HttpContext context, Exception ex)
         {
-            var error = JsonConvert.SerializeObject(new { error = "An unexpected error occurred." });
+            var error = JsonConvert.SerializeObject(new { error = "An unexpected error occurred.", statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
         
