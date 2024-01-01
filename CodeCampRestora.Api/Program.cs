@@ -8,7 +8,7 @@ builder.Services
     .AddApi()
     .AddSwagger()
     .AddApplicationServices()
-    .AddInfrastructureServices();
+    .AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
