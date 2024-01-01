@@ -1,6 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using CodeCampRestora.Application.Attributes;
+using CodeCampRestora.Application.Validator;
 
 namespace CodeCampRestora.Application;
 
@@ -13,6 +14,7 @@ public static class ServicesConfiguration
         {
             cfg.Lifetime = ServiceLifetime.Scoped;
             cfg.RegisterServicesFromAssembly(currentExecutingAssembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
 
         services
