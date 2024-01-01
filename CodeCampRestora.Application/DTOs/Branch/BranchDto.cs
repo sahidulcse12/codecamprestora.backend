@@ -1,4 +1,4 @@
-﻿using CodeCampRestora.Domain.Entities.Branch;
+﻿using CodeCampRestora.Domain.Entities.Branchs;
 
 namespace CodeCampRestora.Application.DTOs;
 

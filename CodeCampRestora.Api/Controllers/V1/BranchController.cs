@@ -1,38 +1,48 @@
 ﻿using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Branch.Commands.Create_Branch;
+using CodeCampRestora.Application.Features.BranchS.Commands.Create_Branch;
+using CodeCampRestora.Domain.Entities.Branchs;
+using MediatR;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
 public class BranchController : ApiBaseController
 {
+    private readonly ILogger<BranchController> _logger;
+    private readonly IMediator _mediator;
+
+    public BranchController(ILogger<BranchController> logger, IMediator mediator)
+    {
+        _logger = logger;
+        _mediator = mediator;
+    }
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BranchDto>>> GetAll()
     {
-        await Sender.Send(new CreateBranchCommand("Sultans Mirpur"));
         return Ok();
     }
 
-
     [HttpGet("{id}")]
-    public async Task<ActionResult<BranchDto>> GetById(int id)
+    public async Task<ActionResult<BranchDto>> Get(int id)
     {
         return Ok();
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] BranchDto newItem)
+    public async Task<IActionResult> Post([FromBody] CreateBranchCommand newItem)
     {
-        return Ok(newItem);
+        var response = await Sender.Send(newItem);
+        return Ok(response);
     }
 
-    [HttpPut("{i}")]
-    public async Task<IActionResult> Update(int id, [FromBody] BranchDto updatedItem)
+    [HttpPut("{id}")]
+    public async Task<IActionResult> Put(int id, [FromBody] BranchDto updatedItem)
     {
         return Ok();
     }
-
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(int id)
@@ -40,3 +50,5 @@ public class BranchController : ApiBaseController
         return Ok();
     }
 }
+
+

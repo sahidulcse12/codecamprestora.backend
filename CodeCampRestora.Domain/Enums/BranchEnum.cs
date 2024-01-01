@@ -1,4 +1,4 @@
-﻿namespace CodeCampRestora.Domain.Entities.Branch
+﻿namespace CodeCampRestora.Domain.Entities.Branchs
 {
     public enum PriceRange
     {

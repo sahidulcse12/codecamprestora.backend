@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeCampRestora.Domain.Entities.Branch
+namespace CodeCampRestora.Domain.Entities.Branchs
 {
     public class BaseEntity
     {
