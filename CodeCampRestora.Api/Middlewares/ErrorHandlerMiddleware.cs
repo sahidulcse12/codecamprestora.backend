@@ -1,6 +1,7 @@
 ﻿using Application.Wrappers;
 using CodeCampRestora.Application.Exceptions;
 using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Linq;
