@@ -4,45 +4,48 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
-public class GenericRepository<T> : IRepository<T> where T : class
+public abstract class GenericRepository<TEntity, TKey> :
+    IRepository<TEntity, TKey> where TEntity : class
 {
-    private readonly AppDbContext _applicationDbContext;
+    private readonly DbContext _dbContext;
+    private readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(AppDbContext applicationDbContext)
+    public GenericRepository(DbContext dbContext)
     {
-        _applicationDbContext = applicationDbContext;
+        _dbContext = dbContext;
+        _dbSet = _dbContext.Set<TEntity>();
     }
 
-    public async Task<IList<T>> GetAllAsync()
+    public virtual async Task AddAsync(TEntity entity)
     {
-        return await _applicationDbContext.Set<T>().ToListAsync();
+        await _dbSet.AddAsync(entity);
     }
 
-    public async Task<T?> GetByIdAsync(int id)
+    public async Task DeleteAsync(TKey id)
     {
-        return await _applicationDbContext.Set<T>().FindAsync(id);
+        var entity = await _dbSet.FindAsync(id);
+        _dbSet.Remove(entity!);
     }
 
-    public async Task AddAsync(T entity)
+    public async Task<IReadOnlyList<TEntity>> GetAllAsync()
     {
-        await _applicationDbContext.Set<T>().AddAsync(entity);
-        await _applicationDbContext.SaveChangesAsync();
+        return await _dbSet.ToListAsync();
     }
 
-    public async Task DeleteAsync(int id)
+    public async Task<TEntity?> GetByIdAsync(TKey id)
     {
-        var result = await GetByIdAsync(id);
-        if (result is null)
+        var entity = await _dbSet.FindAsync(id);
+        return entity;
+    }
+
+    public async Task UpdateAsync(TKey id, TEntity entity)
+    {
+        var existingEntity = await _dbSet.FindAsync(id);
+
+        if (existingEntity != null)
         {
-            return;
+            _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
+            await _dbContext.SaveChangesAsync();
         }
-        _applicationDbContext.Set<T>().Remove(result);
-        await _applicationDbContext.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(int id, T entity)
-    {
-        _applicationDbContext.Set<T>().Update(entity);
-        await _applicationDbContext.SaveChangesAsync();
     }
 }

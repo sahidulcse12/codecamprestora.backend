@@ -11,7 +11,7 @@ public static class ServicesConfiguration
     {
         var connectionStringKey = "LocalDbContext";
         var assemblyName = "CodeCampRestora.Api";
-        services.AddDbContext<AppDbContext>(options =>
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
             options.UseNpgsql(configuration.GetConnectionString(connectionStringKey),
                 b => b.MigrationsAssembly(assemblyName));

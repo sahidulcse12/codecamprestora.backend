@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories
 {
-    public interface IRepository<T> where T : class
+    public interface IRepository<TEntity, TKey> where TEntity : class
     {
-        Task<IList<T>> GetAllAsync();
-        Task<T?> GetByIdAsync(int id);
-        Task AddAsync(T entity);
-        Task UpdateAsync(int id, T entity);
-        Task DeleteAsync(int id);
+        Task<IReadOnlyList<TEntity>> GetAllAsync();
+        Task<TEntity?> GetByIdAsync(TKey id);
+        Task AddAsync(TEntity entity);
+        Task UpdateAsync(TKey id, TEntity entity);
+        Task DeleteAsync(TKey id);
     }
 }
