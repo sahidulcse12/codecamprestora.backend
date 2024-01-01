@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories
 {
-    public interface IUnitOfWork
+    public interface IUnitOfWork : IDisposable
     {
         Task SaveChangesAsync();
     }
