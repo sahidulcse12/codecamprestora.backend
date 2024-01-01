@@ -61,19 +61,19 @@ namespace WebApi.Middlewares
 
         private async Task HandleValidationException(HttpContext context, BadRequestException ex)
         {
-            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            var error = JsonConvert.SerializeObject(new { error = ex.Message, statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
 
         private async Task HandleAuthorizationException(HttpContext context, AuthorizationException ex)
         {
-            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            var error = JsonConvert.SerializeObject(new { error = ex.Message, statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
 
         private async Task HandleDataAccessException(HttpContext context, DataAccessException ex)
         {
-            var error = JsonConvert.SerializeObject(new { error = ex.Message });
+            var error = JsonConvert.SerializeObject(new { error = ex.Message, statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
 
