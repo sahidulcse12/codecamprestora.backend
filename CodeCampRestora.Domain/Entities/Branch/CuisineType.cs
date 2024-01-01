@@ -1,4 +1,6 @@
-﻿namespace CodeCampRestora.Domain.Entities.Branchs
+ ﻿namespace CodeCampRestora.Domain.Entities.Branchs
+ 
+ 
 {
     public class CuisineType : BaseEntity
     {
