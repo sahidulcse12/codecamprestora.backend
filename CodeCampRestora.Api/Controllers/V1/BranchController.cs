@@ -1,6 +1,8 @@
 ﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
+using CodeCampRestora.Application.Features.Branches.Commands.DeleteBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
+using CodeCampRestora.Application.Features.Branches.Queries.GetById;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,16 +19,17 @@ public class BranchController : ApiBaseController
         _mediator = mediator;
     }
 
-    [HttpGet]
-    public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAll()
+    [HttpGet("{resturantId}")]
+    public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAll(Guid resturantId)
     {
-        var response = await Sender.Send(new GetAllBrachQueryHandeller());
+        var response = await Sender.Send(new GetAllBranchesQuery { ResturantId=resturantId});
         return Ok(response);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BranchDTO>> Get(int id)
+    public async Task<ActionResult<BranchDTO>> Get(Guid id)
     {
+        var response = await Sender.Send(new GetBranchByIdQuery(id));
         return Ok();
     }
 
@@ -44,9 +47,10 @@ public class BranchController : ApiBaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(int id)
+    public async Task<IActionResult> Delete(Guid id)
     {
-        return Ok();
+        var response = await Sender.Send(new DeleteBranchCommand { Id=id});
+        return Ok(response);
     }
 }
 

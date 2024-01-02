@@ -8,6 +8,9 @@ public class BranchDTO
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
+    public BranchCuisineTypeDTO BranchCuisineTypeDTO { get; set; }
+    public BranchAddressDTO BranchAddressDTO { get; set; }
+
 }
 
 public class BranchCuisineTypeDTO
