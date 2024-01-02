@@ -1,16 +1,15 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Infrastructure.Data.DbContexts;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
-public abstract class GenericRepository<TEntity, TKey> :
+public abstract class Repository<TEntity, TKey> :
     IRepository<TEntity, TKey> where TEntity : class
 {
     private readonly DbContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(DbContext dbContext)
+    public Repository(DbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<TEntity>();
