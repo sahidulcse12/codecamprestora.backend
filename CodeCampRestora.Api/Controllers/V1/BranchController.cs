@@ -1,5 +1,5 @@
 ﻿using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.BranchS.Commands.Create_Branch;
+using CodeCampRestora.Application.Features.Branch.Commands.CreateBranch;
 using CodeCampRestora.Domain.Entities.Branchs;
 using MediatR;
 using Microsoft.AspNetCore.Http;
