@@ -1,7 +1,8 @@
 ﻿ 
-namespace CodeCampRestora.Application.DTOs.BranchDTO_s;
-
-public class BranchOpeningClosingTimeDto
+ 
+namespace CodeCampRestora.Domain.Entities.Branches;
+ 
+public class OpeningClosingTime  
 {
     public DayOfWeek DayOfWeek { get; set; }
     public TimeOnly Opening { get; set; }

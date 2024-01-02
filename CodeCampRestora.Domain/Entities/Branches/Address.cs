@@ -1,7 +1,7 @@
 ﻿ 
-namespace CodeCampRestora.Application.DTOs.BranchDTO_s;
+namespace CodeCampRestora.Domain.Entities.Branches;
 
-public class BranchAddressDto
+public class Address  
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }

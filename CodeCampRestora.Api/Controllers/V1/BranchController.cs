@@ -1,10 +1,7 @@
 ﻿using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Branch.Commands.CreateBranch;
-using CodeCampRestora.Application.Features.Branch.Queries.GetAllBranch;
-using CodeCampRestora.Domain.Entities.Branchs;
+using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
+using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 using MediatR;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CodeCampRestora.Api.Controllers.V1;
@@ -21,14 +18,14 @@ public class BranchController : ApiBaseController
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<BranchDto>>> GetAll()
+    public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAll()
     {
         var response = await Sender.Send(new GetAllBrachQueryHandeller());
         return Ok(response);
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BranchDto>> Get(int id)
+    public async Task<ActionResult<BranchDTO>> Get(int id)
     {
         return Ok();
     }
@@ -41,7 +38,7 @@ public class BranchController : ApiBaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] BranchDto updatedItem)
+    public async Task<IActionResult> Put(int id, [FromBody] BranchDTO updatedItem)
     {
         return Ok();
     }

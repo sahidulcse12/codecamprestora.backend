@@ -22,8 +22,4 @@
     <ProjectReference Include="..\CodeCampRestora.Domain\CodeCampRestora.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="DTOs\" />
-  </ItemGroup>
-
 </Project>

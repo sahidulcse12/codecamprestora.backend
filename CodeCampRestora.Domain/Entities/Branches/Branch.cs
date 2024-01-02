@@ -1,0 +1,17 @@
+﻿using CodeCampRestora.Domain.Enums;
+
+namespace CodeCampRestora.Domain.Entities.Branches;
+
+public class Branch
+{
+    public Guid Id { get; set; }
+    public string Name { get; set; } = string.Empty;
+    public bool IsAvailable { get; set; }
+    // Relationship 
+    public Address? Address { get; set; }
+    public PriceRange? PriceRange { get; set; }
+
+    public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
+    public Resturant Resturant { get; set; }
+    public IList<CuisineType> CuisineTypes { get; set; }
+}
