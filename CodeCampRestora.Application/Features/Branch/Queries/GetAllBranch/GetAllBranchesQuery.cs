@@ -1,10 +1,11 @@
-﻿using MediatR;
-using CodeCampRestora.Application.DTOs;
+﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Domain.Entities.Branchs;
+using MediatR;
 
-namespace CodeCampRestora.Application.Features.Branch.Commands.CreateBranch;
 
-public record CreateBranchCommand : IRequest<BranchDto>
+namespace CodeCampRestora.Application.Features.Branch.Queries.GetAllBranch;
+
+public record GetAllBranchesQuery : IRequest<BranchDto>
 {
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }

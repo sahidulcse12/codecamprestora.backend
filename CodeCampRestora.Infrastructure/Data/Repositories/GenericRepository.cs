@@ -1,5 +1,4 @@
 ﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Infrastructure.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;

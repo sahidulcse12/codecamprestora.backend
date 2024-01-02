@@ -1,5 +1,6 @@
 ﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Branch.Commands.CreateBranch;
+using CodeCampRestora.Application.Features.Branch.Queries.GetAllBranch;
 using CodeCampRestora.Domain.Entities.Branchs;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -22,7 +23,8 @@ public class BranchController : ApiBaseController
     [HttpGet]
     public async Task<ActionResult<IEnumerable<BranchDto>>> GetAll()
     {
-        return Ok();
+        var response = await Sender.Send(new GetAllBrachQueryHandeller());
+        return Ok(response);
     }
 
     [HttpGet("{id}")]

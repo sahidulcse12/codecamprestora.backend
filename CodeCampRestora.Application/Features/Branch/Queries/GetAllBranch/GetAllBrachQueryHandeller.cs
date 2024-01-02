@@ -1,17 +1,14 @@
-﻿using MediatR;
+﻿
+
 using CodeCampRestora.Application.DTOs;
 using BranchEO = CodeCampRestora.Domain.Entities.Branchs.Branch;
- 
+using MediatR;
 
-namespace CodeCampRestora.Application.Features.Branch.Commands.CreateBranch;
+namespace CodeCampRestora.Application.Features.Branch.Queries.GetAllBranch;
 
-public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, BranchDto>
+public class GetAllBrachQueryHandeller : IRequestHandler<GetAllBranchesQuery, BranchDto>
 {
-    public CreateBranchCommandHandler()
-    {
-    }
-
-    public async Task<BranchDto> Handle(CreateBranchCommand request, CancellationToken cancellationToken)
+    public async Task<BranchDto> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
     {
         var branch = new BranchEO
         {
@@ -19,8 +16,6 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             IsAvailable = request.IsAvailable,
             PriceRange = request.PriceRange,
         };
-       // _repsitory.Add(branch);
-
         return new BranchDto
         {
             Name = branch.Name,
