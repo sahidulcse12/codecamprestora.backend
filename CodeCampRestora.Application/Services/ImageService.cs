@@ -53,7 +53,7 @@ public class ImageService : IImageService
             Id = imageEO!.Id,
             Name = imageEO.Name,
             Type = imageEO.Type,
-            DataAsBase64 = imageEO.DataAsBase64,
+            Base64 = imageEO.Base64,
         };
 
         return Result<ImageDTO>.Success(imageDTO);

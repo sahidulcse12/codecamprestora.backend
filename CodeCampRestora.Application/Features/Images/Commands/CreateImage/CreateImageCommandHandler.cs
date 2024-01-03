@@ -21,7 +21,7 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
         {
             Name = request.Name,
             Type = request.Type,
-            DataAsBase64 = request.Base64
+            Base64 = request.Base64
         };
 
         var result = await _imageService.UploadImageAsync(imageEO);
