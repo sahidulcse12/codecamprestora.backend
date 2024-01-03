@@ -10,7 +10,7 @@ namespace CodeCampRestora.Application.Common.Extensions
         
             var paginationHeader = new PaginationResponse(currentPage, itemsPerPage, totalItems, totalPages);
             var options = new JsonSerializerOptions(){
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
             response.Headers.Add("Pagination", JsonSerializer.Serialize(paginationHeader, options));
             response.Headers.Add("Access-Control-Expose-Headers","Pagination");
