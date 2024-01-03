@@ -1,10 +1,9 @@
-namespace CodeCampRestora.Domain.Entities;
+namespace CodeCampRestora.Application.DTOs;
 
-public class Image
+public class ImageDTO
 {
     public Guid Id { get; set; } = default!;
     public string Name { get; set; } = default!;
     public string Type { get; set; } = default!;
     public string DataAsBase64 {get; set;} = default!;
-    public bool IsDeleted { get; set; }
 }

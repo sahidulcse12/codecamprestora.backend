@@ -1,28 +1,30 @@
-using CodeCampRestora.Application.Common.Interfaces.MediatRs;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Common.Interfaces.Services;
+using CodeCampRestora.Application.Models;
+using MediatR;
 
 namespace CodeCampRestora.Application.Features.Images.Commands.CreateImage;
 
-public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand>
+public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IResult>
 {
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IImageService _imageService;
 
-    public CreateImageCommandHandler(IUnitOfWork unitOfWork)
+    public CreateImageCommandHandler(IImageService imageService)
     {
-        _unitOfWork = unitOfWork;
+        _imageService = imageService;
     }
 
-    public async Task Handle(CreateImageCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreateImageCommand request, CancellationToken cancellationToken)
     {
-        var image = new Image {
+        var imageEO = new Image
+        {
             Name = request.Name,
             Type = request.Type,
-            DataAsBase64 = request.DataAsBase64,
-            SizeInBytes = request.SizeInBytes
+            DataAsBase64 = request.Base64
         };
 
-        await _unitOfWork.Images.AddAsync(image);
-        await _unitOfWork.SaveChangesAsync();
+        var result = await _imageService.UploadImageAsync(imageEO);
+        return result;
     }
 }
