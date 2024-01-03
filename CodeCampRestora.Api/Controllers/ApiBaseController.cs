@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CodeCampRestora.Api.Controllers;
 
 [ApiController]
-[Route("/api/[controller]")]
+[Route("/api/v1/[controller]")]
 public abstract class ApiBaseController : ControllerBase
 {
     private ISender? _sender = default;

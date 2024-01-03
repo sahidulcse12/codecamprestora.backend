@@ -1,12 +1,5 @@
-﻿using CodeCampRestora.Application.Exceptions;
-using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using Newtonsoft.Json;
+using CodeCampRestora.Application.Exceptions;
 
 namespace WebApi.Middlewares
 {
@@ -95,6 +88,5 @@ namespace WebApi.Middlewares
             var error = JsonConvert.SerializeObject(new { error = "An unexpected error occurred.", statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
-        
     }
 }
