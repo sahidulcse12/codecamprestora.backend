@@ -10,12 +10,13 @@ public class BranchDTO
     public PriceRange? PriceRange { get; set; }
     public BranchCuisineTypeDTO BranchCuisineTypeDTO { get; set; }
     public BranchAddressDTO BranchAddressDTO { get; set; }
+    public BranchOpeningClosingTimeDTO BranchOpeningClosingTimeDTO { get; set; }
 
 }
 
 public class BranchCuisineTypeDTO
 {
-    public required string CuisinTag { get; set; }
+    public required string CuisineTag { get; set; }
 
 }
 

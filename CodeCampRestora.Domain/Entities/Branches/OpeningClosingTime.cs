@@ -8,4 +8,7 @@ public class OpeningClosingTime
     public TimeOnly Opening { get; set; }
     public TimeOnly Closing { get; set; }
     public bool IsClosed { get; set; }
+
+    public Branch Branch { get; set;}
+    
 }

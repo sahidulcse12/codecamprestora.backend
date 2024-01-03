@@ -1,6 +1,7 @@
 ﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.DeleteBranch;
+using CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetById;
 using MediatR;
@@ -41,8 +42,9 @@ public class BranchController : ApiBaseController
     }
 
     [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] BranchDTO updatedItem)
+    public async Task<IActionResult> Put(int id, [FromBody] UpdateBranchCommand updatedItem)
     {
+        var response = await Sender.Send(updatedItem);
         return Ok();
     }
 
