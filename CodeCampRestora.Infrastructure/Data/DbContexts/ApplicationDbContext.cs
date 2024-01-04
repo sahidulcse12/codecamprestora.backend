@@ -1,4 +1,5 @@
 ﻿using CodeCampRestora.Application.Attributes;
+using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Infrastructure.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,4 +11,5 @@ public class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
     public DbSet<Restaurant> Restaurants { get; set; }
+    public DbSet<MenuItem> MenuItems { get; set; }
 }
