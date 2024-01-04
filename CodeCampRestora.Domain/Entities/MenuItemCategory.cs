@@ -1,9 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using CodeCampRestora.Domain.Entities.Common;
 
 namespace CodeCampRestora.Domain.Entities
 {
-    public class MenuItemCategory
+    public class MenuItemCategory : AuditableEntity<MenuItemCategory>
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
