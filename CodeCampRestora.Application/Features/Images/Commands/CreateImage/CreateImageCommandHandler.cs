@@ -1,12 +1,11 @@
 using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
-using CodeCampRestora.Application.Models;
-using MediatR;
 
 namespace CodeCampRestora.Application.Features.Images.Commands.CreateImage;
 
-public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IResult>
+public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IResult<Guid>>
 {
     private readonly IImageService _imageService;
 
@@ -15,7 +14,7 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
         _imageService = imageService;
     }
 
-    public async Task<IResult> Handle(CreateImageCommand request, CancellationToken cancellationToken)
+    public async Task<IResult<Guid>> Handle(CreateImageCommand request, CancellationToken cancellationToken)
     {
         var imageEO = new Image
         {

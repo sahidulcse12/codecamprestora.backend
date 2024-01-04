@@ -22,7 +22,7 @@ public class ImagesController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IResult> Post(
-        [FromBody, SwaggerRequestBody(Required = true, Description = "image payload")]
+        [FromBody, SwaggerRequestBody(Description = "image payload", Required = true)]
         CreateImageCommand command)
     {
         var result = await Sender.Send(command);

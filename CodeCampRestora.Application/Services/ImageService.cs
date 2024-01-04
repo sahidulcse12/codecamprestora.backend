@@ -18,12 +18,12 @@ public class ImageService : IImageService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IResult> UploadImageAsync(Image image)
+    public async Task<IResult<Guid>> UploadImageAsync(Image image)
     {
         await _unitOfWork.Images.AddAsync(image);
         await _unitOfWork.SaveChangesAsync();
 
-        return Result.Success();
+        return Result<Guid>.Success(image.Id);
     }
 
     private bool IsImageExist(Image? image) => image is not null && !image.IsDeleted;
