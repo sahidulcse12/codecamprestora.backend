@@ -31,7 +31,7 @@ public class ValidationBehavior<TRequest, TResponse>
             ))
             .ToList();
 
-        if (errors.Any()) throw new ApplicationValidatorException(errors);
+        if (errors.Any()) throw new ApplicationValidationException(errors);
 
         return await next();
     }
