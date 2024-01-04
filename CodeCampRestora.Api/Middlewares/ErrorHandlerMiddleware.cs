@@ -51,7 +51,7 @@ namespace WebApi.Middlewares
                     case NotImplementationException notImplementationEx:
                         await HandleNotImplementationException(context, notImplementationEx);
                         break;
-                    case InValidateException validationEx:
+                    case ApplicationValidatorException validationEx:
                         await HandleValidationException(context, validationEx);
                         break;
                     default:
@@ -101,7 +101,7 @@ namespace WebApi.Middlewares
             await context.Response.WriteAsync(error);
         }
 
-        private async Task HandleValidationException(HttpContext context, InValidateException ex)
+        private async Task HandleValidationException(HttpContext context, ApplicationValidatorException ex)
         {
             var errors = ex.Messages.Select(message =>
                 Error.NotValidated(message.Type, message.Description)).ToList();

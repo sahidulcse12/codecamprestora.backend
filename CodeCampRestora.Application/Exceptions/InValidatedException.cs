@@ -2,11 +2,11 @@
 
 namespace CodeCampRestora.Application.Exceptions;
 
-public class InValidateException : CommonException
+public class ApplicationValidatorException : CommonException
 {
     public List<(string Type, string Description)> Messages { get; } = new();
     
-    public InValidateException(List<(string type, string description)> messages) 
+    public ApplicationValidatorException(List<(string type, string description)> messages) 
         : base(messages[0].description) 
     {
         Messages = messages;
