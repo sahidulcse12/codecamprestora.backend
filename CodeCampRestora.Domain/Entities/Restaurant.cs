@@ -1,6 +1,8 @@
-﻿namespace CodeCampRestora.Infrastructure.Entities;
+﻿using CodeCampRestora.Domain.Entities.Common;
 
-public class Restaurant
+namespace CodeCampRestora.Infrastructure.Entities;
+
+public class Restaurant : AuditableEntity<Restaurant>
 {
     public Guid Id { get; set; } = default!;
     public string Name { get; set; } = default!;
