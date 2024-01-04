@@ -2,8 +2,9 @@
  
 namespace CodeCampRestora.Domain.Entities.Branches;
  
-public class OpeningClosingTime  
+public class OpeningClosingTime
 {
+    public Guid Id { get; set; }
     public DayOfWeek DayOfWeek { get; set; }
     public TimeOnly Opening { get; set; }
     public TimeOnly Closing { get; set; }

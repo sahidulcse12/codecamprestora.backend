@@ -27,6 +27,16 @@ namespace CodeCampRestora.Application.Features.Branches.Queries.GetById
                 Name = branch.Name,
                 IsAvailable = branch.IsAvailable,
                 PriceRange = branch.PriceRange,
+                BranchAddressDTO = new BranchAddressDTO()
+                {
+                    Latitude = branch.Address!.Latitude,
+                    Longitude = branch.Address.Longitude,
+                    Thana = branch.Address.Thana,
+                    District = branch.Address.District,
+                    Division = branch.Address.Division,
+                    AreaDetails = branch.Address.AreaDetails
+                },
+                BranchCuisineTypeDTO = branch.CuisineTypes.Select(x => new BranchCuisineTypeDTO { CuisineTag = x.CuisineTag}).ToList(),
             };
              
         }

@@ -19,7 +19,7 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             PriceRange = request.PriceRange,
             Address = new Address
             {
-                Latitude = request.BranchAddress.Latitude,
+                Latitude = request.BranchAddress!.Latitude,
                 Longitude = request.BranchAddress.Longitude,
                 Thana = request.BranchAddress.Thana,
                 District = request.BranchAddress.District,
@@ -30,7 +30,7 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             {
                 new OpeningClosingTime
                 {
-                    DayOfWeek = request.BranchOpeningClosingTime.DayOfWeek,
+                    DayOfWeek = request.BranchOpeningClosingTime!.DayOfWeek,
                     Opening = request.BranchOpeningClosingTime.Opening,
                     Closing = request.BranchOpeningClosingTime.Closing,
                     IsClosed = request.BranchOpeningClosingTime.IsClosed,
@@ -41,22 +41,14 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             {
                 new CuisineType
                 {
-                    CuisineTag = request.BranchCuisineType.CuisineTag,
+                    CuisineTag = request.BranchCuisineType!.CuisineTag,
                 }
             }
         };
-         
-            // _repsitory.Add(branch);
 
-        return new BranchDTO
-        {
-            Name = branch.Name,
-            IsAvailable = branch.IsAvailable,
-            PriceRange = branch.PriceRange,
-            BranchAddressDTO = new BranchAddressDTO { AreaDetails = branch.Address.AreaDetails},
-            BranchCuisineTypeDTO = branch.CuisineTypes,
-            BranchOpeningClosingTimeDTO = branch.OpeningClosingTimes
+        // _repsitory.Add(branch);
 
-        };
-    }
+     
+
+        }
 }

@@ -14,6 +14,6 @@ public class Branch
     public PriceRange? PriceRange { get; set; }
 
     public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
-    public Resturant Resturant { get; set; }
+    // public Resturant Resturant { get; set; } = new Resturant();
     public IList<CuisineType> CuisineTypes { get; set; }
 }

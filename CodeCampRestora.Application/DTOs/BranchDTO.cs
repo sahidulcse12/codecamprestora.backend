@@ -4,11 +4,18 @@ namespace CodeCampRestora.Application.DTOs;
 
 public class BranchDTO
 {
+    public BranchDTO()
+    {
+        BranchAddressDTO = new BranchAddressDTO();
+        BranchCuisineTypeDTO = new List<BranchCuisineTypeDTO>();
+        BranchOpeningClosingTimeDTO = new BranchOpeningClosingTimeDTO();
+    }
+
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
-    public BranchCuisineTypeDTO BranchCuisineTypeDTO { get; set; }
+    public List<BranchCuisineTypeDTO> BranchCuisineTypeDTO { get; set; }
     public BranchAddressDTO BranchAddressDTO { get; set; }
     public BranchOpeningClosingTimeDTO BranchOpeningClosingTimeDTO { get; set; }
 
@@ -16,7 +23,8 @@ public class BranchDTO
 
 public class BranchCuisineTypeDTO
 {
-    public required string CuisineTag { get; set; }
+    public string CuisineTag { get; set; } = default!;
+
 
 }
 
@@ -33,10 +41,10 @@ public class BranchAddressDTO
     public double Latitude { get; set; }
     public double Longitude { get; set; }
 
-    public string Division { get; set; }
+    public string Division { get; set; } = default!;
 
-    public string District { get; set; }
-    public string Thana { get; set; }
-    public string AreaDetails { get; set; }
+    public string District { get; set; } = default!;
+    public string Thana { get; set; } = default!;
+    public string AreaDetails { get; set; } = default!;
 }
 
