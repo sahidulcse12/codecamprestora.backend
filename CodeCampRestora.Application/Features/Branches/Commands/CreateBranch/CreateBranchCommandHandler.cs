@@ -48,7 +48,28 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
 
         // _repsitory.Add(branch);
 
-     
+        return new BranchDTO
+        {
+            Name = branch.Name,
+            IsAvailable = branch.IsAvailable,
+            PriceRange = branch.PriceRange,
+            BranchAddressDTO = new BranchAddressDTO
+            {
+                Latitude = branch.Address.Latitude,
+                Longitude = branch.Address.Longitude,
+                Thana = branch.Address.Thana,
+                District = branch.Address.District,
+                Division = branch.Address.Division,
+                AreaDetails = branch.Address.AreaDetails
+            },
+            //BranchCuisineTypeDTO = new BranchCuisineTypeDTO
+            //{
+            //    CuisineTag = branch.CuisineTypes.
+            //},
 
-        }
+            //BranchOpeningClosingTimeDTO = branch.OpeningClosingTimes
+
+        };
+
+    }
 }

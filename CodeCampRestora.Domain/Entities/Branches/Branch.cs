@@ -10,7 +10,7 @@ public class Branch
     // Relationship 
     public Guid AddressId { get; set; }
 
-    public Address? Address { get; set; }
+    public  Address? Address { get; set; }
     public PriceRange? PriceRange { get; set; }
 
     public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
