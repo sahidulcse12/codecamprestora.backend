@@ -3,6 +3,7 @@ using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Attributes;
+using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
