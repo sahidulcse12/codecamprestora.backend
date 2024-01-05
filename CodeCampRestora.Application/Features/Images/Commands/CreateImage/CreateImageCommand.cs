@@ -7,5 +7,5 @@ public record CreateImageCommand : ICommand<IResult<Guid>>
 {
     public string Name { get; set; } = default!;
     public string Type { get; set; } = default!;
-    public string Base64 { get; set; } =  default!;
+    public string Base64 { get; set; } = default!;
 }

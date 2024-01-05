@@ -1,3 +1,4 @@
+using Mapster;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
@@ -16,12 +17,7 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
 
     public async Task<IResult<Guid>> Handle(CreateImageCommand request, CancellationToken cancellationToken)
     {
-        var imageEO = new Image
-        {
-            Name = request.Name,
-            Type = request.Type,
-            Base64 = request.Base64
-        };
+        var imageEO = request.Adapt<Image>();
 
         var result = await _imageService.UploadImageAsync(imageEO);
         return result;

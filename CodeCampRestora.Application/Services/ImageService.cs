@@ -1,3 +1,4 @@
+using Mapster;
 using Microsoft.AspNetCore.Http;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.DTOs;
@@ -49,13 +50,7 @@ public class ImageService : IImageService
             StatusCodes.Status404NotFound,
             Error.NotFound("Image not found"));
 
-        var imageDTO = new ImageDTO
-        {
-            Id = imageEO!.Id,
-            Name = imageEO.Name,
-            Type = imageEO.Type,
-            Base64 = imageEO.Base64,
-        };
+        var imageDTO = imageEO.Adapt<ImageDTO>();
 
         return Result<ImageDTO>.Success(imageDTO);
     }
