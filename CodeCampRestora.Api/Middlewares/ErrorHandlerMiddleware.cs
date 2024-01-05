@@ -1,14 +1,6 @@
-﻿using CodeCampRestora.Application.Exceptions;
-using CodeCampRestora.Application.Models;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
-using System.Threading.Tasks;
+using CodeCampRestora.Application.Exceptions;
+using CodeCampRestora.Application.Models;
 
 namespace WebApi.Middlewares
 {
@@ -104,8 +96,8 @@ namespace WebApi.Middlewares
         private async Task HandleValidationException(HttpContext context, ApplicationValidationException ex)
         {
             var errors = ex.Messages.Select(message =>
-                Error.NotValidated(message.Type, message.Description)).ToList();
-            
+                Error.NotValidated(message.Type, message.Description)).ToArray();
+
             var response = Result.Failure(errors);
             await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
         }
