@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeCampRestora.Domain.Entities.Login
+namespace CodeCampRestora.Domain.Entities.Authentication.Login
 {
     public class LoginModel
     {

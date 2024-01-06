@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using System;
 using System.Text;
 
 namespace CodeCampRestora.Infrastructure;
@@ -19,9 +18,9 @@ public static class ServicesConfiguration
                 .UseSqlServer(configuration.GetConnectionString("AppDbContext"),
                 b=>b.MigrationsAssembly("CodeCampRestora.Api")));
 
-        services.AddIdentity<IdentityUser, IdentityRole>()
-                        .AddEntityFrameworkStores<ApplicationDbContext>()
-                        .AddDefaultTokenProviders();
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddDefaultTokenProviders();
 
         services.AddAuthentication(options =>
         {

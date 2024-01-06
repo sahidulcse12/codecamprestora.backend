@@ -1,4 +1,4 @@
-﻿namespace CodeCampRestora.Domain.Entities.Response
+﻿namespace CodeCampRestora.Domain.Entities.Authentication.Response
 {
     public class Response
     {

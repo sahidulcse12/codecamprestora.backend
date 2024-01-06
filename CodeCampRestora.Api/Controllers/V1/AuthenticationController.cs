@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
-using CodeCampRestora.Domain.Entities.Login;
-using CodeCampRestora.Domain.Entities.SignUp;
-using CodeCampRestora.Domain.Entities.Response;
+using CodeCampRestora.Domain.Entities.Authentication.Login;
+using CodeCampRestora.Domain.Entities.Authentication.SignUp;
+using CodeCampRestora.Domain.Entities.Authentication.Response;
+using CodeCampRestora.Infrastructure.Data.DbContexts;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
@@ -14,13 +15,13 @@ namespace CodeCampRestora.Api.Controllers.V1
     [ApiController]
     public class AuthenticationController : ApiBaseController
     {
-        private readonly UserManager<IdentityUser> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
         private readonly IConfiguration _configuration;
 
         public AuthenticationController(
-                UserManager<IdentityUser> userManager,
-                RoleManager<IdentityRole> roleManager,
+                UserManager<ApplicationUser> userManager,
+                RoleManager<IdentityRole<Guid>> roleManager,
                 IConfiguration configuration)
         {
             _userManager = userManager;
@@ -39,11 +40,13 @@ namespace CodeCampRestora.Api.Controllers.V1
                        new Response { Status = "Error", Message = "User already exists!" });
             }
 
-            IdentityUser user = new()
+            ApplicationUser user = new()
             {
+                FirstName = registerUser.FirstName,
+                LastName = registerUser.LastName,
                 Email = registerUser.Email,
+                UserName = registerUser.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = registerUser.Username
             };
 
             var result = await _userManager.CreateAsync(user, registerUser.Password);
