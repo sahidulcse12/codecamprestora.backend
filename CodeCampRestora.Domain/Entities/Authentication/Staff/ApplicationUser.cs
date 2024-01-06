@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using CodeCampRestora.Domain.Entities.Authentication.Staff;
 
-namespace CodeCampRestora.Infrastructure.Data.DbContexts
+namespace CodeCampRestora.Domain.Entities.Authentication.Staff
 {
     public class ApplicationUser : IdentityUser<Guid>
     {

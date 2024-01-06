@@ -1,7 +1,7 @@
-﻿using CodeCampRestora.Domain.Entities.Authentication.Staff;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using CodeCampRestora.Domain.Entities.Authentication.Staff;
 
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts

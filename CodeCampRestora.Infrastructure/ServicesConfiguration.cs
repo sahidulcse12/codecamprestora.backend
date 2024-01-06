@@ -1,3 +1,4 @@
+using CodeCampRestora.Domain.Entities.Authentication.Staff;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;

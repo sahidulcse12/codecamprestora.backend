@@ -8,6 +8,7 @@ using CodeCampRestora.Domain.Entities.Authentication.Login;
 using CodeCampRestora.Domain.Entities.Authentication.SignUp;
 using CodeCampRestora.Domain.Entities.Authentication.Response;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
+using CodeCampRestora.Domain.Entities.Authentication.Staff;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
