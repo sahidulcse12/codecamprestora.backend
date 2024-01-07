@@ -13,5 +13,6 @@ namespace CodeCampRestora.Domain.Entities.BookingOrders
         public double Price { get; set; }
         public Guid BookingOrderId { get; set; }
         public Guid MenuItemId { get; set; }
+        public BookingOrder? BookingOrder { get; set; }
     }
 }
