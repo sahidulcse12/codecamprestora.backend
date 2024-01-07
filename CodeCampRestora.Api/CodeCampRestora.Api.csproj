@@ -4,18 +4,17 @@
     <TargetFramework>net7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>fffe1678-74f3-4968-b35a-cba334562074</UserSecretsId>
+    <UserSecretsId>dce449ad-270c-43ef-874a-6778094ac655</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.2.0" />
-    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
-	<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.4" />
     <PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="7.0.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.14" />
   </ItemGroup>
 
   <ItemGroup>

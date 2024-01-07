@@ -1,15 +1,17 @@
-﻿using CodeCampRestora.Application.Attributes;
+﻿using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Infrastructure.Entities;
-using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts;
 
 [ScopedLifetime]
-public class ApplicationDbContext : DbContext
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Restaurant> Restaurants { get; set; }
-    public DbSet<MenuItem> MenuItems { get; set; }
+    public DbSet<Image> Images => Set<Image>();
+    public DbSet<Restaurant> Restaurants => Set<Restaurant>();
 }
