@@ -1,13 +1,13 @@
-using CodeCampRestora.Domain.Entities.Authentication.Staff;
-using CodeCampRestora.Infrastructure.Data.DbContexts;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System.Text;
+using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using CodeCampRestora.Infrastructure.Data.DbContexts;
+using CodeCampRestora.Domain.Entities.Authentication.Staff;
 
 namespace CodeCampRestora.Infrastructure;
 
@@ -15,9 +15,6 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddDbContext<ApplicationDbContext>(option => option
-                .UseSqlServer(configuration.GetConnectionString("AppDbContext"),
-                b=>b.MigrationsAssembly("CodeCampRestora.Api")));
 
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
@@ -38,11 +35,18 @@ public static class ServicesConfiguration
                 ValidateAudience = true,
                 ValidAudience = configuration["JWT:ValidAudience"],
                 ValidIssuer = configuration["JWT:ValidIssuer"],
-                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]!))
             };
         });
 
+        var connectionStringKey = "SupaBaseConnection";
+        var assemblyName = Assembly.GetExecutingAssembly().FullName;
+        services.AddDbContext<ApplicationDbContext>(options =>
+        {
+            options.UseNpgsql(configuration.GetConnectionString(connectionStringKey),
+                b => b.MigrationsAssembly(assemblyName));
+        });
+
         return services;
-        
     }
 }
