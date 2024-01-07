@@ -1,123 +1,138 @@
-﻿using System.Text;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
+using CodeCampRestora.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.IdentityModel.Tokens;
+using CodeCampRestora.Domain.Identity;
 using System.IdentityModel.Tokens.Jwt;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.Authentication.Login;
+using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Domain.Entities.Authentication.SignUp;
-using CodeCampRestora.Domain.Entities.Authentication.Response;
-using CodeCampRestora.Infrastructure.Data.DbContexts;
-using CodeCampRestora.Domain.Entities.Authentication.Staff;
+using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 
-namespace CodeCampRestora.Api.Controllers.V1
+namespace CodeCampRestora.Api.Controllers.V1;
+
+[ApiController]
+public class AuthenticationController : ApiBaseController
 {
-    [Route("api/register")]
-    [ApiController]
-    public class AuthenticationController : ApiBaseController
+    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly RoleManager<IdentityRole<Guid>> _roleManager;
+    private readonly IConfiguration _configuration;
+    private readonly IApplicationDbContext _dbContext;
+
+    public AuthenticationController(
+            IApplicationDbContext dbContext,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole<Guid>> roleManager,
+            IConfiguration configuration)
     {
-        private readonly UserManager<ApplicationUser> _userManager;
-        private readonly RoleManager<IdentityRole<Guid>> _roleManager;
-        private readonly IConfiguration _configuration;
+        _userManager = userManager;
+        _roleManager = roleManager;
+        _configuration = configuration;
+        _dbContext = dbContext;
+    }
 
-        public AuthenticationController(
-                UserManager<ApplicationUser> userManager,
-                RoleManager<IdentityRole<Guid>> roleManager,
-                IConfiguration configuration)
+    [HttpPost("register")]
+    public async Task<IResult> Register([FromBody] RegisterUser registerUser)
+    {
+        var user = await _userManager.FindByEmailAsync(registerUser.Email);
+        if (user is not null)
         {
-            _userManager = userManager;
-            _roleManager = roleManager;
-            _configuration = configuration;
+            return Result.Failure(
+                StatusCodes.Status403Forbidden,
+                AuthErrors.UserExists);
         }
 
-        [HttpPost]
-        public async Task<IActionResult> Register([FromBody] RegisterUser registerUser)
+        var newuser = new ApplicationUser
         {
-            var userExist = await _userManager.FindByEmailAsync(registerUser.Email);
+            FirstName = registerUser.FirstName,
+            LastName = registerUser.LastName,
+            Email = registerUser.Email,
+            UserName = registerUser.Email,
+            SecurityStamp = Guid.NewGuid().ToString(),
+        };
 
-            if (userExist != null)
-            {
-                return StatusCode(StatusCodes.Status403Forbidden,
-                       new Response { Status = "Error", Message = "User already exists!" });
-            }
-
-            ApplicationUser user = new()
-            {
-                FirstName = registerUser.FirstName,
-                LastName = registerUser.LastName,
-                Email = registerUser.Email,
-                UserName = registerUser.Email,
-                SecurityStamp = Guid.NewGuid().ToString(),
-            };
-
-            var result = await _userManager.CreateAsync(user, registerUser.Password);
-
-            if (result.Succeeded)
-            {
-                var createdUser = await _userManager.FindByEmailAsync(registerUser.Email);
-                var role = await _roleManager.FindByNameAsync(Enum.GetName(value: registerUser.RoleType) ?? string.Empty);
-
-                if (createdUser != null && role != null)
-                {
-                    await _userManager.AddToRoleAsync(createdUser, role.Name);
-
-                    return StatusCode(StatusCodes.Status200OK,
-                       new Response { Status = "Success", Message = "User created successfully" });
-                }
-                else
-                {
-                    return StatusCode(StatusCodes.Status500InternalServerError,
-                       new Response { Status = "Error", Message = "User or Role not found" });
-                }
-            }
-            else
-            {
-                return StatusCode(StatusCodes.Status500InternalServerError,
-                       new Response { Status = "Error", Message = "User Failed to Create" });
-            }
+        var result = await _userManager.CreateAsync(newuser, registerUser.Password);
+        if (!result.Succeeded)
+        {
+            return Result.Failure(
+                StatusCodes.Status500InternalServerError,
+                AuthErrors.UserCreationFailed
+            );
         }
 
-        [HttpPost]
-        [Route("login")]
-        public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+        var createdUser = await _userManager.FindByEmailAsync(registerUser.Email);
+        var role = await _roleManager.FindByNameAsync(registerUser.RoleType.ToString());
+
+        if (createdUser is null || role is null)
         {
-            var user = await _userManager.FindByNameAsync(loginModel.UserName);
-
-            if (user != null && await _userManager.CheckPasswordAsync(user, loginModel.Password))
-            {
-                var authClaims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                };
-                var userRoles = await _userManager.GetRolesAsync(user);
-                foreach (var role in userRoles)
-                {
-                    authClaims.Add(new Claim(ClaimTypes.Role, role));
-                }
-
-                var jwtToken = GetToken(authClaims);
-                return Ok(new
-                {
-                    token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-                    expiration = jwtToken.ValidTo
-                });
-            }
-            return Unauthorized();
+            return Result.Failure(
+                StatusCodes.Status404NotFound,
+                AuthErrors.RoleNotFound
+            );
         }
 
-        private JwtSecurityToken GetToken(List<Claim> authClaims)
-        {
-            var authSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JWT:Secret"]));
+        await _userManager.AddToRoleAsync(createdUser, role.Name!);
+        return Result.Success();
+    }
 
-            var token = new JwtSecurityToken(
-                issuer: _configuration["JWT:ValidIssuer"],
-                audience: _configuration["JWT:ValidAudience"],
-                expires: DateTime.Now.AddDays(2),
-                claims: authClaims,
-                signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                );
-            return token;
+    [HttpPost("login")]
+    public async Task<IResult> Login([FromBody] LoginModel loginModel)
+    {
+        var user = await _userManager.FindByNameAsync(loginModel.UserName);
+        if(user is null)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status404NotFound,
+                AuthErrors.UserNotFound
+            );
         }
+
+        var isPasswordVerified = await _userManager.CheckPasswordAsync(user, loginModel.Password);
+        if(!isPasswordVerified)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status401Unauthorized,
+                AuthErrors.LoginError
+            );
+        }
+
+        var result = await GenerateTokenAsync(user);
+        return result;
+    }
+
+    private async Task<IAuthResult> GenerateTokenAsync(ApplicationUser user)
+    {
+        var jwtId = Guid.NewGuid();
+
+        var authClaims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Jti, jwtId.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Email!)
+        };
+
+        var userRoles = await _userManager.GetRolesAsync(user);
+        userRoles.ToList().ForEach(role => authClaims.Add(new(ClaimTypes.Role, role)));
+
+        var securityToken = new TokenBuilder()
+            .AddIssuer(_configuration["JWT:ValidIssuer"]!)
+            .AddAudience(_configuration["JWT:ValidAudience"]!)
+            .AddExpiry(DateTime.Now.AddDays(2))
+            .AddClaims(authClaims)
+            .AddKey(_configuration["JWT:Secret"]!)
+            .Build();
+        var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+        var refreshToken = new RefreshToken {
+            JwtId = jwtId,
+            ApplicationUserId = user.Id,
+            Expiry = DateTime.Now.AddDays(30).ToUniversalTime()
+        };
+        await _dbContext.DbSet<RefreshToken>().AddAsync(refreshToken);
+        await _dbContext.SaveChangesAsync();
+
+        return AuthResult.Success(token, refreshToken.Id.ToString());
     }
 }

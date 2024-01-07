@@ -53,3 +53,23 @@ public class Result<T> : Result, IResult<T>
     public new static Result<T> Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, default!, errors);
     public new static Result<T> Failure(int statusCode, params Error[] errors) => new(statusCode, default!, errors);
 }
+
+public interface IAuthResult : IResult
+{
+    string Token { get; }
+    string RefreshToken { get; }
+}
+
+public class AuthResult : Result, IAuthResult
+{
+    public string Token { get; } = default!;
+    public string RefreshToken { get; } = default!;
+
+    protected AuthResult(int statusCode, string token, string refreshToken, Error[] errors) : base(statusCode, errors)
+    {
+        Token = token;
+        RefreshToken = refreshToken;
+    }
+
+    public static AuthResult Success(string token, string refreshToken) => new(StatusCodes.Status200OK, token, refreshToken, Array.Empty<Error>());
+}

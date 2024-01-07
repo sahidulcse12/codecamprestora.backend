@@ -3,11 +3,11 @@ using System.Reflection;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using CodeCampRestora.Domain.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
-using CodeCampRestora.Domain.Entities.Authentication.Staff;
 
 namespace CodeCampRestora.Infrastructure;
 
@@ -15,7 +15,6 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-
         services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
