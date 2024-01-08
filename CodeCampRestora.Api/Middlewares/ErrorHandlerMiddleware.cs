@@ -1,5 +1,6 @@
-using CodeCampRestora.Application.Exceptions;
 using Newtonsoft.Json;
+using CodeCampRestora.Application.Exceptions;
+using CodeCampRestora.Application.Models;
 
 
 namespace WebApi.Middlewares
