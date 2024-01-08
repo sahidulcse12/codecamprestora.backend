@@ -23,8 +23,8 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBooki
         public async Task<List<BookingOrderDTO>> Handle(GetAllBookingsQuery request, CancellationToken cancellationToken)
         {
             var orders = await _unitOfWork.BookingOrders.IncludeProp("OrderItems").AsQueryable().ToListAsync();
-            var BookingOrderDto = orders.Adapt<List<BookingOrderDTO>>();
-            return BookingOrderDto;
+            var BookingOrdersDto = orders.Adapt<List<BookingOrderDTO>>();
+            return BookingOrdersDto;
         }
     }
 }

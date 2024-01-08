@@ -19,9 +19,4 @@
     <ProjectReference Include="..\CodeCampRestora.Domain\CodeCampRestora.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Features\BookingOrders\Commands\UpdateBookingOrder\" />
-    <Folder Include="Features\BookingOrders\Queries\GetBookingOrderById\" />
-  </ItemGroup>
-
 </Project>
