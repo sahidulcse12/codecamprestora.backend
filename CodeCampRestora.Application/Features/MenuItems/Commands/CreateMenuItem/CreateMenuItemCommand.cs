@@ -1,6 +1,5 @@
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Models;
-using MediatR;
 
 namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
 {
@@ -10,7 +9,7 @@ namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
         string Ingredients, 
         double Price,
         int DisplayOrder, 
-        int CategoryId,
-        int RestaurantId 
+        Guid CategoryId,
+        Guid RestaurantId 
     ) : ICommand<IResult>;
 }
