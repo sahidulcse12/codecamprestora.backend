@@ -1,3 +1,5 @@
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Models;
 using MediatR;
 
 namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
@@ -10,5 +12,5 @@ namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
         int DisplayOrder, 
         int CategoryId,
         int RestaurantId 
-    ) : IRequest;
+    ) : ICommand<IResult>;
 }
