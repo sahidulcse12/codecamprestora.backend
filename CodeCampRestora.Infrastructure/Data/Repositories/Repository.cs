@@ -60,4 +60,9 @@ public abstract class Repository<TEntity, TKey> :
         var doesExist = await _dbSet.AnyAsync(predicate);
         return doesExist;
     }
+
+    public IQueryable<TEntity> IncludeProp(string prop)
+    {
+        return _dbSet.Include(prop);
+    }
 }

@@ -1,5 +1,6 @@
-﻿using CodeCampRestora.Domain.Entities.Common;
+﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Domain.Enums;
+using MediatR;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -7,9 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CodeCampRestora.Domain.Entities.BookingOrders
+namespace CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBookingOrder
 {
-    public class BookingOrder : AuditableEntity<Guid>
+    public record CreateBookingOrderCommand : IRequest<BookingOrderDTO>
     {
         public Guid BranchId { get; set; }
         public Guid UserId { get; set; }
@@ -25,13 +26,10 @@ namespace CodeCampRestora.Domain.Entities.BookingOrders
         public string SpecialNote { get; set; } = string.Empty;
         public string TimeNeededForServing { get; set; } = string.Empty;
         public double SubTotal { get; set; }
-        public double VAT {  get; set; }
+        public double VAT { get; set; }
         public double DeliveryCharge { get; set; }
         public double Discount { get; set; }
-        public double TotalPrice {  get; set; }
-        public List<OrderItem>? OrderItems { get; set; }
-        // public List<Payment> Payments { get; set; }
-        // public User User { get; set; }
-        // public Branch Branch { get; set; }
+        public double TotalPrice { get; set; }
+        public List<OrderItemDTO>? OrderItems { get; set; }
     }
 }

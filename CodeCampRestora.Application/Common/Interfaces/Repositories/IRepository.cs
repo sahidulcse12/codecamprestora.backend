@@ -10,4 +10,5 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     Task DeleteAsync(TKey id);
     IEnumerable<TEntity> GetByFilter(Expression<Func<TEntity, bool>> filter);
     Task<bool> DoesExist(Expression<Func<TEntity, bool>> predicate);
+    IQueryable<TEntity> IncludeProp(string prop);
 }

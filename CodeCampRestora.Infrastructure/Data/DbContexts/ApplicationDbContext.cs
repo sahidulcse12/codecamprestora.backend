@@ -16,19 +16,4 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
     public DbSet<BookingOrder> BookingsOrders {  get; set; }
     public DbSet<OrderItem> OrderItems {  get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<BookingOrder>()
-            .HasMany(b => b.OrderItems)
-            .WithOne(o => o.BookingOrder)
-            .HasForeignKey(o => o.BookingOrderId)
-            .OnDelete(DeleteBehavior.Cascade);
-
-        modelBuilder.Entity<OrderItem>()
-            .HasOne(o => o.BookingOrder)
-            .WithMany(b => b.OrderItems)
-            .HasForeignKey(o => o.BookingOrderId)
-            .OnDelete(DeleteBehavior.Cascade);
-    }
 }
