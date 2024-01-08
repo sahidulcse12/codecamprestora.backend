@@ -10,6 +10,7 @@ public class TokenBuilder
     private string _issuer = default!;
     private string _audience = default!;
     private DateTime _expiry = default!;
+    private DateTime _notBefore = default!;
     private IEnumerable<Claim> _claims = new List<Claim>();
     private SigningCredentials _signingCredentials = default!;
 
@@ -31,6 +32,12 @@ public class TokenBuilder
         return this;
     }
 
+    public TokenBuilder AddNotBefore(DateTime notBefore)
+    {
+        _notBefore = notBefore;
+        return this;
+    }
+
     public TokenBuilder AddClaims(IEnumerable<Claim> claims)
     {
         _claims = claims;
@@ -49,6 +56,7 @@ public class TokenBuilder
             issuer: _issuer,
             audience: _audience,
             expires: _expiry,
+            notBefore: _notBefore,
             claims: _claims,
             signingCredentials: _signingCredentials
         );

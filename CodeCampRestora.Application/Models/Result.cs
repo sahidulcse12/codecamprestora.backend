@@ -72,4 +72,6 @@ public class AuthResult : Result, IAuthResult
     }
 
     public static AuthResult Success(string token, string refreshToken) => new(StatusCodes.Status200OK, token, refreshToken, Array.Empty<Error>());
+    public new static AuthResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, default!, default!, errors);
+    public new static AuthResult Failure(int statusCode, params Error[] errors) => new(statusCode, default!, default!, errors);
 }

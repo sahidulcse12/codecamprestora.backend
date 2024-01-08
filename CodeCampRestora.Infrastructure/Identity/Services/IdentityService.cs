@@ -24,14 +24,17 @@ public class IdentityService : IIdentityService
     private readonly IConfiguration _configuration;
     private readonly IApplicationDbContext _dbContext;
     private readonly TokenValidationParameters _tokenValidationParameters;
+    private readonly IDateTimeService _dateTime;
 
     public IdentityService(
+            IDateTimeService dateTimeService,
             IApplicationDbContext dbContext,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole<Guid>> roleManager,
             TokenValidationParameters tokenValidationParameters,
             IConfiguration configuration)
     {
+        _dateTime = dateTimeService;
         _userManager = userManager;
         _roleManager = roleManager;
         _configuration = configuration;
@@ -44,7 +47,7 @@ public class IdentityService : IIdentityService
         var user = await _userManager.FindByEmailAsync(registerUserDto.Email);
         if (user is not null)
         {
-            return Result.Failure(
+            return AuthResult.Failure(
                 StatusCodes.Status403Forbidden,
                 AuthErrors.UserExists);
         }
@@ -72,7 +75,7 @@ public class IdentityService : IIdentityService
 
         if (createdUser is null || role is null)
         {
-            return Result.Failure(
+            return AuthResult.Failure(
                 StatusCodes.Status404NotFound,
                 AuthErrors.RoleNotFound
             );
@@ -82,9 +85,9 @@ public class IdentityService : IIdentityService
         return Result.Success();
     }
 
-    public async Task<IResult> AuthenticateUserAsync(LoginDTO loginDto)
+    public async Task<IAuthResult> AuthenticateUserAsync(LoginDTO loginDto)
     {
-        var user = await _userManager.FindByNameAsync(loginDto.UserName);
+        var user = await _userManager.FindByNameAsync(loginDto.Username);
         if(user is null)
         {
             return AuthResult.Failure(
@@ -106,28 +109,29 @@ public class IdentityService : IIdentityService
         return result;
     }
 
-    public async Task<IResult> RefreshToken(string accessToken, Guid refreshToken, CancellationToken cancellationToken)
+    public async Task<IAuthResult> RefreshTokenAsync(string accessToken, Guid refreshToken, CancellationToken cancellationToken)
     {
         var (isValid, claimsIdentity) = await GetPrincipalFromExpiredTokenAsync(accessToken);
 
         if(!isValid) return AuthResult.Failure(AuthErrors.InvalidToken);
 
-        var expiry = claimsIdentity.FindFirst(JwtRegisteredClaimNames.Exp)?.Value;
+        var expiryInSeconds = claimsIdentity.FindFirst(JwtRegisteredClaimNames.Exp)?.Value;
         var userId = claimsIdentity.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
         var jwtId = claimsIdentity.Claims.SingleOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Jti)?.Value;
 
-        if(string.IsNullOrEmpty(expiry)
+        if(string.IsNullOrEmpty(expiryInSeconds)
             || string.IsNullOrEmpty(jwtId)
             || string.IsNullOrEmpty(userId))
             return AuthResult.Failure(AuthErrors.ClaimsNotFound);
 
-        var isExpired = DateTime.Parse(expiry) < DateTime.Now;
+        var expiryDate = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiryInSeconds)).UtcDateTime;
+        var isExpired = expiryDate < _dateTime.Now;
         if(!isExpired) return AuthResult.Success(accessToken, refreshToken.ToString());
 
         var storedRefreshToken = await _dbContext.DbSet<RefreshToken>().SingleOrDefaultAsync(r => r.Id == refreshToken, cancellationToken);
         if(storedRefreshToken is null) return AuthResult.Failure(AuthErrors.InvalidToken);
 
-        if(storedRefreshToken.Expiry < DateTime.Now) return AuthResult.Failure(AuthErrors.Expired);
+        if(storedRefreshToken.Expiry < _dateTime.Now) return AuthResult.Failure(AuthErrors.Expired);
 
         if(storedRefreshToken.Used) return AuthResult.Failure(AuthErrors.TokenIsUsed);
 
@@ -150,7 +154,7 @@ public class IdentityService : IIdentityService
             && result.SecurityToken is JwtSecurityToken jwtSecurityToken
             && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256.ToString()))
         {
-           return (IsValid: false, ClaimsIdentity: result.ClaimsIdentity);
+           return (IsValid: true, ClaimsIdentity: result.ClaimsIdentity);
         }
 
         return (IsValid: false, ClaimsIdentity: new ClaimsIdentity());
@@ -185,7 +189,8 @@ public class IdentityService : IIdentityService
         var securityToken = new TokenBuilder()
             .AddIssuer(_configuration["JWT:ValidIssuer"]!)
             .AddAudience(_configuration["JWT:ValidAudience"]!)
-            .AddExpiry(DateTime.Now.AddDays(2))
+            .AddExpiry(_dateTime.Now.AddMinutes(5))
+            .AddNotBefore(_dateTime.Now)
             .AddClaims(authClaims)
             .AddKey(_configuration["JWT:Secret"]!)
             .Build();
@@ -194,7 +199,8 @@ public class IdentityService : IIdentityService
         var refreshToken = new RefreshToken {
             JwtId = jwtId,
             ApplicationUserId = user.Id,
-            Expiry = DateTime.Now.AddDays(30).ToUniversalTime()
+            CreatedDate = _dateTime.Now,
+            Expiry = _dateTime.Now.AddDays(30)
         };
         await _dbContext.DbSet<RefreshToken>().AddAsync(refreshToken);
         await _dbContext.SaveChangesAsync();
