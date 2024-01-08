@@ -2,7 +2,7 @@
 
 namespace CodeCampRestora.Infrastructure.Entities;
 
-public class Restaurant : AuditableEntity<Restaurant>
+public class Restaurant : AuditableEntity<Guid>
 {
     public string Name { get; set; } = default!;
     public Guid ImageId { get; set; } = default!;
