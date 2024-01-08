@@ -12,5 +12,9 @@ public record AuthErrors
     public static Error RoleNotFound => new("User.RoleNotFound", "Role doesn't exist.");
     public static Error UserCreationFailed => new("User.CreationFailed", "User creation failed.");
     public static Error LoginError => new("User.LoginError", "Login failed.");
+    public static Error ClaimsNotFound => new("User.ClaimsNotFound", "Claims don't exist.");
+    public static Error Expired => new("User.Expired", "Token is expired.");
     public static Error UserNotFound => new("User.NotFound", "User not found.");
+    public static Error InvalidToken => new("Jwt.InvalidRefreshToken", "Invalid refresh token.");
+    public static Error TokenIsUsed => new("Jwt.Used", "The refresh token has been used.");
 }
