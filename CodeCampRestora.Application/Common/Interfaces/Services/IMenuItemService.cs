@@ -6,5 +6,6 @@ namespace CodeCampRestora.Application.Common.Interfaces.Services
     public interface IMenuItemService
     {
         Task<IResult> CreateItemAsync(MenuItem menuItem);
+        Task<IResult> DeleteItemAsync(Guid Id);
     }
 }
