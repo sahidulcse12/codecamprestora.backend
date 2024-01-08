@@ -9,8 +9,8 @@ namespace CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 
 public class GetAllBrachQueryHandeller : IRequestHandler<GetAllBranchesQuery, List<BranchDTO>>
 {
-    private readonly IRepository<Resturant, Guid> _repository; 
-    public GetAllBrachQueryHandeller(IRepository<Resturant, Guid> repository)
+    private readonly IBranchRepository _repository; 
+    public GetAllBrachQueryHandeller(IBranchRepository repository)
     {
         _repository = repository;
     }
@@ -20,12 +20,12 @@ public class GetAllBrachQueryHandeller : IRequestHandler<GetAllBranchesQuery, Li
         var branches = new List<BranchDTO>();
         if (resturant != null)
         {
-             branches = resturant.Branches.Select(x => new BranchDTO
-            {
-                Id = x.Id,
-                Name = x.Name,
-                IsAvailable = x.IsAvailable,
-            }).ToList(); 
+            // branches = resturant.Branches.Select(x => new BranchDTO
+            //{
+            //    Id = x.Id,
+            //    Name = x.Name,
+            //    IsAvailable = x.IsAvailable,
+            //}).ToList(); 
         }
  
         return branches;

@@ -1,13 +1,18 @@
 ﻿using MediatR;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Domain.Entities.Branches;
+using System.Globalization;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 
 public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, BranchDTO>
 {
-    public CreateBranchCommandHandler()
+    private readonly IUnitOfWork _unitOfWork;
+    public CreateBranchCommandHandler(IUnitOfWork unitOfWork)
     {
+        _unitOfWork = unitOfWork;
+            
     }
 
     public async Task<BranchDTO> Handle(CreateBranchCommand request, CancellationToken cancellationToken)
@@ -26,34 +31,31 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
                 Division = request.BranchAddress.Division,
                 AreaDetails = request.BranchAddress.AreaDetails,
             },
-            OpeningClosingTimes = new List<OpeningClosingTime>
+            OpeningClosingTimes = request.BranchOpeningClosingTime!.Select(x => new OpeningClosingTime
             {
-                new OpeningClosingTime
-                {
-                    DayOfWeek = request.BranchOpeningClosingTime!.DayOfWeek,
-                    Opening = request.BranchOpeningClosingTime.Opening,
-                    Closing = request.BranchOpeningClosingTime.Closing,
-                    IsClosed = request.BranchOpeningClosingTime.IsClosed,
+                DayOfWeek = x.DayOfWeek,
+                Opening = ConvertToTimeOnly(x.Opening),
+                Closing = ConvertToTimeOnly(x.Closing),
+                IsClosed = x.IsClosed
 
-                }   
-            },
-            CuisineTypes = new List<CuisineType>
+            }).ToList(),
+            CuisineTypes = request.BranchCuisineType!.Select(x => new CuisineType
             {
-                new CuisineType
-                {
-                    CuisineTag = request.BranchCuisineType!.CuisineTag,
-                }
-            }
+                CuisineTag = x.CuisineTag,
+            }).ToList(),
         };
 
-        // _repsitory.Add(branch);
+       await _unitOfWork.Branches.AddAsync(branch);
+        await _unitOfWork.SaveChangesAsync();
+     
 
         return new BranchDTO
         {
+            Id = branch.Id,
             Name = branch.Name,
             IsAvailable = branch.IsAvailable,
             PriceRange = branch.PriceRange,
-            BranchAddressDTO = new BranchAddressDTO
+            BranchAddresses = new BranchAddressDTO
             {
                 Latitude = branch.Address.Latitude,
                 Longitude = branch.Address.Longitude,
@@ -71,5 +73,22 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
 
         };
 
+    }
+
+    private  TimeOnly ConvertToTimeOnly(string timeString)
+    {
+        if (TimeOnly.TryParseExact(
+            timeString,
+            "h:mm tt",
+            CultureInfo.InvariantCulture,
+            DateTimeStyles.None,
+            out TimeOnly timeOnly))
+        {
+            return timeOnly;
+        }
+        else
+        {
+            throw new ArgumentException("Invalid time format", nameof(timeString));
+        }
     }
 }

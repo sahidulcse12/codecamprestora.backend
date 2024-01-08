@@ -6,18 +6,18 @@ public class BranchDTO
 {
     public BranchDTO()
     {
-        BranchAddressDTO = new BranchAddressDTO();
-        BranchCuisineTypeDTO = new List<BranchCuisineTypeDTO>();
-        BranchOpeningClosingTimeDTO = new BranchOpeningClosingTimeDTO();
+        BranchAddresses = new BranchAddressDTO();
+        BranchCuisineTypes = new List<BranchCuisineTypeDTO>();
+        BranchOpeningClosingTimes = new List<BranchOpeningClosingTimeDTO>();
     }
 
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
-    public List<BranchCuisineTypeDTO> BranchCuisineTypeDTO { get; set; }
-    public BranchAddressDTO BranchAddressDTO { get; set; }
-    public BranchOpeningClosingTimeDTO BranchOpeningClosingTimeDTO { get; set; }
+    public List<BranchCuisineTypeDTO> BranchCuisineTypes { get; set; }
+    public BranchAddressDTO BranchAddresses { get; set; }
+    public List<BranchOpeningClosingTimeDTO> BranchOpeningClosingTimes { get; set; }
 
 }
 
@@ -31,8 +31,8 @@ public class BranchCuisineTypeDTO
 public class BranchOpeningClosingTimeDTO
 {
     public DayOfWeek DayOfWeek { get; set; }
-    public TimeOnly Opening { get; set; }
-    public TimeOnly Closing { get; set; }
+    public string Opening { get; set; }
+    public string Closing { get; set; }
     public bool IsClosed { get; set; }
 }
 

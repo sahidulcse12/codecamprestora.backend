@@ -2,28 +2,36 @@
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Exceptions;
-using CodeCampRestora.Domain.Entities.Branches;
 using MediatR;
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 
 public class UpdateBranchCommandHandler : IRequestHandler<UpdateBranchCommand, BranchDTO>
 {
-    public readonly IRepository<Branch, Guid> _repository;
-    public UpdateBranchCommandHandler(IRepository<Branch, Guid> repository)
+    public readonly IUnitOfWork _unitOfWork;
+
+    public UpdateBranchCommandHandler(IUnitOfWork unitOfWork)
     {
-        _repository = repository;
+        _unitOfWork = unitOfWork;
     }
+
     public async Task<BranchDTO> Handle(UpdateBranchCommand request, CancellationToken cancellationToken)
     {
-        var branch = await _repository.GetByIdAsync(request.Id);
+        var branch = await _unitOfWork.Branches.GetByIdAsync(request.Id);
         if (branch == null)
         {
             throw new ResourceNotFoundException("Not Found the Brach");
         }
+
+
         branch.Name = request.Name;
         branch.IsAvailable = request.IsAvailable;
         branch.PriceRange = request.PriceRange;
+
+        await _unitOfWork.Branches.UpdateAsync(branch.Id, branch);
+        await _unitOfWork.SaveChangesAsync();
+
+
 
         return new BranchDTO
         {

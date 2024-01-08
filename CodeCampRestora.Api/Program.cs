@@ -1,7 +1,6 @@
 using CodeCampRestora.Application;
 using CodeCampRestora.Api.Settings;
 using CodeCampRestora.Infrastructure;
-using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 

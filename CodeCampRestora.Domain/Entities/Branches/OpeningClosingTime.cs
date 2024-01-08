@@ -4,6 +4,10 @@ namespace CodeCampRestora.Domain.Entities.Branches;
  
 public class OpeningClosingTime
 {
+    public OpeningClosingTime()
+    {
+        Id = Guid.NewGuid();
+    }
     public Guid Id { get; set; }
     public DayOfWeek DayOfWeek { get; set; }
     public TimeOnly Opening { get; set; }

@@ -6,8 +6,10 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories
 {
-    public interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork
     {
+        IBranchRepository Branches { get; }
+
         Task SaveChangesAsync();
     }
 }

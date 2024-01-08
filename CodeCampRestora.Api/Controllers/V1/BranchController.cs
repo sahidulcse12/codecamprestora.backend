@@ -20,7 +20,7 @@ public class BranchController : ApiBaseController
         _mediator = mediator;
     }
 
-    [HttpGet("{resturantId}")]
+    [HttpGet("resturant/{resturantId}")]
     public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAll(Guid resturantId)
     {
         var response = await Sender.Send(new GetAllBranchesQuery { ResturantId=resturantId});
@@ -31,7 +31,7 @@ public class BranchController : ApiBaseController
     public async Task<ActionResult<BranchDTO>> Get(Guid id)
     {
         var response = await Sender.Send(new GetBranchByIdQuery(id));
-        return Ok();
+        return Ok(response);
     }
 
     [HttpPost]
@@ -41,17 +41,17 @@ public class BranchController : ApiBaseController
         return Ok(response);
     }
 
-    [HttpPut("{id}")]
-    public async Task<IActionResult> Put(int id, [FromBody] UpdateBranchCommand updatedItem)
+    [HttpPut]
+    public async Task<IActionResult> Put(UpdateBranchCommand updatedItem)
     {
         var response = await Sender.Send(updatedItem);
-        return Ok();
+        return Ok(response);
     }
 
     [HttpDelete("{id}")]
     public async Task<IActionResult> Delete(Guid id)
     {
-        var response = await Sender.Send(new DeleteBranchCommand { Id=id});
+        var response = await Sender.Send( new DeleteBranchCommand { Id=id});
         return Ok(response);
     }
 }
