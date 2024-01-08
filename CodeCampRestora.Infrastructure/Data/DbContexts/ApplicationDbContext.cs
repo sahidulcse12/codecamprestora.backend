@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Domain.Entities;
