@@ -1,15 +1,16 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
+﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
+﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
-public abstract class GenericRepository<TEntity, TKey> :
+public abstract class Repository<TEntity, TKey> :
     IRepository<TEntity, TKey> where TEntity : class
 {
     private readonly DbContext _dbContext;
     private readonly DbSet<TEntity> _dbSet;
 
-    public GenericRepository(DbContext dbContext)
+    public Repository(DbContext dbContext)
     {
         _dbContext = dbContext;
         _dbSet = _dbContext.Set<TEntity>();
@@ -46,5 +47,17 @@ public abstract class GenericRepository<TEntity, TKey> :
             _dbContext.Entry(existingEntity).CurrentValues.SetValues(entity);
             await _dbContext.SaveChangesAsync();
         }
+    }
+
+    public IEnumerable<TEntity> GetByFilter(Expression<Func<TEntity, bool>> predicate)
+    {
+        var filteredEntities = _dbSet.Where(predicate).AsEnumerable();
+        return filteredEntities;
+    }
+
+    public async Task<bool> DoesExist(Expression<Func<TEntity, bool>> predicate)
+    {
+        var doesExist = await _dbSet.AnyAsync(predicate);
+        return doesExist;
     }
 }

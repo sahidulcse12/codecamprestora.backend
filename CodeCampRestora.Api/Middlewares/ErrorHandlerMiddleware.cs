@@ -1,5 +1,6 @@
-﻿using CodeCampRestora.Application.Exceptions;
+using CodeCampRestora.Application.Exceptions;
 using Newtonsoft.Json;
+
 
 namespace WebApi.Middlewares
 {
@@ -41,6 +42,9 @@ namespace WebApi.Middlewares
                         break;
                     case NotImplementationException notImplementationEx:
                         await HandleNotImplementationException(context, notImplementationEx);
+                        break;
+                    case ApplicationValidationException validationEx:
+                        await HandleValidationException(context, validationEx);
                         break;
                     default:
                         await HandleUnknownException(context, ex);
@@ -88,6 +92,14 @@ namespace WebApi.Middlewares
             var error = JsonConvert.SerializeObject(new { error = "An unexpected error occurred.", statusCode = context.Response.StatusCode });
             await context.Response.WriteAsync(error);
         }
-        
+
+        private async Task HandleValidationException(HttpContext context, ApplicationValidationException ex)
+        {
+            var errors = ex.Messages.Select(message =>
+                Error.NotValidated(message.Type, message.Description)).ToArray();
+
+            var response = Result.Failure(errors);
+            await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+        }
     }
 }

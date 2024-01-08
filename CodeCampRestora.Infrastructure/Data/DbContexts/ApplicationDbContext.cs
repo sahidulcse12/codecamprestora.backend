@@ -1,15 +1,18 @@
-﻿using CodeCampRestora.Domain.Entities.Branches;
 using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.Attributes;
+using CodeCampRestora.Infrastructure.Entities;
+using CodeCampRestora.Domain.Entities.Branches;
+using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts;
 
-public class ApplicationDbContext : DbContext
+[ScopedLifetime]
+public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
-    public DbSet<Branch> Branches { get; set; }
-
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         modelBuilder.Entity<Branch>()
@@ -19,4 +22,8 @@ public class ApplicationDbContext : DbContext
             .HasMany(i => i.CuisineTypes)
             .WithOne(e => e.Branch);
     }
+
+    public DbSet<Image> Images => Set<Image>();
+    public DbSet<Restaurant> Restaurants => Set<Restaurant>();
+        public DbSet<Branch> Branches => Set<Branch>();
 }

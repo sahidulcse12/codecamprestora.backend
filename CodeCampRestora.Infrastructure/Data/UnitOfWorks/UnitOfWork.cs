@@ -1,5 +1,5 @@
 ﻿using CodeCampRestora.Application.Attributes;
-using CodeCampRestora.Infrastructure.Data.DbContexts;
+using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
@@ -7,12 +7,18 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 [ScopedLifetime]
 public class UnitOfWork : IUnitOfWork
 {
+    public IImageRepository Images { get; }
     public IBranchRepository Branches { get; } 
-    private readonly ApplicationDbContext _appplicationDbContext;
 
-    public UnitOfWork(ApplicationDbContext applicationDbContext, IBranchRepository branches)
+    private readonly IApplicationDbContext _appplicationDbContext;
+
+    public UnitOfWork(
+        IImageRepository images,
+         IBranchRepository branches
+        IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
+        Images = images;
         Branches = branches;
     }
 
@@ -20,9 +26,4 @@ public class UnitOfWork : IUnitOfWork
     {
         await _appplicationDbContext.SaveChangesAsync();
     }
-
-    //public void Dispose()
-    //{
-    //    throw new NotImplementedException();
-    //}
 }
