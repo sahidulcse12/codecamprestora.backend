@@ -1,4 +1,5 @@
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
+using CodeCampRestora.Application.Features.MenuItems.Commands.DeleteMenuItem;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -13,5 +14,13 @@ namespace CodeCampRestora.Api.Controllers.V1
             var result = await Sender.Send(command);
             return (IResult)result;
         }
+
+        [HttpDelete("{id:Guid}")]
+        [SwaggerOperation(summary: "Delete a menu item")]
+        public async Task<IResult> Delete(Guid Id)
+        {
+            var result = Sender.Send(new DeleteMenuItemCommand(Id));
+            return (IResult)result;
+    }
     }
 }
