@@ -8,16 +8,18 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
-
+    public IReviewRepository Review { get; }
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
         IImageRepository images,
-        IApplicationDbContext applicationDbContext)
+        IApplicationDbContext applicationDbContext, IReviewRepository review)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
+        Review = review;
     }
+   
 
     public async Task SaveChangesAsync()
     {

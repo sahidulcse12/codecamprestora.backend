@@ -6,7 +6,7 @@ using CodeCampRestora.Application.Common.Interfaces.Services;
 
 namespace CodeCampRestora.Application.Features.Images.Commands.CreateImage;
 
-public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IResult<Guid>>
+public class CreateImageCommandHandler : ICommandHandler<CreateReviewCommand, IResult<Guid>>
 {
     private readonly IImageService _imageService;
 
@@ -15,7 +15,7 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
         _imageService = imageService;
     }
 
-    public async Task<IResult<Guid>> Handle(CreateImageCommand request, CancellationToken cancellationToken)
+    public async Task<IResult<Guid>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
     {
         var imageEO = request.Adapt<Image>();
 
