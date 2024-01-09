@@ -11,9 +11,10 @@ namespace CodeCampRestora.Domain.Entities
         public Guid ImageId { get; set; }
         public double Price { get; set; }
         public int? DisplayOrder { get; set; }
+        public bool Availability { get; set; }
         public Guid CategoryId { get; set; }
         public MenuCategory Category { get; set; }
-        public Guid RestaurantId { get; set; }
-        public Restaurant? Restaurant { get; set; }
+        public Guid BranchId { get; set; }
+        public Branch? Branch { get; set; }
     }
 }
