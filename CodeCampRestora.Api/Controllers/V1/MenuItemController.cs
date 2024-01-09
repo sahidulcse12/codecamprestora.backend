@@ -1,5 +1,8 @@
+using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Commands.DeleteMenuItem;
+using CodeCampRestora.Application.Features.MenuItems.Queries;
+using CodeCampRestora.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -9,18 +12,38 @@ namespace CodeCampRestora.Api.Controllers.V1
     {
         [HttpPost]
         [SwaggerOperation(summary: "create a menu item")]
-        public async Task<IResult> Post([FromBody] CreateMenuItemCommand command)
+        public async Task<Application.Models.IResult> Post([FromBody] CreateMenuItemCommand command)
         {
             var result = await Sender.Send(command);
-            return (IResult)result;
+            return result;
+        }
+
+        [HttpGet("{id:Guid}")]
+        [SwaggerOperation(
+            Summary = "Get a menu item",
+            Description = @"Sample Request:
+            Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+        )]
+        public async Task<IResult<MenuItemDto>> Get(
+            [FromRoute, SwaggerParameter(Description = "Get menu item by id", Required = true)]
+            Guid id)
+        {
+            var result = await Sender.Send(new GetMenuItemByIdQuery(id));
+            return result;
         }
 
         [HttpDelete("{id:Guid}")]
-        [SwaggerOperation(summary: "Delete a menu item")]
-        public async Task<IResult> Delete(Guid Id)
+        [SwaggerOperation(
+            Summary = "Delete a menu item",
+            Description = @"Sample Request:
+            Get: api/v1/MenuItem/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+        )]
+        public async Task<Application.Models.IResult> Delete(
+            [FromRoute, SwaggerParameter(Description = "Delete by id", Required = true)]
+            Guid id)
         {
-            var result = Sender.Send(new DeleteMenuItemCommand(Id));
-            return (IResult)result;
-    }
+            var result = await Sender.Send(new DeleteMenuItemCommand(id));
+            return result;
+        }
     }
 }
