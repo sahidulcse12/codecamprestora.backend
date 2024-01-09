@@ -16,7 +16,6 @@ public class Address
     public string District { get; set; }
     public string Thana { get; set; }
     public string AreaDetails { get; set; }
-    public Branch Branch { get; set; }
-
+    public Guid BranchId { get; set; }  
 
 }

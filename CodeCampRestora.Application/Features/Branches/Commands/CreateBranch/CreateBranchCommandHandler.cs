@@ -22,6 +22,7 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             Name = request.Name,
             IsAvailable = request.IsAvailable,
             PriceRange = request.PriceRange,
+            RestaurantId = request.RestaurantId,
             Address = new Address
             {
                 Latitude = request.BranchAddress!.Latitude,

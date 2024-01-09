@@ -12,5 +12,6 @@ public record CreateBranchCommand : IRequest<BranchDTO>
     public IList<BranchOpeningClosingTimeDTO>? BranchOpeningClosingTime { get; set;}
     public IList<BranchCuisineTypeDTO>? BranchCuisineType { get; set; }
     public BranchAddressDTO? BranchAddress { get; set; }
+    public Guid RestaurantId { get; set; }
 }
 

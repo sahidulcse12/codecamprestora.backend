@@ -19,6 +19,8 @@ public class BranchDTO
     public BranchAddressDTO BranchAddresses { get; set; }
     public List<BranchOpeningClosingTimeDTO> BranchOpeningClosingTimes { get; set; }
 
+    public Guid RestaurantId { get; set; }
+
 }
 
 public class BranchCuisineTypeDTO

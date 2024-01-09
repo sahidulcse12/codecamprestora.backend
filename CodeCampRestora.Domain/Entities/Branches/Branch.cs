@@ -1,4 +1,6 @@
 ﻿using CodeCampRestora.Domain.Enums;
+using CodeCampRestora.Infrastructure.Entities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CodeCampRestora.Domain.Entities.Branches;
 
@@ -14,10 +16,10 @@ public class Branch
     // Relationship 
     public Guid AddressId { get; set; }
 
-    public  Address? Address { get; set; }
+    public Address? Address { get; set; }
     public PriceRange? PriceRange { get; set; }
 
     public IList<OpeningClosingTime> OpeningClosingTimes { get; set; }
-     //public Resturant Resturant { get; set; } = new Resturant();
     public IList<CuisineType> CuisineTypes { get; set; }
+    public Guid RestaurantId { get; set; }
 }

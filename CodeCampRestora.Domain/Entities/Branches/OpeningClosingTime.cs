@@ -14,6 +14,5 @@ public class OpeningClosingTime
     public TimeOnly Closing { get; set; }
     public bool IsClosed { get; set; }
     public Guid BranchId { get; set; }
-    public  Branch Branch { get; set;}
     
 }
