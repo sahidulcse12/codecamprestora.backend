@@ -24,7 +24,7 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBooki
         }
         public async Task<IResult<List<BookingOrderDTO>>> Handle(GetAllBookingsQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _unitOfWork.BookingOrders.IncludeProp("OrderItems").AsQueryable().ToListAsync();
+            var orders = await _unitOfWork.BookingOrders.IncludeProps(entity => entity.OrderItems).AsQueryable().ToListAsync();
             var bookingOrdersDto = orders.Adapt<List<BookingOrderDTO>>();
             return Result<List<BookingOrderDTO>>.Success(bookingOrdersDto);
         }

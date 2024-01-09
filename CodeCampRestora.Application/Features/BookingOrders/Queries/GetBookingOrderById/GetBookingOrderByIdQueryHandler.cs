@@ -24,7 +24,7 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetBookingO
         }
         public async Task<IResult<BookingOrderDTO>> Handle(GetBookingOrderByIdQuery request, CancellationToken cancellationToken)
         {
-            var order = await _unitOfWork.BookingOrders.IncludeProp("OrderItems").FirstOrDefaultAsync(x => x.Id == request.Id); 
+            var order = await _unitOfWork.BookingOrders.IncludeProps(entity => entity.OrderItems).FirstOrDefaultAsync(x => x.Id == request.Id); 
             if (order == null)
             {
                 throw new ResourceNotFoundException("No Order Found");

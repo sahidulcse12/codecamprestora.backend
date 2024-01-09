@@ -61,8 +61,15 @@ public abstract class Repository<TEntity, TKey> :
         return doesExist;
     }
 
-    public IQueryable<TEntity> IncludeProp(string prop)
+    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object>>[] navigationProperties)
     {
-        return _dbSet.Include(prop);
+        IQueryable<TEntity> query = _dbSet;
+
+        foreach (var navigationProperty in navigationProperties)
+        {
+            query = query.Include(navigationProperty);
+        }
+
+        return query;
     }
 }
