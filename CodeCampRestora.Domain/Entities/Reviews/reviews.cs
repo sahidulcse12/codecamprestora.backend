@@ -11,7 +11,7 @@ namespace CodeCampRestora.Domain.Entities.Reviews
     {
         public string Description { set; get; }
         public int Rating { set; get; }
-        
+        public Guid OrderId {  set; get; }
 
     }
 }
