@@ -9,6 +9,7 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
+    public IRestaurantRepository Restaurants { get; }
     public IMenuItemRepository MenuItem { get; }
 
     public IMenuCategoryRepository MenuCategory { get; }
@@ -17,12 +18,14 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(
         IImageRepository images,
+        IRestaurantRepository restaurants,
         IMenuItemRepository menuItem,
         IMenuCategoryRepository menuCategory,
         IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
+        Restaurants = restaurants;
         MenuItem = menuItem;
         MenuCategory = menuCategory;
     }
