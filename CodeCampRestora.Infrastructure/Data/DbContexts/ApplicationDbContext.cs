@@ -3,6 +3,7 @@ using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
+using CodeCampRestora.Domain.Entities.Reviews;
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts;
 
@@ -13,4 +14,5 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Image> Images => Set<Image>();
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
+    public DbSet<Reviews> Reviews => Set<Reviews>();
 }
