@@ -1,5 +1,7 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.BookingOrders;
 using Mapster;
 using MediatR;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBookingOrder
 {
-    public class GetAllBookingsQueryHandler : IRequestHandler<GetAllBookingsQuery, List<BookingOrderDTO>>
+    public class GetAllBookingsQueryHandler : IQueryHandler<GetAllBookingsQuery, IResult<List<BookingOrderDTO>>>
     {
         private readonly IUnitOfWork _unitOfWork;
         public GetAllBookingsQueryHandler(IUnitOfWork unitOfWork)
@@ -20,11 +22,11 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBooki
             _unitOfWork = unitOfWork;
 
         }
-        public async Task<List<BookingOrderDTO>> Handle(GetAllBookingsQuery request, CancellationToken cancellationToken)
+        public async Task<IResult<List<BookingOrderDTO>>> Handle(GetAllBookingsQuery request, CancellationToken cancellationToken)
         {
             var orders = await _unitOfWork.BookingOrders.IncludeProp("OrderItems").AsQueryable().ToListAsync();
-            var BookingOrdersDto = orders.Adapt<List<BookingOrderDTO>>();
-            return BookingOrdersDto;
+            var bookingOrdersDto = orders.Adapt<List<BookingOrderDTO>>();
+            return Result<List<BookingOrderDTO>>.Success(bookingOrdersDto);
         }
     }
 }

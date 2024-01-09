@@ -3,9 +3,10 @@ using CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBookingO
 using CodeCampRestora.Application.Features.BookingOrders.Commands.UpdateBookingOrder;
 using CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBookingOrder;
 using CodeCampRestora.Application.Features.BookingOrders.Queries.GetBookingOrderById;
+using IResult = CodeCampRestora.Application.Models.IResult;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using CodeCampRestora.Application.Models;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
@@ -23,32 +24,32 @@ namespace CodeCampRestora.Api.Controllers.V1
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<BookingOrderDTO>>> GetAll()
+        public async Task<IResult<List<BookingOrderDTO>>> GetAll()
         {
             var request = new GetAllBookingsQuery();
             var response = await Sender.Send(request);
-            return Ok(response);
+            return response;
         }
 
-        [HttpGet("{id}")]
-        public async Task<ActionResult<BookingOrderDTO>> Get(Guid id)
+        [HttpGet("{id:Guid}")]
+        public async Task<IResult<BookingOrderDTO>> Get(Guid id)
         {
             var response = await Sender.Send(new GetBookingOrderByIdQuery(id));
-            return Ok(response);
+            return response;
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] CreateBookingOrderCommand bookingOrder)
+        public async Task<IResult> Post([FromBody] CreateBookingOrderCommand bookingOrder)
         {
-            var response = await Sender.Send(bookingOrder);
-            return Ok(response);
+            var result = await Sender.Send(bookingOrder);
+            return result;
         }
 
         [HttpPut]
-        public async Task<IActionResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
+        public async Task<IResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
         {
-            var response = await Sender.Send(bookingOrder);
-            return Ok(response);
+            var result = await Sender.Send(bookingOrder);
+            return result;
         }
 
 

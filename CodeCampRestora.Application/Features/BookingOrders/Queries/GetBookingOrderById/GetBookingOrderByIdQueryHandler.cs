@@ -1,6 +1,8 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Exceptions;
+using CodeCampRestora.Application.Models;
 using Mapster;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetBookingOrderById
 {
-    public class GetBookingOrderByIdQueryHandler : IRequestHandler<GetBookingOrderByIdQuery, BookingOrderDTO>
+    public class GetBookingOrderByIdQueryHandler : IQueryHandler<GetBookingOrderByIdQuery, IResult<BookingOrderDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
         public GetBookingOrderByIdQueryHandler(IUnitOfWork unitOfWork)
@@ -20,16 +22,16 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetBookingO
             _unitOfWork = unitOfWork;
 
         }
-        public async Task<BookingOrderDTO> Handle(GetBookingOrderByIdQuery request, CancellationToken cancellationToken)
+        public async Task<IResult<BookingOrderDTO>> Handle(GetBookingOrderByIdQuery request, CancellationToken cancellationToken)
         {
             var order = await _unitOfWork.BookingOrders.IncludeProp("OrderItems").FirstOrDefaultAsync(x => x.Id == request.Id); 
             if (order == null)
             {
-                throw new ResourceNotFoundException("Branch Not found");
+                throw new ResourceNotFoundException("No Order Found");
             }
 
-            var BookingOrderDto = order.Adapt<BookingOrderDTO>();
-            return BookingOrderDto;
+            var bookingOrderDto = order.Adapt<BookingOrderDTO>();
+            return Result<BookingOrderDTO>.Success(bookingOrderDto);
 
         }
     }

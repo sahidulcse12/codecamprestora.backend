@@ -1,5 +1,7 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.BookingOrders;
 using Mapster;
 using MediatR;
@@ -11,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBookingOrder
 {
-    public class CreateBookingOrderCommandHandler : IRequestHandler<CreateBookingOrderCommand, BookingOrderDTO>
+    public class CreateBookingOrderCommandHandler : ICommandHandler<CreateBookingOrderCommand, IResult<BookingOrderDTO>>
     {
         private readonly IUnitOfWork _unitOfWork;
         public CreateBookingOrderCommandHandler(IUnitOfWork unitOfWork)
@@ -19,15 +21,15 @@ namespace CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBook
             _unitOfWork = unitOfWork;
 
         }
-        public async Task<BookingOrderDTO> Handle(CreateBookingOrderCommand request, CancellationToken cancellationToken)
+        public async Task<IResult<BookingOrderDTO>> Handle(CreateBookingOrderCommand request, CancellationToken cancellationToken)
         {
-            var BookingOrderEO = request.Adapt<BookingOrder>();
+            var bookingOrderEO = request.Adapt<BookingOrder>();
 
-            await _unitOfWork.BookingOrders.AddAsync(BookingOrderEO);
+            await _unitOfWork.BookingOrders.AddAsync(bookingOrderEO);
             await _unitOfWork.SaveChangesAsync();
 
-            var BookingOrderDto = BookingOrderEO.Adapt<BookingOrderDTO>();
-            return BookingOrderDto;
+            var bookingOrderDto = bookingOrderEO.Adapt<BookingOrderDTO>();
+            return Result<BookingOrderDTO>.Success(bookingOrderDto);
         }
     }
 }

@@ -1,4 +1,6 @@
-﻿using CodeCampRestora.Application.DTOs;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
 using MediatR;
 using System;
 using System.Collections.Generic;
@@ -8,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.BookingOrders.Queries.GetAllBookingOrder
 {
-    public class GetAllBookingsQuery : IRequest<List<BookingOrderDTO>>
+    public record GetAllBookingsQuery : IQuery<IResult<List<BookingOrderDTO>>>
     {
     }
 }

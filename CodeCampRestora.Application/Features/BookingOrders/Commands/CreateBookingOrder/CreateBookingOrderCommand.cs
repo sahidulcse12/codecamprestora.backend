@@ -1,4 +1,6 @@
-﻿using CodeCampRestora.Application.DTOs;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Enums;
 using MediatR;
 using System;
@@ -10,15 +12,13 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBookingOrder
 {
-    public record CreateBookingOrderCommand : IRequest<BookingOrderDTO>
+    public record CreateBookingOrderCommand : ICommand<IResult<BookingOrderDTO>>
     {
-        public Guid BranchId { get; set; }
-        public Guid UserId { get; set; }
         public string CustomerName { get; set; } = default!;
         public string CustomerMobileNumber { get; set; } = default!;
         public DateTime BookingTime { get; set; }
         public BookingType BookingType { get; set; }
-        public int NoOfSeats { get; set; }
+        public int NoOfSeats { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
