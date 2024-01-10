@@ -1,3 +1,4 @@
+using System.Data;
 using System.Security.Claims;
 using CodeCampRestora.Identity;
 using Microsoft.AspNetCore.Http;
@@ -14,7 +15,6 @@ using CodeCampRestora.Infrastructure.Identity.Interfaces;
 using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
-using System.Data;
 
 namespace CodeCampRestora.Infrastructure.Identity.Services;
 
