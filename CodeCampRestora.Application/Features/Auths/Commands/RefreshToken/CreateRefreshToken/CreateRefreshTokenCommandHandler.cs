@@ -17,7 +17,7 @@ public class CreateRefreshTokenCommandHandler : ICommandHandler<CreateRefreshTok
     {
         var result = await _identityService.RefreshTokenAsync(
             request.accessToken,
-            new Guid(request.refreshToken),
+            request.refreshToken,
             cancellationToken);
 
         return result;

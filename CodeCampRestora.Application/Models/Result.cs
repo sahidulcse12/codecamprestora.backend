@@ -56,22 +56,43 @@ public class Result<T> : Result, IResult<T>
 
 public interface IAuthResult : IResult
 {
-    string Token { get; }
+    string AccessToken { get; }
     string RefreshToken { get; }
+    DateTime ExpiresIn { get; }
+    string UserId { get; }
+    string RestaurantId { get; }
 }
 
 public class AuthResult : Result, IAuthResult
 {
-    public string Token { get; } = default!;
-    public string RefreshToken { get; } = default!;
+    public string AccessToken { get; }
+    public string RefreshToken { get; }
+    public DateTime ExpiresIn { get; }
+    public string UserId { get; }
+    public string RestaurantId { get; }
+    public IEnumerable<string> Roles { get; }
 
-    protected AuthResult(int statusCode, string token, string refreshToken, Error[] errors) : base(statusCode, errors)
+    private AuthResult(int statusCode, Error[] errors, string accessToken, string refreshToken, DateTime expiresIn,
+         string userId, string restaurantId, IEnumerable<string> roles) : base(statusCode, errors)
     {
-        Token = token;
+        AccessToken = accessToken;
         RefreshToken = refreshToken;
+        ExpiresIn = expiresIn;
+        UserId = userId;
+        RestaurantId = restaurantId;
+        Roles = roles;
     }
 
-    public static AuthResult Success(string token, string refreshToken) => new(StatusCodes.Status200OK, token, refreshToken, Array.Empty<Error>());
-    public new static AuthResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, default!, default!, errors);
-    public new static AuthResult Failure(int statusCode, params Error[] errors) => new(statusCode, default!, default!, errors);
+    private AuthResult(int statusCode, Error[] errors) : this(statusCode, errors, string.Empty,
+         string.Empty, DateTime.UtcNow, string.Empty, string.Empty, new List<string>())
+    {
+
+    }
+
+    public static AuthResult Success(string accessToken, string refreshToken, DateTime
+        expiresIn, string userId, string restaurantId, IEnumerable<string> roles) =>
+        new(StatusCodes.Status200OK, Array.Empty<Error>(), accessToken, refreshToken, expiresIn, userId, restaurantId, roles);
+
+    public new static AuthResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, errors);
+    public new static AuthResult Failure(int statusCode, params Error[] errors) => new(statusCode, errors);
 }

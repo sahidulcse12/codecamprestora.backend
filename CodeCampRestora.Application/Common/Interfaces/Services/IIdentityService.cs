@@ -7,5 +7,5 @@ public interface IIdentityService
 {
     Task<IResult> RegisterUserAsync(RegisterUserDTO registerUserDto);
     Task<IAuthResult> AuthenticateUserAsync(LoginDTO loginDto);
-    Task<IAuthResult> RefreshTokenAsync(string accessToken, Guid refreshToken, CancellationToken cancellationToken);
+    Task<IAuthResult> RefreshTokenAsync(string accessToken, string refreshToken, CancellationToken cancellationToken);
 }

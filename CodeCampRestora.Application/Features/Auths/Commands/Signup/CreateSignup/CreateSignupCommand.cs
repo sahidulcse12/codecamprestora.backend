@@ -5,9 +5,9 @@ using CodeCampRestora.Domain.Entities.Authentication.UserRole;
 namespace CodeCampRestora.Application.Features.Auths.Commands.Signup.CreateSignup;
 
 public record CreateSignupCommand(
-string FirstName,
-string LastName,
-string Email,
-string Password,
-UserRoles RoleType
+    string FirstName,
+    string LastName,
+    string Email,
+    string Password,
+    UserRoles RoleType
 ) : ICommand<IResult>;

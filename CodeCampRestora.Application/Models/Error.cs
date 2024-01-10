@@ -16,5 +16,7 @@ public record AuthErrors
     public static Error Expired => new("User.Expired", "Token is expired.");
     public static Error UserNotFound => new("User.NotFound", "User not found.");
     public static Error InvalidToken => new("Jwt.InvalidRefreshToken", "Invalid refresh token.");
+    public static Error InvalidClaim => new("Jwt.InvalidClaim", "The token contains invalid claims.");
+    public static Error TokenMismatch => new("Jwt.TokenMismatch", "The refresh token does not belong to this access token.");
     public static Error TokenIsUsed => new("Jwt.Used", "The refresh token has been used.");
 }

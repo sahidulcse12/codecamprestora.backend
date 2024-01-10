@@ -9,4 +9,5 @@ public class ApplicationUser : IdentityUser<Guid>
     public string LastName { get; set; } = default!;
     public Guid StaffId { get; set; } = default!;
     public virtual Staff? Staff { get; set; }
+    public Guid RestaurantId { get; set; } = default!;
 }

@@ -1,18 +1,21 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Domain.Identity;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
+using CodeCampRestora.Infrastructure.Identity.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts;
 
 [ScopedLifetime]
-public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>, IApplicationDbContext
+public class ApplicationDbContext
+    : IdentityDbContext<ApplicationUser, ApplicationRole, Guid>, IApplicationDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
+    public ApplicationDbContext(DbContextOptions options) : base(options)
+    {
+    }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
@@ -29,12 +32,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
     private static void SeedRoles(ModelBuilder builder)
     {
-        builder.Entity<IdentityRole<Guid>>().HasData
+        builder.Entity<ApplicationRole>().HasData
         (
-            new IdentityRole<Guid>() { Id = Guid.NewGuid(), Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
-            new IdentityRole<Guid>() { Id = Guid.NewGuid(), Name = "Manager", ConcurrencyStamp = "3", NormalizedName = "MANAGER" },
-            new IdentityRole<Guid>() { Id = Guid.NewGuid(), Name = "Waiter", ConcurrencyStamp = "2", NormalizedName = "WAITER" },
-            new IdentityRole<Guid>() { Id = Guid.NewGuid(), Name = "User", ConcurrencyStamp = "4", NormalizedName = "USER" }
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "Manager", ConcurrencyStamp = "3", NormalizedName = "MANAGER" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "Waiter", ConcurrencyStamp = "2", NormalizedName = "WAITER" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "User", ConcurrencyStamp = "4", NormalizedName = "USER" }
         );
     }
 
