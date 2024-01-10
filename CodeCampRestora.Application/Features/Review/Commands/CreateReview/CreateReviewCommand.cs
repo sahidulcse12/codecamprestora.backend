@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
 {
-    internal class CreateReviewCommand : ICommand<IResult<ReviewDTO>>
+    public class CreateReviewCommand : ICommand<IResult<ReviewDTO>>
     {
         public string Description { set; get; } = string.Empty;
         public int Rating { set; get; }

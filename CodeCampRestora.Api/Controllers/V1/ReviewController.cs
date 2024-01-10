@@ -1,8 +1,12 @@
 ﻿using CodeCampRestora.Application.DTOs;
+
+
+using CodeCampRestora.Application.Features.Review.Queries.GetAllReview;
 using CodeCampRestora.Application.Models;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
+using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
@@ -11,12 +15,12 @@ namespace CodeCampRestora.Api.Controllers.V1
     public class ReviewController : ApiBaseController
     {
         private readonly ILogger<ReviewController> _logger;
-        private readonly IMediator _mediator;
+       
 
-        public ReviewController(ILogger<ReviewController> logger, IMediator mediator)
+        public ReviewController(ILogger<ReviewController> logger)
         {
             _logger = logger;
-            _mediator = mediator;
+           
         }
 
         [HttpGet]
@@ -25,24 +29,24 @@ namespace CodeCampRestora.Api.Controllers.V1
             var request = new GetAllReviewQuery();
             var response = await Sender.Send(request);
             return response;
+          
         }
-
-       
 
         [HttpPost]
-        public async Task<Application.Models.IResult> Post([FromBody] CreateReviewCommand createReview)
+       public async Task<Application.Models.IResult> Post([FromBody]CreateReviewCommand reviewCommand)
         {
-            var result = await Sender.Send(createReview);
+            var result = await Sender.Send(reviewCommand);
             return result;
         }
 
-       /* [HttpPatch]
-        public async Task<IResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
-        {
-            var result = await Sender.Send(bookingOrder);
-            return result;
-        }
-*/
+      
+        /* [HttpPatch]
+         public async Task<IResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
+         {
+             var result = await Sender.Send(bookingOrder);
+             return result;
+         }
+ */
 
     }
 }

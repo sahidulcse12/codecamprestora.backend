@@ -8,7 +8,10 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
-    public IReviewRepository Review { get; }
+    public IReviewRepository Reviews { get; }
+
+    
+
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
@@ -17,7 +20,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
-        Review = review;
+        Reviews = review;
     }
    
 
