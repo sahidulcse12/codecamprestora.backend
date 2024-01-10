@@ -8,6 +8,7 @@ using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.DeleteBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
+using CodeCampRestora.Application.Models;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -30,27 +31,42 @@ public class BranchController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Branch not found", typeof(IResult))]
-    public async Task<ActionResult<IEnumerable<BranchDTO>>> GetAll(Guid resturantId)
+    public async Task<IResult> GetAll(Guid resturantId)
     {
-        var response = await Sender.Send(new GetAllBranchesQuery { ResturantId = resturantId });
-        return Ok(response);
+        var result = await Sender.Send(new GetAllBranchesQuery(resturantId));
+        return result;
     }
 
     [HttpGet("{id}")]
-    public async Task<ActionResult<BranchDTO>> Get(Guid id)
+    [SwaggerOperation(
+        Summary = "Get a branch by ID",
+        Description = @"Sample Request:
+        Get: api/v1/Branches/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
+    public async Task<IResult<BranchDTO>> Get(Guid id)
     {
-        var response = await Sender.Send(new GetBranchByIdQuery(id));
-        return Ok(response);
+        var result = await Sender.Send(new GetBranchByIdQuery(id));
+        return result;
     }
 
     [HttpPost]
-    public async Task<IActionResult> Post([FromBody] CreateBranchCommand newItem)
+    [SwaggerOperation(
+        Summary = "Create a new branch",
+        Description = @"Sample Request:
+        Get: api/v1/Branches/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
+    public async Task<IResult> Post([FromBody] CreateBranchCommand newItem)
     {
-        var response = await Sender.Send(newItem);
-        return Ok(response);
+        var result = await Sender.Send(newItem);
+        return result;
     }
 
     [HttpPut]
+    [SwaggerOperation(
+        Summary = "Update an existing branch",
+        Description = @"Sample Request:
+        Get: api/v1/Branches/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
     public async Task<IResult> Put(UpdateBranchCommand updatedItem)
     {
         var result = await Sender.Send(updatedItem);
@@ -58,10 +74,15 @@ public class BranchController : ApiBaseController
     }
 
     [HttpDelete("{id}")]
-    public async Task<IActionResult> Delete(Guid id)
+    [SwaggerOperation(
+        Summary = "Delete a branch",
+        Description = @"Sample Request:
+        Get: api/v1/Branches/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
+    public async Task<IResult> Delete(Guid id)
     {
-        var response = await Sender.Send(new DeleteBranchCommand { Id = id });
-        return Ok(response);
+        var result = await Sender.Send(new DeleteBranchCommand { Id = id });
+        return result;
     }
 }
 

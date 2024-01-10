@@ -1,16 +1,11 @@
-﻿
-using CodeCampRestora.Application.Common.Interfaces.MediatRs;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Exceptions;
-using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities.Branches;
-using Mapster;
-using MediatR;
+﻿using Mapster;
+using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
-using System.Globalization;
-using System.Windows.Input;
+using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 
@@ -69,10 +64,6 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
             }
         }
 
-
-
-
-
         await _unitOfWork.Branches.UpdateAsync(branchEO.Id, branchEO);
         await _unitOfWork.SaveChangesAsync();
 
@@ -80,6 +71,7 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
 
         return Result<BranchDTO>.Success(branchDTO);
     }
+
     private TimeOnly ConvertToTimeOnly(string timeString)
     {
         if (TimeOnly.TryParseExact(
@@ -96,5 +88,4 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
             throw new ArgumentException("Invalid time format", nameof(timeString));
         }
     }
-
 }
