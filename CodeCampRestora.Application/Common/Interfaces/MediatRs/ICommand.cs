@@ -24,5 +24,4 @@ public interface ICommandHandler<TRequest>
 public interface ICommandHandler<TRequest, TResponse>
     : IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
 {
-    Task<IResult<ReviewDTO>> Handle(CreateReviewCommand request, CancellationToken cancellationToken);
 }
