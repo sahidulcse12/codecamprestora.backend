@@ -16,12 +16,13 @@ namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
         private readonly IUnitOfWork _unitOfWork;
         public CreateReviewCommandHandler(IUnitOfWork unitOfWork)
         {
-            unitOfWork = _unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IResult<ReviewDTO>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
             var ReviewEO = request.Adapt<Review1>();
+
             await _unitOfWork.Reviews.AddAsync(ReviewEO);
             await _unitOfWork.SaveChangesAsync();
 
@@ -29,15 +30,5 @@ namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
             return Result<ReviewDTO>.Success(reviewOrderDto);
 
         }
-
-        //async Task<IResult<ReviewDTO>> IRequestHandler<CreateReviewCommand, IResult<ReviewDTO>>.Handle(CreateReviewCommand request, CancellationToken cancellationToken)
-        //{
-        //    var ReviewEO = request.Adapt<Review1>();
-        //    await _unitOfWork.Reviews.AddAsync(ReviewEO);
-        //    await _unitOfWork.SaveChangesAsync();
-
-        //    var reviewOrderDto = ReviewEO.Adapt<ReviewDTO>();
-        //    return Result<ReviewDTO>.Success(reviewOrderDto);
-        //}
     }
 }

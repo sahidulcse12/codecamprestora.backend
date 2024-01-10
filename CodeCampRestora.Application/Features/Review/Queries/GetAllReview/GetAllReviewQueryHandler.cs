@@ -16,7 +16,7 @@ namespace CodeCampRestora.Application.Features.Review.Queries.GetAllReview
         private readonly IUnitOfWork _unitOfWork;
         public GetAllReviewQueryHandler(IUnitOfWork unitOfWork)
         {
-            unitOfWork = _unitOfWork;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<IResult<List<ReviewDTO>>> Handle(GetAllReviewQuery request, CancellationToken cancellationToken)
