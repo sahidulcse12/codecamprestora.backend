@@ -1,36 +1,38 @@
 ﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Images.Commands.CreateImage;
 using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities.Review;
+
+
+using CodeCampRestora.Domain.Entities.Reviews;
 using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+using MediatR;
 
 namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
 {
 
-    public class CreateReviewCommandHandler : ICommandHandler<Images.Commands.CreateImage.CreateReviewCommand, IResult<Guid>>
+    public class CreateReviewCommandHandler : ICommandHandler<CreateReviewCommand, IResult<ReviewDTO>>
     {
-        private readonly IImageService _imageService;
-
-        public CreateReviewCommandHandler(IImageService imageService)
+        private readonly IUnitOfWork _unitOfWork;
+        public CreateReviewCommandHandler(IUnitOfWork unitOfWork)
         {
-            _imageService = imageService;
+            unitOfWork = _unitOfWork;
         }
 
-        public async Task<IResult<Guid>> Handle(Images.Commands.CreateImage.CreateReviewCommand request, CancellationToken cancellationToken)
-        {
-            var imageEO = request.Adapt<Review>();
+        //public async Task<IResult<ReviewDTO>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+        //{
+           
 
-            var result = await _imageService.UploadImageAsync(imageEO);
-            return result;
+        //}
+
+         async Task<IResult<ReviewDTO>> IRequestHandler<CreateReviewCommand, IResult<ReviewDTO>> .Handle(CreateReviewCommand request, CancellationToken cancellationToken)
+        {
+            var ReviewEO = request.Adapt<Review1>();
+            await _unitOfWork.Reviews.AddAsync(ReviewEO);
+            await _unitOfWork.SaveChangesAsync();
+
+            var reviewOrderDto = ReviewEO.Adapt<ReviewDTO>();
+            return Result<ReviewDTO>.Success(reviewOrderDto);
         }
     }
 }

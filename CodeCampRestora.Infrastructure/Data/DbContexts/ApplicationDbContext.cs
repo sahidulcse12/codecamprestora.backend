@@ -14,5 +14,5 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
     public DbSet<Image> Images => Set<Image>();
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
-    public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<Review1> Reviews => Set<Review1>();
 }

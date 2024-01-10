@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Domain.Entities.Reviews
 {
-    public class Review : AuditableEntity<Guid>
+    public class Review1 : AuditableEntity<Guid>
     {
         public string Description { set; get; }
         public int Rating { set; get; }

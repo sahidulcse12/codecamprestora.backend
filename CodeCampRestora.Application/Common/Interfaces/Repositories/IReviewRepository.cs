@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories
 {
-    public interface IReviewRepository : IRepository<Review, Guid>
+    public interface IReviewRepository : IRepository<Review1, Guid>
     {
 
     }
