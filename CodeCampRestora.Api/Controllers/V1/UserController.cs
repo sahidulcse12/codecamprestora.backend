@@ -1,10 +1,7 @@
-﻿using CodeCampRestora.Application.Features.Auths.Commands.Login.CreateLogin;
-using CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
-using CodeCampRestora.Application.Features.Auths.Commands.Signup.CreateSignup;
+﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.Features.Auths.Commands.User.UserLogin;
+using CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
 using CodeCampRestora.Application.Features.Auths.Commands.User.UserSignup.CreateUserSignup;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
