@@ -20,3 +20,8 @@ public record AuthErrors
     public static Error TokenMismatch => new("Jwt.TokenMismatch", "The refresh token does not belong to this access token.");
     public static Error TokenIsUsed => new("Jwt.Used", "The refresh token has been used.");
 }
+
+public record RestaurantErrors
+{
+    public static Error NotFound => new("Restaurant.NotFound", "Restaurant not found");
+}
