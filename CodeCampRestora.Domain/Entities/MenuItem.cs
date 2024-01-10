@@ -1,5 +1,4 @@
 using CodeCampRestora.Domain.Entities.Common;
-using CodeCampRestora.Infrastructure.Entities;
 
 namespace CodeCampRestora.Domain.Entities
 {
