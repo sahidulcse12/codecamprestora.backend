@@ -9,17 +9,15 @@ public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
     public IReviewRepository Reviews { get; }
-
-    
+    public IRestaurantRepository Restaurants { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
-    public UnitOfWork(
-        IImageRepository images,
-        IApplicationDbContext applicationDbContext, IReviewRepository review)
+    public UnitOfWork(IImageRepository images,IReviewRepository review,IRestaurantRepository restaurants,IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
+        Restaurants = restaurants;
         Reviews = review;
     }
    
