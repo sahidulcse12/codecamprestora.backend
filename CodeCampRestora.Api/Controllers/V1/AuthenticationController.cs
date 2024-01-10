@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Identity;
-using CodeCampRestora.Domain.Identity;
 using IResult = CodeCampRestora.Application.Models.IResult;
-using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 using CodeCampRestora.Application.Features.Auths.Commands.Login.CreateLogin;
 using CodeCampRestora.Application.Features.Auths.Commands.Signup.CreateSignup;
 using CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;

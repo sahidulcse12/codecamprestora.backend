@@ -11,7 +11,7 @@ namespace CodeCampRestora.Api.Controllers.V1
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new List<string> { "user", "admin", "staff" };
+            return new List<string> { "user", "admin", "waiter" };
         }
     }
 }

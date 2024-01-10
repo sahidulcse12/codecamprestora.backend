@@ -14,6 +14,7 @@ using CodeCampRestora.Infrastructure.Identity.Interfaces;
 using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
+using System.Data;
 
 namespace CodeCampRestora.Infrastructure.Identity.Services;
 
@@ -59,7 +60,6 @@ public class IdentityService : IIdentityService
             LastName = registerUserDto.LastName,
             Email = registerUserDto.Email,
             UserName = registerUserDto.Email,
-            SecurityStamp = Guid.NewGuid().ToString(),
         };
 
         var result = await _applicationUserManager.CreateAsync(newuser, registerUserDto.Password);
@@ -86,6 +86,49 @@ public class IdentityService : IIdentityService
         return Result.Success();
     }
 
+    public async Task<IResult> RegisterMobileUserAsync(RegisterMobileUserDTO registerMobileUserDTO)
+    {
+        var user = await _applicationUserManager.FindByEmailAsync(registerMobileUserDTO.Email);
+        if(user is not null)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status403Forbidden,
+                AuthErrors.UserExists
+                );
+        }
+
+        var newuser = new ApplicationUser
+        {
+            FirstName = registerMobileUserDTO.FirstName,
+            LastName = registerMobileUserDTO.LastName,
+            Email = registerMobileUserDTO.Email,
+            UserName = registerMobileUserDTO.Phone,
+            PhoneNumber = registerMobileUserDTO.Phone,
+        };
+
+        var result = await _applicationUserManager.CreateAsync(newuser, registerMobileUserDTO.Password);
+        if (!result.Succeeded)
+        {
+            return Result.Failure(
+                StatusCodes.Status500InternalServerError,
+                AuthErrors.UserCreationFailed
+                );
+        }
+
+        var createdUser = await _applicationUserManager.FindByEmailAsync(registerMobileUserDTO.Email);
+        if (createdUser is null)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status404NotFound,
+                AuthErrors.RoleNotFound
+            );
+        }
+
+        await _applicationUserManager.AddToRoleAsync(createdUser, "User");
+        return Result.Success();
+
+    }
+
     public async Task<IAuthResult> AuthenticateUserAsync(LoginDTO loginDto)
     {
         var user = await _applicationUserManager.FindByNameAsync(loginDto.Username);
@@ -99,6 +142,30 @@ public class IdentityService : IIdentityService
 
         var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, loginDto.Password);
         if(!isPasswordVerified)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status401Unauthorized,
+                AuthErrors.LoginError
+            );
+        }
+
+        var result = await GenerateTokenAsync(user);
+        return result;
+    }
+
+    public async Task<IAuthResult> AuthenticateMobileUserAsync(MobileUserLoginDto mobileUserLoginDto)
+    {
+        var user = await _applicationUserManager.FindByNameAsync(mobileUserLoginDto.Phone);
+        if (user is null)
+        {
+            return AuthResult.Failure(
+                StatusCodes.Status404NotFound,
+                AuthErrors.UserNotFound
+            );
+        }
+
+        var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, mobileUserLoginDto.Password);
+        if (!isPasswordVerified)
         {
             return AuthResult.Failure(
                 StatusCodes.Status401Unauthorized,
