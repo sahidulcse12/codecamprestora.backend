@@ -60,4 +60,16 @@ public abstract class Repository<TEntity, TKey> :
         var doesExist = await _dbSet.AnyAsync(predicate);
         return doesExist;
     }
+
+    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        foreach (var navigationProperty in navigationProperties)
+        {
+            query = query.Include(navigationProperty);
+        }
+
+        return query;
+    }
 }

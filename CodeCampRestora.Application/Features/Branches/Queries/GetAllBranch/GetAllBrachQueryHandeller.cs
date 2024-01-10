@@ -4,31 +4,22 @@ using CodeCampRestora.Application.DTOs;
 using MediatR;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Models;
 
 namespace CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 
-public class GetAllBrachQueryHandeller : IRequestHandler<GetAllBranchesQuery, List<BranchDTO>>
+public class GetAllBrachQueryHandeller : IQueryHandler<GetAllBranchesQuery, IResult<BranchDTO>>
 {
-    private readonly IBranchRepository _repository; 
-    public GetAllBrachQueryHandeller(IBranchRepository repository)
+    private readonly IUnitOfWork _uniOfWork; 
+    public GetAllBrachQueryHandeller(IUnitOfWork uniOfWork)
     {
-        _repository = repository;
-    }
-    public async Task<List<BranchDTO>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
-    {
-        var resturant = await _repository.GetByIdAsync(request.ResturantId);
-        var branches = new List<BranchDTO>();
-        if (resturant != null)
-        {
-            // branches = resturant.Branches.Select(x => new BranchDTO
-            //{
-            //    Id = x.Id,
-            //    Name = x.Name,
-            //    IsAvailable = x.IsAvailable,
-            //}).ToList(); 
-        }
- 
-        return branches;
+         _uniOfWork = uniOfWork;
     }
 
+    public async Task<IResult<BranchDTO>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
+    {
+         
+        throw(new NotImplementedException());   
+    }
 }

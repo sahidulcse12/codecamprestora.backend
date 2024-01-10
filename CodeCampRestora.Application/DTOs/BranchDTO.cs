@@ -6,21 +6,18 @@ public class BranchDTO
 {
     public BranchDTO()
     {
-        BranchAddresses = new BranchAddressDTO();
-        BranchCuisineTypes = new List<BranchCuisineTypeDTO>();
-        BranchOpeningClosingTimes = new List<BranchOpeningClosingTimeDTO>();
+        Address = new BranchAddressDTO();
+        CuisineTypes = new List<BranchCuisineTypeDTO>();
+        OpeningClosingTimes = new List<BranchOpeningClosingTimeDTO>();
     }
 
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
-    public List<BranchCuisineTypeDTO> BranchCuisineTypes { get; set; }
-    public BranchAddressDTO BranchAddresses { get; set; }
-    public List<BranchOpeningClosingTimeDTO> BranchOpeningClosingTimes { get; set; }
-
-    public Guid RestaurantId { get; set; }
-
+    public List<BranchCuisineTypeDTO> CuisineTypes { get; set; }
+    public BranchAddressDTO Address { get; set; }
+    public List<BranchOpeningClosingTimeDTO> OpeningClosingTimes { get; set; }
 }
 
 public class BranchCuisineTypeDTO
@@ -42,9 +39,7 @@ public class BranchAddressDTO
 {
     public double Latitude { get; set; }
     public double Longitude { get; set; }
-
     public string Division { get; set; } = default!;
-
     public string District { get; set; } = default!;
     public string Thana { get; set; } = default!;
     public string AreaDetails { get; set; } = default!;

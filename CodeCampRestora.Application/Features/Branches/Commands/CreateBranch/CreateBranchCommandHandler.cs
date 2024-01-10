@@ -3,10 +3,13 @@ using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Domain.Entities.Branches;
 using System.Globalization;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.Models;
+using Mapster;
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 
-public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, BranchDTO>
+public class  CreateBranchCommandHandler : ICommandHandler<CreateBranchCommand, IResult<BranchDTO>>
 {
     private readonly IUnitOfWork _unitOfWork;
     public CreateBranchCommandHandler(IUnitOfWork unitOfWork)
@@ -15,7 +18,7 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
             
     }
 
-    public async Task<BranchDTO> Handle(CreateBranchCommand request, CancellationToken cancellationToken)
+    public async Task<IResult<BranchDTO>> Handle(CreateBranchCommand request, CancellationToken cancellationToken)
     {
         var branch = new Branch
         {
@@ -48,31 +51,9 @@ public class  CreateBranchCommandHandler : IRequestHandler<CreateBranchCommand, 
 
        await _unitOfWork.Branches.AddAsync(branch);
         await _unitOfWork.SaveChangesAsync();
-     
 
-        return new BranchDTO
-        {
-            Id = branch.Id,
-            Name = branch.Name,
-            IsAvailable = branch.IsAvailable,
-            PriceRange = branch.PriceRange,
-            BranchAddresses = new BranchAddressDTO
-            {
-                Latitude = branch.Address.Latitude,
-                Longitude = branch.Address.Longitude,
-                Thana = branch.Address.Thana,
-                District = branch.Address.District,
-                Division = branch.Address.Division,
-                AreaDetails = branch.Address.AreaDetails
-            },
-            //BranchCuisineTypeDTO = new BranchCuisineTypeDTO
-            //{
-            //    CuisineTag = branch.CuisineTypes.
-            //},
-
-            //BranchOpeningClosingTimeDTO = branch.OpeningClosingTimes
-
-        };
+        var branchDTO = branch.Adapt<BranchDTO>();
+      return Result<BranchDTO>.Success(branchDTO);
 
     }
 

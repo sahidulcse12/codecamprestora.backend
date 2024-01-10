@@ -1,12 +1,12 @@
-﻿
-
+﻿using CodeCampRestora.Domain.Enums;
 using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Domain.Enums;
-using MediatR;
+using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 
-public record UpdateBranchCommand : IRequest< BranchDTO>
+public record UpdateBranchCommand : ICommand<IResult<BranchDTO>>
 {
     public Guid Id { get; set; }
     public string Name { get; set; } = string.Empty;
