@@ -7,5 +7,5 @@ namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCate
         string Name,
         int DisplayOrder,
         Guid RestaurantId 
-    ) : ICommand<IResult>;
+    ) : ICommand<IResult<Guid>>;
 }
