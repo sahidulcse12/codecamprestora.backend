@@ -2,9 +2,10 @@ using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
-using CodeCampRestora.Application.Models;
+using IResult =  CodeCampRestora.Application.Models.IResult;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Models;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -12,10 +13,10 @@ public class MenuCategoryController : ApiBaseController
 {
     [HttpPost]
     [SwaggerOperation(summary: "Create a menu category")]
-    public async Task<Application.Models.IResult> Post([FromBody] CreateMenuCategoryCommand command)
+    public async Task<IResult> Post([FromBody] CreateMenuCategoryCommand command)
     {
-        var result = Sender.Send(command);
-        return (Application.Models.IResult)result;
+        var result = await Sender.Send(command);
+        return result;
     }
 
     [HttpGet("{id:Guid}")]
@@ -38,7 +39,7 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<Application.Models.IResult> Delete(
+    public async Task<IResult> Delete(
         [FromRoute, SwaggerParameter(Description = "Delete by id", Required = true)]
         Guid id)
     {
