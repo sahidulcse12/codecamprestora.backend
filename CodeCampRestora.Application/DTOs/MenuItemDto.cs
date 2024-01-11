@@ -7,7 +7,8 @@ namespace CodeCampRestora.Application.DTOs
         public string Ingredients { get; set; }
         public double Price { get; set; }
         public int? DisplayOrder { get; set; }
-        public int CategoryId { get; set; }
-        public int BranchId { get; set; }
+        public Guid ImageId { get; set; }
+        public Guid CategoryId { get; set; }
+        public Guid BranchId { get; set; }
     }
 }
