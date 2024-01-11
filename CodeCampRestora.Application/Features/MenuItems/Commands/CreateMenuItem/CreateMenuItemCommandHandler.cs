@@ -6,7 +6,7 @@ using Mapster;
 
 namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
 {
-    public class CreateMenuItemCommandHandler : ICommandHandler<CreateMenuItemCommand, IResult>
+    public class CreateMenuItemCommandHandler : ICommandHandler<CreateMenuItemCommand, IResult<Guid>>
     {
         private readonly IMenuItemService _menuItemService;
         public CreateMenuItemCommandHandler(IMenuItemService menuItemService)
@@ -14,10 +14,10 @@ namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
             _menuItemService = menuItemService;
         }
 
-        public Task<IResult> Handle(CreateMenuItemCommand request, CancellationToken cancellationToken)
+        public async Task<IResult<Guid>> Handle(CreateMenuItemCommand request, CancellationToken cancellationToken)
         {
             var MenuItems = request.Adapt<MenuItem>();
-            var result = _menuItemService.CreateItemAsync(MenuItems);
+            var result = await _menuItemService.CreateItemAsync(MenuItems);
             return result;
         }
     }
