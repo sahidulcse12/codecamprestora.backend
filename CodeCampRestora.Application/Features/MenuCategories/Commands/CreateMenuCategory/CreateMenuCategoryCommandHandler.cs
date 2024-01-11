@@ -6,17 +6,17 @@ using Mapster;
 
 namespace CodeCampRestora.Application.Features.MenuCategory.Commands;
 
-public class CreateMenuCategoryCommandHandler : ICommandHandler<CreateMenuCategoryCommand, IResult>
+public class CreateMenuCategoryCommandHandler : ICommandHandler<CreateMenuCategoryCommand, IResult<Guid>>
 {
     private readonly IMenuCategoryService _menuCategoryService;
     public CreateMenuCategoryCommandHandler(IMenuCategoryService menuCategoryService)
     {
         _menuCategoryService = menuCategoryService;
     }
-    public async Task<IResult> Handle(CreateMenuCategoryCommand request, CancellationToken cancellationToken)
+    public async Task<IResult<Guid>> Handle(CreateMenuCategoryCommand request, CancellationToken cancellationToken)
     {
         var MenuCategories = request.Adapt<CodeCampRestora.Domain.Entities.MenuCategory>();
-        IResult<Guid> result = (IResult<Guid>)_menuCategoryService.CreateCategoryAsync(MenuCategories);
+        var result = await _menuCategoryService.CreateCategoryAsync(MenuCategories);
         return result;
     }
 }
