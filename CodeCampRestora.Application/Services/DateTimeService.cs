@@ -1,7 +1,9 @@
-﻿using System.Globalization;
+﻿using CodeCampRestora.Application.Attributes;
+using System.Globalization;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Services;
 
+[ScopedLifetime]
 public class DateTimeService
 {
     public TimeOnly ConvertToTimeOnly(string timeString)
