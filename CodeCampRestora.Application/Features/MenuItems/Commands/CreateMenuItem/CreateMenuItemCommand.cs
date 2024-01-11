@@ -7,9 +7,10 @@ namespace CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem
         string Name,
         string Description,
         string Ingredients, 
-        double Price,
+        double? Price,
+        bool Availability,
         int DisplayOrder, 
-        Guid CategoryId,
-        Guid RestaurantId 
-    ) : ICommand<IResult>;
+        Guid? CategoryId,
+        Guid? BranchId 
+    ) : ICommand<IResult<Guid>>;
 }
