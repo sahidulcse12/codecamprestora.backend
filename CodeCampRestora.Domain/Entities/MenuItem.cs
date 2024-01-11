@@ -14,6 +14,6 @@ namespace CodeCampRestora.Domain.Entities
         public Guid CategoryId { get; set; }
         public MenuCategory Category { get; set; }
         public Guid BranchId { get; set; }
-        public Branch? Branch { get; set; }
+        // public Branch? Branch { get; set; }
     }
 }
