@@ -16,6 +16,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Features\Restaurant\**" />
+    <EmbeddedResource Remove="Features\Restaurant\**" />
+    <None Remove="Features\Restaurant\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CodeCampRestora.Domain\CodeCampRestora.Domain.csproj" />
   </ItemGroup>
 

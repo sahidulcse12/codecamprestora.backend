@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
+using CodeCampRestora.Application.Common.Helpers.Pagination;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
@@ -71,5 +72,12 @@ public abstract class Repository<TEntity, TKey> :
         }
 
         return query;
+    }
+
+    public async Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize)
+    {
+        var Entities = _dbSet.AsQueryable();
+        var PagedList = await PagedList<TEntity>.ToPagedListAsync(Entities, PageNumber, PageSize);
+        return PagedList;
     }
 }

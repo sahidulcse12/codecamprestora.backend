@@ -9,17 +9,20 @@ public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
     public IBookingOrderRepository BookingOrders { get; }
+    public IRestaurantRepository Restaurants { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
         IImageRepository images,
         IBookingOrderRepository bookingOrders,
+        IRestaurantRepository restaurants,
         IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
         BookingOrders = bookingOrders;
+        Restaurants = restaurants;
     }
 
     public async Task SaveChangesAsync()
