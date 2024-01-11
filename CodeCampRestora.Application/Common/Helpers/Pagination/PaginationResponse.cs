@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 namespace CodeCampRestora.Application.Common.Helpers.Pagination;
 
 public class PagedList<T> : List<T>
@@ -18,8 +20,8 @@ public class PagedList<T> : List<T>
 
     public static async Task<PagedList<T>> ToPagedListAsync(IQueryable<T> data, int pageNumber, int pageSize)
     {
-        var totalCount = data.Count();
-        var items = data.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToList();
+        var totalCount = await data.CountAsync();
+        var items = await data.Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         return new PagedList<T>(items, totalCount, pageNumber, pageSize);
     }
 }
