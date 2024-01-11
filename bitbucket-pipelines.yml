@@ -1,0 +1,32 @@
+pipelines:
+ default:
+     - step:
+            name: Devlopment
+            image: mcr.microsoft.com/dotnet/aspnet:6.0
+            script:
+              - echo "continuous integration"
+ branches:
+    staging:
+        - step:
+            name: Build Docker Image
+            size: 2x
+            image: asthaitdevops/pipelines-awscli
+            services:
+                - docker
+            script:
+                - make publish_dev
+        - step:
+            name: Deploy to Staging
+            deployment: Staging
+            script:
+               - pipe: atlassian/ssh-run:0.2.2
+                 variables:
+                     SSH_USER: ${DEPLOY_USER}
+                     SERVER: ${STAGING_HOST}
+                     MODE: 'command'
+                     COMMAND: 'aws ecr get-login-password --region us-west-2 | sudo docker login --username AWS --password-stdin 034108791398.dkr.ecr.us-west-2.amazonaws.com/codecamprestora-dev ; sudo docker stop /codecamprestora ; sudo docker rm /codecamprestora ; sudo lsof -ti:5219 | sudo xargs kill -9 ; sudo docker images -a | grep ${DOCKER_IMAGE_NAME} | awk "{print $3}"| xargs sudo docker rmi ; sudo docker pull ${DOCKER_ECR_REPO_URL}/${DOCKER_IMAGE_NAME}-dev:${BITBUCKET_BUILD_NUMBER} ; sudo docker run -d -p 5219:5219 -e "ASPNETCORE_ENVIRONMENT=Staging" --name codecamprestora ${DOCKER_ECR_REPO_URL}/${DOCKER_IMAGE_NAME}-dev:${BITBUCKET_BUILD_NUMBER}'
+
+definitions:
+  services:
+    docker:
+      memory: 3048
