@@ -3,6 +3,7 @@ using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
+using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Domain.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -16,14 +17,14 @@ public class MenuItemService : IMenuItemService
     {
         _unitOfWork = unitOfWork;
     }
-    public async Task<Models.IResult> CreateItemAsync(MenuItem menuItem)
+    public async Task<IResult<Guid>> CreateItemAsync(MenuItem menuItem)
     {
         await _unitOfWork.MenuItem.AddAsync(menuItem);
         await _unitOfWork.SaveChangesAsync();
-        return Result.Success(200);
+        return Result<Guid>.Success(menuItem.Id);
     }
 
-    public async Task<Models.IResult> DeleteItemAsync(Guid Id)
+    public async Task<IResult> DeleteItemAsync(Guid Id)
     {
         var MenuItem = await _unitOfWork.MenuCategory.GetByIdAsync(Id);
         if(MenuItem is null) return Result.Failure(
@@ -31,7 +32,7 @@ public class MenuItemService : IMenuItemService
             Error.NotFound("Item not found!"));
         await _unitOfWork.MenuItem.DeleteAsync(Id);
         await _unitOfWork.SaveChangesAsync();
-        return Result.Success();
+        return Result.Success(200);
     }
 
     public async Task<IResult<MenuItemDto>> GetMenuItemByIdAsync(Guid Id)
