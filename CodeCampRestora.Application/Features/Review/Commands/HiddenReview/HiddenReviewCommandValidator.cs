@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Features.Review.Commands.HiddenReview
 {
-    internal class HiddenReviewCommandValidator
+    public class HiddenReviewCommandValidator
     {
     }
 }

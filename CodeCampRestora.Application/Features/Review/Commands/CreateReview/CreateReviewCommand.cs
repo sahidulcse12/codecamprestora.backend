@@ -11,8 +11,10 @@ namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
 {
     public class CreateReviewCommand : ICommand<IResult<ReviewDTO>>
     {
-        public string Description { set; get; } = default!;
-        public int Rating { set; get; }
+        public Guid ReviewId { get; set; }
+        public Guid BranchId { set; get; }
+        public required string Description { set; get; }
+        public  required int Rating { set; get; }
         public Guid OrderId { set; get; }
     }
 }

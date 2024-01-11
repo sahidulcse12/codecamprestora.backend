@@ -7,6 +7,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using static System.Net.Mime.MediaTypeNames;
 using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
+using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Features.Review.Commands.HiddenReview;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
@@ -14,6 +16,7 @@ namespace CodeCampRestora.Api.Controllers.V1
     [ApiController]
     public class ReviewController : ApiBaseController
     {
+
         private readonly ILogger<ReviewController> _logger;
        
 
@@ -24,6 +27,19 @@ namespace CodeCampRestora.Api.Controllers.V1
         }
 
         [HttpGet]
+
+        [SwaggerOperation(
+   Summary = "Getting All Reviews",
+   Description = @"Sample Request:
+    Post: api/v1/Review
+        {
+            ""BranchId"": ""7C12E100-D081-49F5-94FE-D0D1598945C3"",
+            ""OrderId"":""7C12E100-D081-49F5-94FE-D0D1598945C3"",
+            ""Rating"":""4"",
+             ""Description"":""Someting""
+          
+        }"
+   )]
         public async Task<IResult<List<ReviewDTO>>> GetAll()
         {
             var request = new GetAllReviewQuery();
@@ -38,15 +54,24 @@ namespace CodeCampRestora.Api.Controllers.V1
             var result = await Sender.Send(reviewCommand);
             return result;
         }
+        [HttpPatch("{reviewId}/hide-show")]
+        [SwaggerOperation(
+    Summary = "Hide or Show a Review",
+    Description = @"Sample Request:
+    Patch: api/v1/Review/{reviewId}/hide-show
+        {
+            ""hideReview"": true
+        }"
+)]
+        public async Task<Application.Models.IResult> HideShowReview(Guid reviewId, [FromBody] HiddenReviewCommand hideShowReviewCommand)
+        {
+            hideShowReviewCommand.ReviewId = reviewId;
+            var result = await Sender.Send(hideShowReviewCommand);
+            return result;
+        }
 
-      
-        /* [HttpPatch]
-         public async Task<IResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
-         {
-             var result = await Sender.Send(bookingOrder);
-             return result;
-         }
- */
+
+        
 
     }
 }
