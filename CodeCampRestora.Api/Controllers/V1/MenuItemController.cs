@@ -24,7 +24,7 @@ namespace CodeCampRestora.Api.Controllers.V1
             Description = @"Sample Request:
             Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
         )]
-        public async Task<IResult<MenuItemDto>> Get(
+        public async Task<IResult<MenuItemDto>> GetById(
             [FromRoute, SwaggerParameter(Description = "Get menu item by id", Required = true)]
             Guid id)
         {
