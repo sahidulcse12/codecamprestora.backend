@@ -1,22 +1,25 @@
 ﻿using Mapster;
-using System.Globalization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
+using CodeCampRestora.Application.Common.Interfaces.Services;
 
 namespace CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 
 public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, IResult<BranchDTO>>
 {
     public readonly IUnitOfWork _unitOfWork;
+    public readonly IDateTimeService _dateTimeService;
 
-    public UpdateBranchCommandHandler(IUnitOfWork unitOfWork)
+    public UpdateBranchCommandHandler(IUnitOfWork unitOfWork, IDateTimeService dateTimeService)
     {
         _unitOfWork = unitOfWork;
+        _dateTimeService = dateTimeService;
     }
+    
 
     public async Task<IResult<BranchDTO>> Handle(UpdateBranchCommand request, CancellationToken cancellationToken)
     {
@@ -38,7 +41,6 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
         branchEO.Name = request.Name;
         branchEO.IsAvailable = request.IsAvailable;
         branchEO.PriceRange = request.PriceRange;
-
         branchEO.Address.Latitude = request.BranchAddress.Latitude;
         branchEO.Address.Longitude = request.BranchAddress.Longitude;
         branchEO.Address.Division = request.BranchAddress.Division;
@@ -58,8 +60,8 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
         {
             foreach (var requestopeningClosingTime in request.BranchOpeningClosingTime)
             {
-                openingClosingTime.Opening = ConvertToTimeOnly(requestopeningClosingTime.Opening);
-                openingClosingTime.Closing = ConvertToTimeOnly(requestopeningClosingTime.Closing);
+                openingClosingTime.Opening = _dateTimeService.ConvertToTimeOnly(requestopeningClosingTime.Opening);
+                openingClosingTime.Closing = _dateTimeService.ConvertToTimeOnly(requestopeningClosingTime.Closing);
                 openingClosingTime.DayOfWeek = requestopeningClosingTime.DayOfWeek;
             }
         }
@@ -72,20 +74,5 @@ public class UpdateBranchCommandHandler : ICommandHandler<UpdateBranchCommand, I
         return Result<BranchDTO>.Success(branchDTO);
     }
 
-    private TimeOnly ConvertToTimeOnly(string timeString)
-    {
-        if (TimeOnly.TryParseExact(
-            timeString,
-            "h:mm tt",
-            CultureInfo.InvariantCulture,
-            DateTimeStyles.None,
-            out TimeOnly timeOnly))
-        {
-            return timeOnly;
-        }
-        else
-        {
-            throw new ArgumentException("Invalid time format", nameof(timeString));
-        }
-    }
+   
 }
