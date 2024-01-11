@@ -16,12 +16,10 @@ namespace CodeCampRestora.Api.Controllers.V1
     public class BookingOrdersController : ApiBaseController
     {
         private readonly ILogger<BookingOrdersController> _logger;
-        private readonly IMediator _mediator;
 
-        public BookingOrdersController(ILogger<BookingOrdersController> logger, IMediator mediator)
+        public BookingOrdersController(ILogger<BookingOrdersController> logger)
         {
             _logger = logger;
-            _mediator = mediator;
         }
 
         [HttpGet]
@@ -63,7 +61,7 @@ namespace CodeCampRestora.Api.Controllers.V1
             ""id"": ""60C28298-B55A-4497-A3B4-0EB21DF208CB"",
             ""orderStatus"": 0,
         }"
-    )]
+        )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
         public async Task<IResult> Post([FromBody] CreateBookingOrderCommand bookingOrder)
         {
@@ -80,14 +78,12 @@ namespace CodeCampRestora.Api.Controllers.V1
             ""id"": ""60C28298-B55A-4497-A3B4-0EB21DF208CB"",
             ""orderStatus"": 0,
         }"
-    )]
+        )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
         public async Task<IResult> Update([FromBody] UpdateBookingOrderCommand bookingOrder)
         {
             var result = await Sender.Send(bookingOrder);
             return result;
         }
-
-
     }
 }
