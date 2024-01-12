@@ -1,4 +1,4 @@
-﻿using CodeCampRestora.Domain.Entities.BookingOrders;
+﻿using CodeCampRestora.Domain.Entities.Orders;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories
 {
-    public interface IBookingOrderRepository : IRepository<BookingOrder,Guid>
+    public interface IOrderRepository : IRepository<Order,Guid>
     {
     }
 }

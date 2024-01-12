@@ -8,20 +8,20 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
-    public IBookingOrderRepository BookingOrders { get; }
+    public IOrderRepository Orders { get; }
     public IRestaurantRepository Restaurants { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
         IImageRepository images,
-        IBookingOrderRepository bookingOrders,
+        IOrderRepository orders,
         IRestaurantRepository restaurants,
         IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
-        BookingOrders = bookingOrders;
+        Orders = orders;
         Restaurants = restaurants;
     }
 

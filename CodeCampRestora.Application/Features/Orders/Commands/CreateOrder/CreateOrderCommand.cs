@@ -2,17 +2,11 @@
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Enums;
-using MediatR;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CodeCampRestora.Application.Features.BookingOrders.Commands.CreateBookingOrder
+namespace CodeCampRestora.Application.Features.Orders.Commands.CreateOrder
 {
-    public record CreateBookingOrderCommand : ICommand<IResult<BookingOrderDTO>>
+    public record CreateOrderCommand : ICommand<IResult<OrderDTO>>
     {
         public string CustomerName { get; set; } = default!;
         public string CustomerMobileNumber { get; set; } = default!;

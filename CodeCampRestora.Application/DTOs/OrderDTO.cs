@@ -1,17 +1,11 @@
-﻿using CodeCampRestora.Domain.Entities.BookingOrders;
-using CodeCampRestora.Domain.Enums;
-using System;
-using System.Collections.Generic;
+﻿using CodeCampRestora.Domain.Enums;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CodeCampRestora.Application.DTOs;
 
-public class BookingOrderDTO
+public class OrderDTO
 {
-    public BookingOrderDTO()
+    public OrderDTO()
     {
         OrderItems = new List<OrderItemDTO>();
     }
@@ -43,9 +37,9 @@ public class OrderItemDTO
 {
     public int Quantity { get; set; }
     public double Price { get; set; }
-    public Guid BookingOrderId { get; set; }
+    public Guid OrderId { get; set; }
     public Guid MenuItemId { get; set; }
-    // public BookingOrderDTO? BookingOrder { get; set; }
+    // public OrderDTO? Order { get; set; }
     // public MenuItem MenuItem { get; set; }
 }
 

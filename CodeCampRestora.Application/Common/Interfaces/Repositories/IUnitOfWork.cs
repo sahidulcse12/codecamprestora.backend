@@ -3,7 +3,7 @@
 public interface IUnitOfWork
 {
     IImageRepository Images { get; }
-    IBookingOrderRepository BookingOrders { get; }
+    IOrderRepository Orders { get; }
     IRestaurantRepository Restaurants { get; }
     Task SaveChangesAsync();
 }

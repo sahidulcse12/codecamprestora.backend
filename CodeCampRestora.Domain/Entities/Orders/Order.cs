@@ -1,15 +1,10 @@
 ﻿using CodeCampRestora.Domain.Entities.Common;
 using CodeCampRestora.Domain.Enums;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CodeCampRestora.Domain.Entities.BookingOrders
+namespace CodeCampRestora.Domain.Entities.Orders
 {
-    public class BookingOrder : AuditableEntity<Guid>
+    public class Order : AuditableEntity<Guid>
     {
         public Guid BranchId { get; set; }
         public Guid UserId { get; set; }
