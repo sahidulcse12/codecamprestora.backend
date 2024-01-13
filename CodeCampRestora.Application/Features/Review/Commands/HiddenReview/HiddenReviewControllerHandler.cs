@@ -3,7 +3,7 @@ using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
 using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities.Reviews;
+using CodeCampRestora.Domain.Entities;
 using Mapster;
 using MediatR;
 using System;

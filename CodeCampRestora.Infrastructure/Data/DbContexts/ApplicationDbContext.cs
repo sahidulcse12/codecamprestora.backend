@@ -3,7 +3,6 @@ using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
-using CodeCampRestora.Domain.Entities.Reviews;
 
 namespace CodeCampRestora.Infrastructure.Data.DbContexts;
 
