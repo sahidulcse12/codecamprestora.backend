@@ -2,7 +2,7 @@
 
 namespace CodeCampRestora.Domain.Entities
 {
-    public class Review1 : AuditableEntity<Guid>
+    public class Review : AuditableEntity<Guid>
     {
         public Guid ReviewId { get; set; }
         public required string Description { set; get; }

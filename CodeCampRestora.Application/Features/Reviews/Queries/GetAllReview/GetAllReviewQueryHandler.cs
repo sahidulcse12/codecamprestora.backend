@@ -3,13 +3,8 @@ using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
 using Mapster;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CodeCampRestora.Application.Features.Review.Queries.GetAllReview
+namespace CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview
 {
     public class GetAllReviewQueryHandler : IQueryHandler<GetAllReviewQuery, IResult<List<ReviewDTO>>>
     {

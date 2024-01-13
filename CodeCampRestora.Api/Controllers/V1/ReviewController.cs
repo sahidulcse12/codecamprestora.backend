@@ -1,7 +1,7 @@
 ﻿using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
-using CodeCampRestora.Application.Features.Review.Commands.HiddenReview;
-using CodeCampRestora.Application.Features.Review.Queries.GetAllReview;
+using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
+using CodeCampRestora.Application.Features.Reviews.Commands.HiddenReview;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
 using CodeCampRestora.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;

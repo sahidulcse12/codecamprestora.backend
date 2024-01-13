@@ -1,6 +1,3 @@
-using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
-using CodeCampRestora.Application.Models;
 using MediatR;
 
 namespace CodeCampRestora.Application.Common.Interfaces.MediatRs;

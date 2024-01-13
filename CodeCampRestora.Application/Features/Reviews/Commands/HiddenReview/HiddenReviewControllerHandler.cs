@@ -1,19 +1,11 @@
 ﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.Review.Commands.CreateReview;
 using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities;
 using Mapster;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Input;
 
-namespace CodeCampRestora.Application.Features.Review.Commands.HiddenReview
+namespace CodeCampRestora.Application.Features.Reviews.Commands.HiddenReview
 {
     public class HiddenReviewControllerHandler : ICommandHandler<HiddenReviewCommand, IResult>
     {
@@ -36,4 +28,4 @@ namespace CodeCampRestora.Application.Features.Review.Commands.HiddenReview
     }
 }
 
-   
+
