@@ -13,7 +13,7 @@ namespace CodeCampRestora.Infrastructure.Data.Repositories
 {
 
     [ScopedLifetime]
-    public class ReviewRepository : Repository<Review1, Guid>,IReviewRepository
+    public class ReviewRepository : Repository<Review, Guid>,IReviewRepository
     {
         public ReviewRepository(IApplicationDbContext applicationDbContext)
             : base((DbContext)applicationDbContext)

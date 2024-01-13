@@ -19,7 +19,7 @@ namespace CodeCampRestora.Application.Features.Review.Commands.CreateReview
 
         public async Task<IResult<ReviewDTO>> Handle(CreateReviewCommand request, CancellationToken cancellationToken)
         {
-            var ReviewEO = request.Adapt<Review1>();
+            var ReviewEO = request.Adapt<Domain.Entities.Review>();
 
             await _unitOfWork.Reviews.AddAsync(ReviewEO);
             await _unitOfWork.SaveChangesAsync();

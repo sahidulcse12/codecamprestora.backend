@@ -25,7 +25,7 @@ namespace CodeCampRestora.Application.Features.Review.Commands.HiddenReview
 
         async Task<IResult> IRequestHandler<HiddenReviewCommand, IResult>.Handle(HiddenReviewCommand request, CancellationToken cancellationToken)
         {
-            var ReviewEO = request.Adapt<Review1>();
+            var ReviewEO = request.Adapt<Domain.Entities.Review>();
 
             await _unitOfWork.Reviews.AddAsync(ReviewEO);
             await _unitOfWork.SaveChangesAsync();
