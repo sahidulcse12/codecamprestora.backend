@@ -1,4 +1,5 @@
-﻿using CodeCampRestora.Application.DTOs;
+﻿using CodeCampRestora.Application.Common.Helpers.Pagination;
+using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Orders.Commands.CreateOrder;
 using CodeCampRestora.Application.Features.Orders.Commands.UpdateOrder;
 using CodeCampRestora.Application.Features.Orders.Queries.GetAllOrder;
@@ -29,9 +30,9 @@ namespace CodeCampRestora.Api.Controllers.V1
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Orders not found", typeof(IResult))]
-        public async Task<IResult<List<OrderDTO>>> GetAll()
+        public async Task<IResult<List<OrderDTO>>> GetAll(int pageNumber, int pageSize)
         {
-            var request = new GetAllOrdersQuery();
+            var request = new GetAllOrdersQuery(pageNumber, pageSize);
             var response = await Sender.Send(request);
             return response;
         }
@@ -45,7 +46,7 @@ namespace CodeCampRestora.Api.Controllers.V1
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Order not found", typeof(IResult))]
-        public async Task<IResult<OrderDTO>> Get([FromRoute, SwaggerParameter(Description = "Get image by id", Required = true)] Guid id)
+        public async Task<IResult<OrderDTO>> Get([FromRoute, SwaggerParameter(Description = "Get order by id", Required = true)] Guid id)
         {
             var response = await Sender.Send(new GetOrderByIdQuery(id));
             return response;

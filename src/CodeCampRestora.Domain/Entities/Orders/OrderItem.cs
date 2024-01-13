@@ -8,7 +8,7 @@ namespace CodeCampRestora.Domain.Entities.Orders
         public double Price { get; set; }
         public Guid OrderId { get; set; }
         public Guid MenuItemId { get; set; }
-        // public BookingOrder? BookingOrder { get; set; }
+        // public Order? Order { get; set; }
         // public MenuItem MenuItem { get; set; }
     }
 }
