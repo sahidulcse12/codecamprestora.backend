@@ -1,5 +1,5 @@
-using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Domain.Entities;
+using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
@@ -16,4 +16,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
     public DbSet<Order> Orders {  get; set; }
     public DbSet<OrderItem> OrderItems {  get; set; }
+    public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+    public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
 }
