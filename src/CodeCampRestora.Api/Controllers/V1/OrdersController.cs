@@ -68,7 +68,7 @@ namespace CodeCampRestora.Api.Controllers.V1
             return result;
         }
 
-        [HttpPut]
+        [HttpPatch]
         [SwaggerOperation(
         Summary = "Create a order",
         Description = @"Sample Request:
