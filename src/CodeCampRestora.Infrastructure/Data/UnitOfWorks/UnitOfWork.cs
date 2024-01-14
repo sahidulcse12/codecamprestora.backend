@@ -2,6 +2,7 @@
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 
@@ -9,6 +10,7 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
+    public IBranchRepository Branches { get; }
     public IRestaurantRepository Restaurants { get; }
     public IMenuItemRepository MenuItem { get; }
 
@@ -18,6 +20,7 @@ public class UnitOfWork : IUnitOfWork
 
     public UnitOfWork(
         IImageRepository images,
+        IBranchRepository branches,
         IRestaurantRepository restaurants,
         IMenuItemRepository menuItem,
         IMenuCategoryRepository menuCategory,
@@ -25,6 +28,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
+        Branches = branches;
         Restaurants = restaurants;
         MenuItem = menuItem;
         MenuCategory = menuCategory;
