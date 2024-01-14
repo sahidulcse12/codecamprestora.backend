@@ -3,7 +3,6 @@ using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
-using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Domain.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
@@ -24,7 +23,7 @@ public class MenuCategoryService : IMenuCategoryService
         return Result<Guid>.Success(menuCategory.Id);
     }
 
-    public async Task<IResult> DeleteCategoryAsync(Guid Id)
+    public async Task<Models.IResult> DeleteCategoryAsync(Guid Id)
     {
         var MenuCategory = await _unitOfWork.MenuCategory.GetByIdAsync(Id);
 
@@ -35,13 +34,6 @@ public class MenuCategoryService : IMenuCategoryService
         await _unitOfWork.MenuCategory.DeleteAsync(Id);
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
-    }
-
-    public async Task<IResult<List<MenuCategoryDto>>> GetAllMenuCategoryAsync(Guid Id)
-    {
-        var MenuCategories = await _unitOfWork.MenuCategory.GetAllByIdAsync(Id);
-        var MenuCategoriesDto = MenuCategories.Adapt<List<MenuCategoryDto>>();
-        return Result<List<MenuCategoryDto>>.Success(MenuCategoriesDto);
     }
 
     public async Task<IResult<MenuCategoryDto>> GetMenuCategoryByIdAsync(Guid Id)

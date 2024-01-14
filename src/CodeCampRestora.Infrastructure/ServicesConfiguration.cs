@@ -10,7 +10,7 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionStringKey = "LocalDbContext";
+        var connectionStringKey = "SupaBaseConnection";
         var assemblyName = Assembly.GetExecutingAssembly().FullName;
         services.AddDbContext<ApplicationDbContext>(options =>
         {
