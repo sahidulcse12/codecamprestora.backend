@@ -13,7 +13,7 @@ public record UpdateBranchCommand : ICommand<IResult<BranchDTO>>
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
     public IList<BranchOpeningClosingTimeDTO>? BranchOpeningClosingTime { get; set; }
-    public IList<BranchCuisineTypeDTO>? BranchCuisineType { get; set; }
-    public BranchAddressDTO? BranchAddress { get; set; }
+    public IList<BranchCuisineTypeDTO>? CuisineTypes { get; set; }
+    public BranchAddressDTO? Address { get; set; }
 
 }

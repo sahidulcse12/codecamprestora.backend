@@ -22,9 +22,7 @@ public class BranchDTO
 
 public class BranchCuisineTypeDTO
 {
-    public string CuisineTag { get; set; } = default!;
-
-
+    public required string CuisineTag { get; set; } = default!;
 }
 
 public class BranchOpeningClosingTimeDTO
