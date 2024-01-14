@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+namespace CodeCampRestora.Api.Controllers.V1;
 using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.RestaurantCQ.Commands.UpdateRestaurant;
-namespace CodeCampRestora.Api.Controllers.V1;
 
 public class RestaurantsController : ApiBaseController
 {
