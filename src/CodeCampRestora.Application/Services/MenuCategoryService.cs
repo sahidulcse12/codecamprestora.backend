@@ -36,6 +36,13 @@ public class MenuCategoryService : IMenuCategoryService
         return Result.Success();
     }
 
+    public async Task<IResult<List<MenuCategoryDto>>> GetAllMenuCategoryAsync(Guid Id)
+    {
+        var MenuCategories = await _unitOfWork.MenuCategory.GetAllByIdAsync(Id);
+        var MenuCategoriesDto = MenuCategories.Adapt<List<MenuCategoryDto>>();
+        return Result<List<MenuCategoryDto>>.Success(MenuCategoriesDto);
+    }
+
     public async Task<IResult<MenuCategoryDto>> GetMenuCategoryByIdAsync(Guid Id)
     {
         var MenuCategory = await _unitOfWork.MenuCategory.GetByIdAsync(Id);
