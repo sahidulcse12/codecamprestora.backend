@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using CodeCampRestora.Application.DTOs;
-using Swashbuckle.AspNetCore.Annotations;
-using CodeCampRestora.Application.Models;
+﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.HiddenReview;
 using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
+using CodeCampRestora.Application.Models;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -24,9 +24,9 @@ public class ReviewController : ApiBaseController
             ""Description"":""Someting""
             }"
     )]
-    public async Task<IResult<List<ReviewDTO>>> GetAll()
+    public async Task<IResult<List<ReviewDTO>>> GetAll(int pageNumber, int pageSize)
     {
-        var request = new GetAllReviewQuery();
+        var request = new GetAllReviewQuery(pageNumber,pageSize);
         var response = await Sender.Send(request);
         return response;
     }
@@ -36,7 +36,7 @@ public class ReviewController : ApiBaseController
         var result = await Sender.Send(reviewCommand);
         return result;
     }
-    [HttpPatch("{reviewId}/hide-show")]
+    [HttpPatch]
     [SwaggerOperation(
         Summary = "Hide or Show a Review",
         Description = @"Sample Request:
@@ -45,10 +45,9 @@ public class ReviewController : ApiBaseController
              ""hideReview"": true
             }"
     )]
-    public async Task<Application.Models.IResult> HideShowReview(Guid reviewId, [FromBody] HiddenReviewCommand hideShowReviewCommand)
+    public async Task<Application.Models.IResult> HideShowReview([FromBody]  HiddenReviewCommand hiddenReviewCommand)
     {
-        hideShowReviewCommand.ReviewId = reviewId;
-        var result = await Sender.Send(hideShowReviewCommand);
+        var result = await Sender.Send(hiddenReviewCommand);
         return result;
     }
 }

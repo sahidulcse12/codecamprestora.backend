@@ -1,6 +1,12 @@
-﻿namespace CodeCampRestora.Application.Features.Reviews.Commands.HiddenReview
+﻿using CodeCampRestora.Application.Common;
+using FluentValidation;
+
+namespace CodeCampRestora.Application.Features.Reviews.Commands.HiddenReview;
+
+public class HiddenReviewCommandValidator : ApplicationValidator<HiddenReviewCommand>
 {
-    public class HiddenReviewCommandValidator
+    public HiddenReviewCommandValidator()
     {
+        // RuleFor(hidden => hidden.HideReview).NotEmpty().WithMessage("Review status can't be empty");
     }
 }
