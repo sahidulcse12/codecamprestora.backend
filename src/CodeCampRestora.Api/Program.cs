@@ -1,7 +1,6 @@
 using CodeCampRestora.Application;
 using CodeCampRestora.Api.Settings;
 using CodeCampRestora.Infrastructure;
-using WebApi.Middlewares;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -13,6 +12,7 @@ builder.Services
 
 var app = builder.Build();
 
+// app.Environment.EnvironmentName = Environments.Development;
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
