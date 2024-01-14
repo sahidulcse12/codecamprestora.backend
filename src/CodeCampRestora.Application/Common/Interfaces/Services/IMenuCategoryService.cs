@@ -7,5 +7,6 @@ public interface IMenuCategoryService
 {
     Task<IResult<Guid>> CreateCategoryAsync(MenuCategory menuCategory);
     Task<IResult<MenuCategoryDto>> GetMenuCategoryByIdAsync(Guid Id);
+    Task<IResult<List<MenuCategoryDto>>> GetAllMenuCategoryAsync(Guid Id);
     Task<IResult> DeleteCategoryAsync(Guid Id);
 }
