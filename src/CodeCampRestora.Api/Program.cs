@@ -12,6 +12,7 @@ builder.Services
 
 var app = builder.Build();
 
+// app.Environment.EnvironmentName = Environments.Development;
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

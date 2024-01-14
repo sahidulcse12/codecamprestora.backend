@@ -124,35 +124,3 @@ public class AuthOwnerResult : AuthResult, IAuthOwnerResult
     public new static AuthOwnerResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, errors);
     public new static AuthOwnerResult Failure(int statusCode, params Error[] errors) => new(statusCode, errors);
 }
-
-
-// public class AuthPayload
-// {
-//     public string AccessToken { get; init; } = default!;
-//     public string RefreshToken { get; init; } = default!;
-//     public DateTime ExpiresIn { get; init; } = default!;
-//     public string UserId { get; init; } = default!;
-//     public IEnumerable<string> Roles { get; init; } = new List<string>();
-// }
-
-// public class OwnerAuthPayload : AuthPayload
-// {
-//     public string RestaurantId { get; init; } = default!;
-// }
-
-// public interface IAuthResultt<T> : IResult
-// {
-//     T Payload { get; }
-// }
-
-// public class AuthResultt<T> : Result, IAuthResultt<T>
-// {
-//     public T Payload { get; }
-
-//     protected AuthResultt(int statusCode, Error[] errors, T payload) : base(statusCode, errors)
-//     {
-//         Payload = payload;
-//     }
-
-//     public static AuthResultt<T> Success(T payload) => new(StatusCodes.Status200OK, Array.Empty<Error>(), payload);
-// }

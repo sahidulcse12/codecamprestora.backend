@@ -26,3 +26,8 @@ public record RestaurantErrors
 {
     public static Error NotFound => new("Restaurant.NotFound", "Restaurant not found");
 }
+
+public record BranchErrors
+{
+    public static Error NotFound => new("Branch.NotFound", "Branch doesn't exist.");
+}
