@@ -4,7 +4,7 @@ using CodeCampRestora.Application.Common.Interfaces.Services;
 
 namespace CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
 
-public class CreateRefreshTokenCommandHandler : ICommandHandler<CreateRefreshTokenCommand, IAuthResult>
+public class CreateRefreshTokenCommandHandler : ICommandHandler<CreateRefreshTokenCommand, IResult>
 {
     private readonly IIdentityService _identityService;
 
@@ -13,11 +13,11 @@ public class CreateRefreshTokenCommandHandler : ICommandHandler<CreateRefreshTok
         _identityService = identityService;
     }
 
-    public async Task<IAuthResult> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(CreateRefreshTokenCommand request, CancellationToken cancellationToken)
     {
         var result = await _identityService.RefreshTokenAsync(
-            request.accessToken,
-            request.refreshToken,
+            request.AccessToken,
+            request.RefreshToken,
             cancellationToken);
 
         return result;

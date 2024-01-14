@@ -16,11 +16,16 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddIdentityCore<ApplicationUser>()
-                .AddRoles<ApplicationRole>()
-                .AddRoleManager<ApplicationRoleManager>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
+        services.AddIdentityCore<ApplicationUser>(
+            options =>
+            {
+                options.User.RequireUniqueEmail = true;
+            }
+        )
+        .AddRoles<ApplicationRole>()
+        .AddRoleManager<ApplicationRoleManager>()
+        .AddEntityFrameworkStores<ApplicationDbContext>()
+        .AddDefaultTokenProviders();
 
         var tokenValidationParameter = new TokenValidationParameters
         {

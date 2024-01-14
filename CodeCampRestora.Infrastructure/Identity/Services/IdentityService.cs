@@ -14,6 +14,7 @@ using CodeCampRestora.Infrastructure.Constants;
 using CodeCampRestora.Infrastructure.Identity.Interfaces;
 using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Common.Interfaces.Services;
+using CodeCampRestora.Domain.Entities.Authentication.UserRole;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 
 namespace CodeCampRestora.Infrastructure.Identity.Services;
@@ -44,57 +45,71 @@ public class IdentityService : IIdentityService
         _tokenValidationParameters = tokenValidationParameters;
     }
 
-    public async Task<IResult> RegisterUserAsync(RegisterUserDTO registerUserDto)
+    public async Task<IResult> RegisterRestaurantOwnerAsync(RegisterUserDTO registerUserDto, Guid restaurantId)
     {
         var user = await _applicationUserManager.FindByEmailAsync(registerUserDto.Email);
-        if (user is not null)
-        {
-            return AuthResult.Failure(
-                StatusCodes.Status403Forbidden,
-                AuthErrors.UserExists);
-        }
+        if (user is not null) return Result.Failure( StatusCodes.Status403Forbidden, AuthErrors.UserExists);
 
-        var newuser = new ApplicationUser
+        var newUser = new ApplicationUser
         {
             FirstName = registerUserDto.FirstName,
             LastName = registerUserDto.LastName,
             Email = registerUserDto.Email,
             UserName = registerUserDto.Email,
+            RestaurantId = restaurantId
         };
 
-        var result = await _applicationUserManager.CreateAsync(newuser, registerUserDto.Password);
-        if (!result.Succeeded)
-        {
-            return Result.Failure(
-                StatusCodes.Status500InternalServerError,
-                AuthErrors.UserCreationFailed
-            );
-        }
+        var result = await _applicationUserManager.CreateAsync(newUser, registerUserDto.Password);
+        if (!result.Succeeded) return Result.Failure( StatusCodes.Status500InternalServerError, AuthErrors.UserCreationFailed);
 
         var createdUser = await _applicationUserManager.FindByEmailAsync(registerUserDto.Email);
         var role = await _applicationRoleManager.FindByNameAsync(registerUserDto.RoleType.ToString());
 
         if (createdUser is null || role is null)
         {
-            return AuthResult.Failure(
-                StatusCodes.Status404NotFound,
-                AuthErrors.RoleNotFound
-            );
+            return Result.Failure(StatusCodes.Status404NotFound, AuthErrors.RoleNotFound);
         }
 
         await _applicationUserManager.AddToRoleAsync(createdUser, role.Name!);
         return Result.Success();
     }
 
+    public async Task<IAuthOwnerResult> AuthenticatRestaurantOwnerAsync(LoginDTO loginDto)
+    {
+        var user = await _applicationUserManager.FindByNameAsync(loginDto.Username);
+        if(user is null)
+        {
+            return AuthOwnerResult.Failure(
+                StatusCodes.Status404NotFound,
+                AuthErrors.UserNotFound
+            );
+        }
+
+        var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, loginDto.Password);
+        if(!isPasswordVerified)
+        {
+            return AuthOwnerResult.Failure(
+                StatusCodes.Status401Unauthorized,
+                AuthErrors.LoginError
+            );
+        }
+
+        var claims = new List<Claim> {
+            new(ApplicationConstants.RestaurantIdClaim, user.RestaurantId.ToString()!)
+        };
+        var result = await GenerateTokenAsync(user, claims);
+        return (IAuthOwnerResult) result;
+    }
+
     public async Task<IResult> RegisterMobileUserAsync(RegisterMobileUserDTO registerMobileUserDTO)
     {
-        var user = await _applicationUserManager.FindByEmailAsync(registerMobileUserDTO.Email);
-        if(user is not null)
+        var user = await _applicationUserManager.FindByNameAsync(registerMobileUserDTO.Phone);
+        if (user is not null)
         {
-            return AuthResult.Failure(
+            return Result.Failure(
                 StatusCodes.Status403Forbidden,
                 AuthErrors.UserExists
-                );
+            );
         }
 
         var newuser = new ApplicationUser
@@ -112,45 +127,20 @@ public class IdentityService : IIdentityService
             return Result.Failure(
                 StatusCodes.Status500InternalServerError,
                 AuthErrors.UserCreationFailed
-                );
+            );
         }
 
         var createdUser = await _applicationUserManager.FindByEmailAsync(registerMobileUserDTO.Email);
         if (createdUser is null)
         {
-            return AuthResult.Failure(
+            return Result.Failure(
                 StatusCodes.Status404NotFound,
                 AuthErrors.RoleNotFound
             );
         }
 
-        await _applicationUserManager.AddToRoleAsync(createdUser, "User");
+        await _applicationUserManager.AddToRoleAsync(createdUser, UserRoles.User.ToString());
         return Result.Success();
-
-    }
-
-    public async Task<IAuthResult> AuthenticateUserAsync(LoginDTO loginDto)
-    {
-        var user = await _applicationUserManager.FindByNameAsync(loginDto.Username);
-        if(user is null)
-        {
-            return AuthResult.Failure(
-                StatusCodes.Status404NotFound,
-                AuthErrors.UserNotFound
-            );
-        }
-
-        var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, loginDto.Password);
-        if(!isPasswordVerified)
-        {
-            return AuthResult.Failure(
-                StatusCodes.Status401Unauthorized,
-                AuthErrors.LoginError
-            );
-        }
-
-        var result = await GenerateTokenAsync(user);
-        return result;
     }
 
     public async Task<IAuthResult> AuthenticateMobileUserAsync(MobileUserLoginDto mobileUserLoginDto)
@@ -158,7 +148,7 @@ public class IdentityService : IIdentityService
         var user = await _applicationUserManager.FindByNameAsync(mobileUserLoginDto.Phone);
         if (user is null)
         {
-            return AuthResult.Failure(
+            return AuthOwnerResult.Failure(
                 StatusCodes.Status404NotFound,
                 AuthErrors.UserNotFound
             );
@@ -167,7 +157,7 @@ public class IdentityService : IIdentityService
         var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, mobileUserLoginDto.Password);
         if (!isPasswordVerified)
         {
-            return AuthResult.Failure(
+            return AuthOwnerResult.Failure(
                 StatusCodes.Status401Unauthorized,
                 AuthErrors.LoginError
             );
@@ -185,26 +175,95 @@ public class IdentityService : IIdentityService
         var expiryInSeconds = claimsIdentity.FindFirst(JwtRegisteredClaimNames.Exp)?.Value;
         var userId = claimsIdentity.FindFirst(JwtRegisteredClaimNames.Sid)?.Value;
         var jwtId = claimsIdentity.Claims.SingleOrDefault(claim => claim.Type == JwtRegisteredClaimNames.Jti)?.Value;
-        var restaurantId = claimsIdentity.Claims.SingleOrDefault(claim => claim.Type == ApplicationConstants.RestaurantIdClaim)?.Value;
+        var restaurantId = claimsIdentity.Claims
+            .SingleOrDefault(claim => claim.Type == ApplicationConstants.RestaurantIdClaim)?.Value;
         var roles = claimsIdentity.Claims.Where(claim => claim.Type == ClaimTypes.Role).Select(claim => claim.Value);
 
         if(string.IsNullOrEmpty(expiryInSeconds)
             || string.IsNullOrEmpty(jwtId)
-            || string.IsNullOrEmpty(userId)
-            || string.IsNullOrEmpty(restaurantId))
+            || string.IsNullOrEmpty(userId))
             return AuthResult.Failure(AuthErrors.ClaimsNotFound);
 
-        var accessTokenValidationResult = ValidateAccessToken(expiryInSeconds, accessToken, refreshToken, userId, restaurantId, roles);
-        if(accessTokenValidationResult.IsSuccess) return accessTokenValidationResult;
+        var isRestaurantOwner = roles.Contains(UserRoles.Admin.ToString());
+        if(isRestaurantOwner)
+        {
+            if(string.IsNullOrEmpty(restaurantId)) return AuthResult.Failure(AuthErrors.ClaimsNotFound);
+
+            var ownerAccessTokenValidationResult = ValidateAccessToken(expiryInSeconds, accessToken,
+                refreshToken, userId, roles, restaurantId);
+            if(ownerAccessTokenValidationResult.IsSuccess) return ownerAccessTokenValidationResult;
+        }
+
+        if(!isRestaurantOwner)
+        {
+            var accessTokenValidationResult = ValidateAccessToken(expiryInSeconds, accessToken, refreshToken, userId, roles);
+            if(!accessTokenValidationResult.IsSuccess) return accessTokenValidationResult;
+        }
 
         var refreshTokenValidationResult = await ValidateRefreshTokenAsync(jwtId, refreshToken, cancellationToken);
-        if(!refreshTokenValidationResult.IsSuccess) return (AuthResult) refreshTokenValidationResult;
+        if(!refreshTokenValidationResult.IsSuccess) return (IAuthResult) refreshTokenValidationResult;
 
         var user = await _applicationUserManager.FindByIdAsync(userId);
-        if(user is null) return AuthResult.Failure(AuthErrors.UserNotFound);
-        if(user.RestaurantId == new Guid(restaurantId)) return AuthResult.Failure(AuthErrors.InvalidClaim);
+        if(user is null) return AuthOwnerResult.Failure(AuthErrors.UserNotFound);
+
+        if (isRestaurantOwner)
+        {
+            if (user.RestaurantId != new Guid(restaurantId!)) return AuthOwnerResult.Failure(AuthErrors.InvalidClaim);
+
+            var claims = new List<Claim> {
+                new(ApplicationConstants.RestaurantIdClaim, user.RestaurantId.ToString()!)
+            };
+            await GenerateTokenAsync(user, claims);
+        }
 
         return await GenerateTokenAsync(user);
+    }
+
+    private async Task<IAuthResult> GenerateTokenAsync(ApplicationUser user, List<Claim>? claims = null)
+    {
+        var jwtId = Guid.NewGuid();
+
+        var authClaims = new List<Claim>
+        {
+            new(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new(JwtRegisteredClaimNames.Jti, jwtId.ToString()),
+            new(JwtRegisteredClaimNames.Email, user.Email!)
+        };
+
+        if (claims is not null) authClaims.AddRange(claims);
+
+        var userRoles = await _applicationUserManager.GetRolesAsync(user);
+        userRoles.ToList().ForEach(role => authClaims.Add(new(ClaimTypes.Role, role)));
+
+        var securityToken = new TokenBuilder()
+            .AddIssuer(_configuration["JWT:ValidIssuer"]!)
+            .AddAudience(_configuration["JWT:ValidAudience"]!)
+            .AddExpiry(_dateTime.Now.AddMinutes(5))
+            .AddNotBefore(_dateTime.Now)
+            .AddClaims(authClaims)
+            .AddKey(_configuration["JWT:Secret"]!)
+            .Build();
+        var accessToken = new JwtSecurityTokenHandler().WriteToken(securityToken);
+
+        var refreshToken = new RefreshToken
+        {
+            JwtId = jwtId,
+            ApplicationUserId = user.Id,
+            CreatedDate = _dateTime.Now,
+            Expiry = _dateTime.Now.AddDays(30)
+        };
+        await _dbContext.DbSet<RefreshToken>().AddAsync(refreshToken);
+        await _dbContext.SaveChangesAsync();
+
+        if (userRoles.Contains(UserRoles.Admin.ToString()))
+        {
+            return AuthOwnerResult.Success(accessToken, refreshToken.Id.ToString(), securityToken.ValidTo,
+                user.Id.ToString(), user.RestaurantId.ToString()!, userRoles);
+        }
+
+        return AuthResult.Success(accessToken, refreshToken.Id.ToString(), securityToken.ValidTo,
+                user.Id.ToString(), userRoles); ;
     }
 
     private async Task<(bool IsValid, ClaimsIdentity ClaimsIdentity)> GetPrincipalFromExpiredTokenAsync(string accessToken)
@@ -212,11 +271,11 @@ public class IdentityService : IIdentityService
         var tokenHandler = new JwtSecurityTokenHandler();
         var result = await tokenHandler.ValidateTokenAsync(accessToken, _tokenValidationParameters);
 
-        if(result.IsValid
+        if (result.IsValid
             && result.SecurityToken is JwtSecurityToken jwtSecurityToken
             && jwtSecurityToken.Header.Alg.Equals(SecurityAlgorithms.HmacSha256.ToString()))
         {
-           return (IsValid: true, ClaimsIdentity: result.ClaimsIdentity);
+            return (IsValid: true, ClaimsIdentity: result.ClaimsIdentity);
         }
 
         return (IsValid: false, ClaimsIdentity: new ClaimsIdentity());
@@ -233,54 +292,34 @@ public class IdentityService : IIdentityService
         return false;
     }
 
-    private async Task<IAuthResult> GenerateTokenAsync(ApplicationUser user)
+    private AuthOwnerResult ValidateAccessToken(string expiryInSeconds, string accessToken,
+        string refreshToken, string userId, IEnumerable<string> roles, string restaurantId)
     {
-        var jwtId = Guid.NewGuid();
+        var (isExpired, expiryDateInUTC) = IsTokenExpired(expiryInSeconds);
 
-        var authClaims = new List<Claim>
-        {
-            new(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-            new(JwtRegisteredClaimNames.Jti, jwtId.ToString()),
-            new(JwtRegisteredClaimNames.Email, user.Email!),
-            new(ApplicationConstants.RestaurantIdClaim, user.RestaurantId.ToString()),
-        };
+        if (!isExpired) return AuthOwnerResult.Success(accessToken, refreshToken.ToString(),
+            expiryDateInUTC, userId, restaurantId, roles);
 
-        var userRoles = await _applicationUserManager.GetRolesAsync(user);
-        userRoles.ToList().ForEach(role => authClaims.Add(new(ClaimTypes.Role, role)));
-
-        var securityToken = new TokenBuilder()
-            .AddIssuer(_configuration["JWT:ValidIssuer"]!)
-            .AddAudience(_configuration["JWT:ValidAudience"]!)
-            .AddExpiry(_dateTime.Now.AddMinutes(5))
-            .AddNotBefore(_dateTime.Now)
-            .AddClaims(authClaims)
-            .AddKey(_configuration["JWT:Secret"]!)
-            .Build();
-        var token = new JwtSecurityTokenHandler().WriteToken(securityToken);
-
-        var refreshToken = new RefreshToken {
-            JwtId = jwtId,
-            ApplicationUserId = user.Id,
-            CreatedDate = _dateTime.Now,
-            Expiry = _dateTime.Now.AddDays(30)
-        };
-        await _dbContext.DbSet<RefreshToken>().AddAsync(refreshToken);
-        await _dbContext.SaveChangesAsync();
-
-        return AuthResult.Success(token, refreshToken.Id.ToString(), securityToken.ValidTo,
-            user.Id.ToString(), user.RestaurantId.ToString(), userRoles);
+        return AuthOwnerResult.Failure();
     }
 
     private IAuthResult ValidateAccessToken(string expiryInSeconds, string accessToken,
-        string refreshToken, string userId, string restaurantId, IEnumerable<string> roles)
+        string refreshToken, string userId, IEnumerable<string> roles)
+    {
+        var (isExpired, expiryDateInUTC) = IsTokenExpired(expiryInSeconds);
+
+        if (!isExpired) return AuthResult.Success(accessToken, refreshToken.ToString(),
+            expiryDateInUTC, userId, roles);
+
+        return AuthResult.Failure();
+    }
+
+    private (bool isExpired, DateTime expiryDateInUTC) IsTokenExpired(string expiryInSeconds)
     {
         var expiryDateInUTC = DateTimeOffset.FromUnixTimeSeconds(long.Parse(expiryInSeconds)).UtcDateTime;
         var isExpired = expiryDateInUTC < _dateTime.Now;
-        if (!isExpired) return AuthResult.Success(accessToken, refreshToken.ToString(),
-            expiryDateInUTC, userId, restaurantId, roles);
 
-        return AuthResult.Failure();
+        return (isExpired, expiryDateInUTC);
     }
 
     private async Task<IResult> ValidateRefreshTokenAsync(string accessTokenId, string refreshToken, CancellationToken cancellationToken)
@@ -289,10 +328,10 @@ public class IdentityService : IIdentityService
             .DbSet<RefreshToken>()
             .SingleOrDefaultAsync(r => r.Id == new Guid(refreshToken), cancellationToken);
 
-        if(storedRefreshToken is null) return AuthResult.Failure(AuthErrors.InvalidToken);
-        if(storedRefreshToken.JwtId != new Guid(accessTokenId)) return AuthResult.Failure(AuthErrors.TokenMismatch);
-        if(storedRefreshToken.Expiry < _dateTime.Now) return AuthResult.Failure(AuthErrors.Expired);
-        if(storedRefreshToken.Used) return AuthResult.Failure(AuthErrors.TokenIsUsed);
+        if(storedRefreshToken is null) return AuthOwnerResult.Failure(AuthErrors.InvalidToken);
+        if(storedRefreshToken.JwtId != new Guid(accessTokenId)) return AuthOwnerResult.Failure(AuthErrors.TokenMismatch);
+        if(storedRefreshToken.Expiry < _dateTime.Now) return AuthOwnerResult.Failure(AuthErrors.Expired);
+        if(storedRefreshToken.Used) return AuthOwnerResult.Failure(AuthErrors.TokenIsUsed);
 
         storedRefreshToken.MarkIsUsed(true);
         _dbContext.DbSet<RefreshToken>().Update(storedRefreshToken);

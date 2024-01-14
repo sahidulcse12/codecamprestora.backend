@@ -1,6 +1,6 @@
 
-using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 
 namespace CodeCampRestora.Application.Features.Auths.Commands.Login.CreateLogin;
 

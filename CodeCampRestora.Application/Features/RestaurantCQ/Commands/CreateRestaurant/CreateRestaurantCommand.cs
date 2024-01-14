@@ -3,8 +3,4 @@ using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 
 namespace CodeCampRestora.Application.Features.RestaurantCQ.Commands.CreateRestaurant;
 
-public record CreateRestaurantCommand : ICommand<IResult>
-{
-    public string Name { get; set; } = default!;
-    public Guid ImageId { get; set; } = default!;
-}
+public record CreateRestaurantCommand(string Name, Guid ImageId) : ICommand<IResult<Guid>>;

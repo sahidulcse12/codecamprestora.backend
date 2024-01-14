@@ -19,6 +19,7 @@ public record AuthErrors
     public static Error InvalidClaim => new("Jwt.InvalidClaim", "The token contains invalid claims.");
     public static Error TokenMismatch => new("Jwt.TokenMismatch", "The refresh token does not belong to this access token.");
     public static Error TokenIsUsed => new("Jwt.Used", "The refresh token has been used.");
+    public static Error TokenGenerationFailed => new("JWT.GenerationFailed", "Something went wrong.");
 }
 
 public record RestaurantErrors

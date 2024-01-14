@@ -3,4 +3,4 @@ using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 
 namespace CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
 
-public record CreateRefreshTokenCommand(string accessToken, string refreshToken): ICommand<IAuthResult>;
+public record CreateRefreshTokenCommand(string AccessToken, string RefreshToken): ICommand<IAuthResult>;

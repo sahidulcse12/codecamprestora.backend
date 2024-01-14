@@ -18,7 +18,7 @@ public class CreateLoginCommandHandler : ICommandHandler<CreateLoginCommand, IRe
     public async Task<IResult> Handle(CreateLoginCommand request, CancellationToken cancellationToken)
     {
         var loginDTO = request.Adapt<LoginDTO>();
-        var result = await _identityService.AuthenticateUserAsync(loginDTO);
+        var result = await _identityService.AuthenticatRestaurantOwnerAsync(loginDTO);
 
         return result;
     }

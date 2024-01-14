@@ -60,7 +60,7 @@ public interface IAuthResult : IResult
     string RefreshToken { get; }
     DateTime ExpiresIn { get; }
     string UserId { get; }
-    string RestaurantId { get; }
+    public IEnumerable<string> Roles { get; }
 }
 
 public class AuthResult : Result, IAuthResult
@@ -69,30 +69,90 @@ public class AuthResult : Result, IAuthResult
     public string RefreshToken { get; }
     public DateTime ExpiresIn { get; }
     public string UserId { get; }
-    public string RestaurantId { get; }
     public IEnumerable<string> Roles { get; }
 
-    private AuthResult(int statusCode, Error[] errors, string accessToken, string refreshToken, DateTime expiresIn,
-         string userId, string restaurantId, IEnumerable<string> roles) : base(statusCode, errors)
+    protected AuthResult(int statusCode, Error[] errors, string accessToken, string refreshToken, DateTime expiresIn,
+         string userId, IEnumerable<string> roles) : base(statusCode, errors)
     {
         AccessToken = accessToken;
         RefreshToken = refreshToken;
         ExpiresIn = expiresIn;
         UserId = userId;
-        RestaurantId = restaurantId;
         Roles = roles;
     }
 
-    private AuthResult(int statusCode, Error[] errors) : this(statusCode, errors, string.Empty,
-         string.Empty, DateTime.UtcNow, string.Empty, string.Empty, new List<string>())
+    protected AuthResult(int statusCode, Error[] errors) : this(statusCode, errors, string.Empty,
+         string.Empty, DateTime.UtcNow, string.Empty, new List<string>())
     {
 
     }
 
     public static AuthResult Success(string accessToken, string refreshToken, DateTime
-        expiresIn, string userId, string restaurantId, IEnumerable<string> roles) =>
-        new(StatusCodes.Status200OK, Array.Empty<Error>(), accessToken, refreshToken, expiresIn, userId, restaurantId, roles);
+        expiresIn, string userId, IEnumerable<string> roles) =>
+        new(StatusCodes.Status200OK, Array.Empty<Error>(), accessToken, refreshToken, expiresIn, userId, roles);
 
     public new static AuthResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, errors);
     public new static AuthResult Failure(int statusCode, params Error[] errors) => new(statusCode, errors);
 }
+
+public interface IAuthOwnerResult : IAuthResult
+{
+    string RestaurantId { get; }
+}
+
+public class AuthOwnerResult : AuthResult, IAuthOwnerResult
+{
+    public string RestaurantId { get; }
+
+    private AuthOwnerResult(int statusCode, Error[] errors, string accessToken, string refreshToken,
+        DateTime expiresIn, string userId, string restaurantId, IEnumerable<string> roles)
+        : base(statusCode, errors, accessToken, refreshToken, expiresIn, userId, roles)
+    {
+        RestaurantId = restaurantId;
+    }
+
+    private AuthOwnerResult(int statusCode, Error[] errors) : this(statusCode, errors, string.Empty,
+         string.Empty, DateTime.UtcNow, string.Empty, string.Empty, new List<string>())
+    {
+
+    }
+
+    public static AuthOwnerResult Success(string accessToken, string refreshToken, DateTime
+        expiresIn, string userId, string restaurantId, IEnumerable<string> roles) =>
+        new(StatusCodes.Status200OK, Array.Empty<Error>(), accessToken, refreshToken, expiresIn, userId, restaurantId, roles);
+
+    public new static AuthOwnerResult Failure(params Error[] errors) => new(StatusCodes.Status400BadRequest, errors);
+    public new static AuthOwnerResult Failure(int statusCode, params Error[] errors) => new(statusCode, errors);
+}
+
+
+// public class AuthPayload
+// {
+//     public string AccessToken { get; init; } = default!;
+//     public string RefreshToken { get; init; } = default!;
+//     public DateTime ExpiresIn { get; init; } = default!;
+//     public string UserId { get; init; } = default!;
+//     public IEnumerable<string> Roles { get; init; } = new List<string>();
+// }
+
+// public class OwnerAuthPayload : AuthPayload
+// {
+//     public string RestaurantId { get; init; } = default!;
+// }
+
+// public interface IAuthResultt<T> : IResult
+// {
+//     T Payload { get; }
+// }
+
+// public class AuthResultt<T> : Result, IAuthResultt<T>
+// {
+//     public T Payload { get; }
+
+//     protected AuthResultt(int statusCode, Error[] errors, T payload) : base(statusCode, errors)
+//     {
+//         Payload = payload;
+//     }
+
+//     public static AuthResultt<T> Success(T payload) => new(StatusCodes.Status200OK, Array.Empty<Error>(), payload);
+// }

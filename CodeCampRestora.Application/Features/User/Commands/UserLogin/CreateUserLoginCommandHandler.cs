@@ -4,7 +4,7 @@ using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 
-namespace CodeCampRestora.Application.Features.Auths.Commands.User.UserLogin;
+namespace CodeCampRestora.Application.Features.User.Commands.UserLogin;
 
 public class CreateUserLoginCommandHandler : ICommandHandler<CreateUserLoginCommand, IResult>
 {

@@ -5,7 +5,8 @@ using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
-namespace CodeCampRestora.Application.Features.Auths.Commands.User.UserSignup.CreateUserSignup;
+namespace CodeCampRestora.Application.Features.User.Commands.UserSignup.CreateUserSignup;
+
 public class CreateUserSignupCommandHandler : ICommandHandler<CreateUserSignupCommand, IResult>
 {
     private readonly IIdentityService _identityService;

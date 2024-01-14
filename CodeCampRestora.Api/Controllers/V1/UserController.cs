@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CodeCampRestora.Application.Features.Auths.Commands.User.UserLogin;
+using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
-using CodeCampRestora.Application.Features.Auths.Commands.User.UserSignup.CreateUserSignup;
+using CodeCampRestora.Application.Features.User.Commands.UserSignup.CreateUserSignup;
+using CodeCampRestora.Application.Features.User.Commands.UserLogin;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -12,7 +13,7 @@ public class UserController : ApiBaseController
     public async Task<IResult> Register(CreateUserSignupCommand command)
     {
         var result = await Sender.Send(command);
-        return (IResult)result;
+        return result;
     }
 
     [HttpPost("login")]
