@@ -80,4 +80,22 @@ public abstract class Repository<TEntity, TKey> :
         var PagedList = await PagedList<TEntity>.ToPagedListAsync(Entities, PageNumber, PageSize);
         return PagedList;
     }
+
+    public virtual async Task<IList<TEntity>> Get(
+            string includeProperties = "", int pageIndex = 1, int pageSize = 10)
+    {
+        IQueryable<TEntity> query = _dbSet;
+        var total = await query.CountAsync();
+        var totalDisplay = total;
+
+        foreach (var includeProperty in includeProperties.Split
+            (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+        var result = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+        return result.ToList();
+        
+    }
 }
