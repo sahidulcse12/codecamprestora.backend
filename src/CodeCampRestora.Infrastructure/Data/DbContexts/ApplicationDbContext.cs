@@ -2,6 +2,7 @@ using CodeCampRestora.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
+using CodeCampRestora.Domain.Entities.Branches;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
 using CodeCampRestora.Domain.Entities.Orders;
 
@@ -16,6 +17,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
     public DbSet<Order> Orders {  get; set; }
     public DbSet<OrderItem> OrderItems {  get; set; }
+    public DbSet<Branch> Branches => Set<Branch>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
 }

@@ -1,3 +1,4 @@
+﻿using Microsoft.EntityFrameworkCore;
 ﻿using System.Linq.Expressions;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
 
@@ -15,4 +16,5 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object>>[] navigationProperties);
     Task<IList<TEntity>> Get(
             string includeProperties = "", int pageIndex = 1, int pageSize = 10);
+
 }
