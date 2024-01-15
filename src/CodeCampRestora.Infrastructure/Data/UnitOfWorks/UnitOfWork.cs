@@ -8,15 +8,17 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
-    public IReviewRepository Reviews { get; }
     public IRestaurantRepository Restaurants { get; }
+    public IBranchRepository Branches { get; }
     public IMenuItemRepository MenuItem { get; }
     public IMenuCategoryRepository MenuCategory { get; }
+    public IReviewRepository Reviews { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
         IImageRepository images,
+        IBranchRepository branches,
         IRestaurantRepository restaurants,
         IMenuItemRepository menuItem,
         IMenuCategoryRepository menuCategory,
@@ -25,6 +27,7 @@ public class UnitOfWork : IUnitOfWork
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
+        Branches = branches;
         Restaurants = restaurants;
         MenuItem = menuItem;
         MenuCategory = menuCategory;
