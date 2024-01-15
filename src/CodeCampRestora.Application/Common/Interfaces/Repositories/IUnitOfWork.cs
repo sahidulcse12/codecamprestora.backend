@@ -8,6 +8,7 @@ public interface IUnitOfWork
     IMenuItemRepository MenuItem { get; }
     IMenuCategoryRepository MenuCategory { get; }
     IReviewCommentRepository Comments { get; }
+    IReviewRepository Reviews { get; }
     Task SaveChangesAsync();
 }
 

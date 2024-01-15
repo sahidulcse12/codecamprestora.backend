@@ -8,11 +8,12 @@ namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 public class UnitOfWork : IUnitOfWork
 {
     public IImageRepository Images { get; }
-    public IBranchRepository Branches { get; }
     public IRestaurantRepository Restaurants { get; }
+    public IBranchRepository Branches { get; }
     public IMenuItemRepository MenuItem { get; }
     public IReviewCommentRepository Comments { get; }
     public IMenuCategoryRepository MenuCategory { get; }
+    public IReviewRepository Reviews { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
@@ -23,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
         IRestaurantRepository restaurants,
         IMenuCategoryRepository menuCategory,
         IReviewCommentRepository reviewComment,
+        IReviewRepository review,
         IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
@@ -32,6 +34,7 @@ public class UnitOfWork : IUnitOfWork
         Comments = reviewComment;
         Restaurants = restaurants;
         MenuCategory = menuCategory;
+        Reviews = review;
     }
 
     public async Task SaveChangesAsync()
