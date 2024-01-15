@@ -40,12 +40,12 @@ public class ReviewController : ApiBaseController
     [SwaggerOperation(
         Summary = "Hide or Show a Review",
         Description = @"Sample Request:
-            Patch: api/v1/Review/{reviewId}/hide-show
+            Patch: api/v1/Review
             {
              ""hideReview"": true
             }"
     )]
-    public async Task<Application.Models.IResult> HideShowReview([FromBody]  HiddenReviewCommand hiddenReviewCommand)
+    public async Task<Application.Models.IResult> HiddenReview([FromBody]  HiddenReviewCommand hiddenReviewCommand)
     {
         var result = await Sender.Send(hiddenReviewCommand);
         return result;
