@@ -1,6 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-﻿using System.Linq.Expressions;
-using CodeCampRestora.Application.Common.Helpers.Pagination;
+﻿using CodeCampRestora.Application.Common.Helpers.Pagination;
+using System.Linq.Expressions;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories;
 public interface IRepository<TEntity, TKey> where TEntity : class
