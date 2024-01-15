@@ -7,6 +7,7 @@ public interface IUnitOfWork
     IRestaurantRepository Restaurants { get; }
     IMenuItemRepository MenuItem { get; }
     IMenuCategoryRepository MenuCategory { get; }
+    IReviewRepository Reviews { get; }
     Task SaveChangesAsync();
 }
 
