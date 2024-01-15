@@ -12,5 +12,6 @@ public class Branch
     public bool IsAvailable { get; set; }
     public Guid RestaurantId { get; set; }
     public Address? Address { get; set; }
+    public List<ReviewComment>? Reviews { get; set; }
 
 }
