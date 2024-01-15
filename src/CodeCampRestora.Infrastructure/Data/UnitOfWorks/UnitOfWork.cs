@@ -1,8 +1,6 @@
-﻿using System.ComponentModel.Design;
-using CodeCampRestora.Application.Attributes;
+﻿using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.DbContexts;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.UnitOfWorks;
 

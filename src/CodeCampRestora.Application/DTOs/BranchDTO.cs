@@ -28,8 +28,8 @@ public class BranchCuisineTypeDTO
 public class BranchOpeningClosingTimeDTO
 {
     public DayOfWeek DayOfWeek { get; set; }
-    public string Opening { get; set; }
-    public string Closing { get; set; }
+    public string Opening { get; set; } = default!;
+    public string Closing { get; set; } = default!;
     public bool IsClosed { get; set; }
 }
 
