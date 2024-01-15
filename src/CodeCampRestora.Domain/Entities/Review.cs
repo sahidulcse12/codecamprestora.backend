@@ -9,6 +9,6 @@ namespace CodeCampRestora.Domain.Entities
         public Guid OrderId { set; get; }
         public Guid BranchId { set; get; }
         public bool HideReview { get; set; }
-
+        public ICollection<ReviewComment>? ReviewComments { get; set; }
     }
 }
