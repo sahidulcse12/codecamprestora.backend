@@ -239,7 +239,7 @@ public class IdentityService : IIdentityService
         var securityToken = new TokenBuilder()
             .AddIssuer(_configuration["JWT:ValidIssuer"]!)
             .AddAudience(_configuration["JWT:ValidAudience"]!)
-            .AddExpiry(_dateTime.Now.AddMinutes(5))
+            .AddExpiry(_dateTime.Now.AddMinutes(2))
             .AddNotBefore(_dateTime.Now)
             .AddClaims(authClaims)
             .AddKey(_configuration["JWT:Secret"]!)

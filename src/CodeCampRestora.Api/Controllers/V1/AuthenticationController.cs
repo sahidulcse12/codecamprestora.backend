@@ -10,7 +10,7 @@ namespace CodeCampRestora.Api.Controllers.V1;
 public class AuthenticationController : ApiBaseController
 {
     [HttpPost("register")]
-    public async Task<IResult> Register(CreateSignupCommand command)
+    public async Task<IResult> Register([FromBody] CreateSignupCommand command)
     {
         var result = await Sender.Send(command);
         return result;

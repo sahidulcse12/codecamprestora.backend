@@ -47,7 +47,7 @@ public class ApplicationDbContext
     public DbSet<Restaurant> Restaurants => Set<Restaurant>();
     public DbSet<Staff> Staffs => Set<Staff>();
     public DbSet<RefreshToken> RefreshTokens => Set<RefreshToken>();
-    public DbSet<Branch> Branches => Set<Branch>();
-    public DbSet<MenuItem> MenuItems => Set<MenuItem>();
-    public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
+    // public DbSet<Branch> Branches => Set<Branch>();
+    // public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+    // public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
 }

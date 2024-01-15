@@ -10,4 +10,4 @@ public record CreateSignupCommand(
     string Email,
     string Password,
     UserRoles RoleType
-) : ICommand<IAuthResult>;
+) : ICommand<IResult>;
