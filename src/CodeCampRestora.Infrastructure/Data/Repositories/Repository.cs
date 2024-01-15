@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
+﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
@@ -62,6 +62,17 @@ public abstract class Repository<TEntity, TKey> :
         return doesExist;
     }
 
+    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties)
+    {
+        IQueryable<TEntity> query = _dbSet;
+
+        foreach (var navigationProperty in navigationProperties)
+        {
+            query = query.Include(navigationProperty);
+        }
+
+        return query;
+    }
     public async Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize)
     {
         var Entities = _dbSet.AsQueryable();
