@@ -11,22 +11,24 @@ public class UnitOfWork : IUnitOfWork
     public IImageRepository Images { get; }
     public IRestaurantRepository Restaurants { get; }
     public IMenuItemRepository MenuItem { get; }
-
+    public IReviewCommentRepository Comments { get; }
     public IMenuCategoryRepository MenuCategory { get; }
 
     private readonly IApplicationDbContext _appplicationDbContext;
 
     public UnitOfWork(
         IImageRepository images,
-        IRestaurantRepository restaurants,
         IMenuItemRepository menuItem,
+        IRestaurantRepository restaurants,
         IMenuCategoryRepository menuCategory,
+        IReviewCommentRepository reviewComment,
         IApplicationDbContext applicationDbContext)
     {
         _appplicationDbContext = applicationDbContext;
         Images = images;
-        Restaurants = restaurants;
         MenuItem = menuItem;
+        Comments = reviewComment;
+        Restaurants = restaurants;
         MenuCategory = menuCategory;
     }
 

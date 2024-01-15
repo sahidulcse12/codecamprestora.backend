@@ -1,10 +1,11 @@
 ﻿
+using CodeCampRestora.Domain.Entities.Common;
+
 namespace CodeCampRestora.Domain.Entities;
 
-public class Comment
+public class Comment : AuditableEntity<Guid>
 {
-    public Guid Id { get; set; }
-    public string Name { get; set; }
-    public string CommentBody { get; set; }
+    public string Name { get; set; } = default!;
+    public string CommentBody { get; set; } = default!;
     public Guid BranchId { get; set; }
 }
