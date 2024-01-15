@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CodeCampRestora.Application.Features.ReviewComment;
+using CodeCampRestora.Application.Features.ReviewComments;
 using IResult = CodeCampRestora.Application.Models.IResult;
 
 namespace CodeCampRestora.Api.Controllers.V1;
@@ -9,7 +9,7 @@ namespace CodeCampRestora.Api.Controllers.V1;
 public class ReviewCommentController : ApiBaseController
 {
     [HttpPost]
-    public async Task<IResult> Create([FromBody] ReviewCommentCommand command)
+    public async Task<IResult> Create([FromBody] CreateReviewCommentCommand command)
     {
         var result = await Sender.Send(command);
         return result;

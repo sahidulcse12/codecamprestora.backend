@@ -2,7 +2,7 @@
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories;
 
-public interface IReviewCommentRepository : IRepository<Comment, Guid>
+public interface IReviewCommentRepository : IRepository<ReviewComment, Guid>
 {
 
 }

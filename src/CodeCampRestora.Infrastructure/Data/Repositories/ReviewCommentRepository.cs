@@ -7,7 +7,7 @@ using CodeCampRestora.Application.Common.Interfaces.Repositories;
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
 [ScopedLifetime]
-public class ReviewCommentRepository : Repository<Comment, Guid>, IReviewCommentRepository
+public class ReviewCommentRepository : Repository<ReviewComment, Guid>, IReviewCommentRepository
 {
     public ReviewCommentRepository(IApplicationDbContext applicationDbContext) 
         : base((DbContext)applicationDbContext)

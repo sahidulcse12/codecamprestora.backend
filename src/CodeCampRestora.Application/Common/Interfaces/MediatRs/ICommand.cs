@@ -1,4 +1,4 @@
-using CodeCampRestora.Application.Features.ReviewComment;
+using CodeCampRestora.Application.Features.ReviewComments;
 using CodeCampRestora.Application.Models;
 using MediatR;
 
