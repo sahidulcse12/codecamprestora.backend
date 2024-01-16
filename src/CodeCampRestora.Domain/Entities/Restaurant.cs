@@ -11,5 +11,5 @@ public class Restaurant : AuditableEntity<Guid>
     public int CategoryId { get; set; }
     public List<Category>? Categories { get; set; }
     public Guid BranchId { get; set; }
-    public List<Branch> Branches { get; set; }
+    public IList<Branch>? Branches { get; set; }
 }
