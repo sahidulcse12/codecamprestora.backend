@@ -49,6 +49,13 @@ public class MenuItemService : IMenuItemService
         return Result.Success(200);
     }
 
+    public async Task<IResult<List<MenuItemDto>>> GetAllMenuItemsAsync(Guid id)
+    {
+        var MenuItemsEO = await _unitOfWork.MenuItem.GetAllByIdAsync(id);
+        var MenuItemsDto = MenuItemsEO.Adapt<List<MenuItemDto>>();
+        return Result<List<MenuItemDto>>.Success(MenuItemsDto);
+    }
+
     public async Task<IResult<MenuItemDto>> GetMenuItemByIdAsync(Guid Id)
     {
         var MenuItem = await _unitOfWork.MenuItem.GetByIdAsync(Id);
