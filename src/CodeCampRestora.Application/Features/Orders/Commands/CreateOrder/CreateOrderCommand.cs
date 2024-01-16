@@ -10,13 +10,10 @@ namespace CodeCampRestora.Application.Features.Orders.Commands.CreateOrder
     {
         public string CustomerName { get; set; } = default!;
         public string Phone { get; set; } = default!;
-        public DateTime BookingTime { get; set; }
+        public string BookingTime { get; set; } = default!;
         public BookingType BookingType { get; set; }
         public int Seats { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }
-
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int OrderTrackingNumber { get; set; }
         public string Comment { get; set; } = string.Empty;
         public string ServingTime { get; set; } = string.Empty;
         public double SubTotal { get; set; }

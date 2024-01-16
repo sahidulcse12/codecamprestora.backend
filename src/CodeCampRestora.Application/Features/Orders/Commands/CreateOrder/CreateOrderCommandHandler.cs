@@ -17,12 +17,12 @@ namespace CodeCampRestora.Application.Features.Orders.Commands.CreateOrder
         }
         public async Task<IResult<OrderDTO>> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var orderEO = request.Adapt<Order>();
+            var order = request.Adapt<Order>();
 
-            await _unitOfWork.Orders.AddAsync(orderEO);
+            await _unitOfWork.Orders.AddAsync(order);
             await _unitOfWork.SaveChangesAsync();
 
-            var orderDto = orderEO.Adapt<OrderDTO>();
+            var orderDto = order.Adapt<OrderDTO>();
             return Result<OrderDTO>.Success(orderDto);
         }
     }

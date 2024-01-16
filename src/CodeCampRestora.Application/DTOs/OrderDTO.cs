@@ -38,8 +38,8 @@ public class OrderItemDTO
     public string ItemName { get; set; } = default!;
     public int Quantity { get; set; } = default!;
     public double Price { get; set; } = default!;
-    public Guid OrderId { get; set; }
-    public Guid MenuItemId { get; set; }
+    // public Guid OrderId { get; set; }
+    // public Guid MenuItemId { get; set; }
     // public OrderDTO? Order { get; set; }
     // public MenuItem MenuItem { get; set; }
 }

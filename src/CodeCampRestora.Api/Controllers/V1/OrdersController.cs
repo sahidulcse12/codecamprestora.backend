@@ -54,7 +54,7 @@ namespace CodeCampRestora.Api.Controllers.V1
 
         [HttpPost]
         [SwaggerOperation(
-        Summary = "Create a order",
+        Summary = "Create an order",
         Description = @"Sample Request:
         Post: api/v1/Orders
         {
@@ -71,7 +71,7 @@ namespace CodeCampRestora.Api.Controllers.V1
 
         [HttpPatch]
         [SwaggerOperation(
-        Summary = "Create a order",
+        Summary = "Update an order",
         Description = @"Sample Request:
         Put: api/v1/BookingOrder/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c
         {
