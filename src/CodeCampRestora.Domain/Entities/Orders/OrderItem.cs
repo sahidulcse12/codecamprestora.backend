@@ -4,8 +4,9 @@ namespace CodeCampRestora.Domain.Entities.Orders
 {
     public class OrderItem : AuditableEntity<Guid>
     {
-        public int Quantity { get; set; }
-        public double Price { get; set; }
+        public string ItemName { get; set; } = default!;
+        public int Quantity { get; set; } = default!;
+        public double Price { get; set; } = default!;
         public Guid OrderId { get; set; }
         public Guid MenuItemId { get; set; }
         // public Order? Order { get; set; }

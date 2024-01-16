@@ -12,16 +12,16 @@ public class OrderDTO
     public Guid BranchId { get; set; }
     public Guid UserId { get; set; }
     public string CustomerName { get; set; } = default!;
-    public string CustomerMobileNumber { get; set; } = default!;
+    public string Phone { get; set; } = default!;
     public DateTime BookingTime { get; set; }
     public BookingType BookingType { get; set; }
-    public int NoOfSeats { get; set; }
+    public int Seats { get; set; }
     public OrderStatus OrderStatus { get; set; }
 
     [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OrderTrackingNumber { get; set; }
-    public string SpecialNote { get; set; } = string.Empty;
-    public string TimeNeededForServing { get; set; } = string.Empty;
+    public string Comment { get; set; } = string.Empty;
+    public string ServingTime { get; set; } = string.Empty;
     public double SubTotal { get; set; }
     public double VAT { get; set; }
     public double DeliveryCharge { get; set; }
@@ -35,8 +35,9 @@ public class OrderDTO
 
 public class OrderItemDTO
 {
-    public int Quantity { get; set; }
-    public double Price { get; set; }
+    public string ItemName { get; set; } = default!;
+    public int Quantity { get; set; } = default!;
+    public double Price { get; set; } = default!;
     public Guid OrderId { get; set; }
     public Guid MenuItemId { get; set; }
     // public OrderDTO? Order { get; set; }
