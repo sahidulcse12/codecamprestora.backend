@@ -9,3 +9,4 @@ namespace CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 public record GetAllBranchesQuery(Guid Id) : IQuery<IResult<List<BranchListDTO>>>;
 
 
+
