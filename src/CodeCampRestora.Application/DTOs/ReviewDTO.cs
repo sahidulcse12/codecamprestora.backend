@@ -6,7 +6,7 @@
         public  double Rating { set; get; }
         public Guid OrderId { set; get; }
         public Guid BranchId {  set; get; }
-        public bool HideReview { get; set; }
+        public bool IsHideReview { get; set; }
         
     }
 }
