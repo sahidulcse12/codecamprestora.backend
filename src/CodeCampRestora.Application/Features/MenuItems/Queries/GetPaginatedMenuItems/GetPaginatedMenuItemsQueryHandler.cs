@@ -7,16 +7,19 @@ using CodeCampRestora.Domain.Entities;
 
 namespace CodeCampRestora.Application.Features.MenuItems.Queries.GetPaginatedMenuItems;
 
-public class GetPaginatedMenuItemsQueryHandler : IQueryHandler<GetPaginatedMenuItemsQuery, IResult<PaginationDto<MenuItem>>>
+public class GetPaginatedMenuItemsQueryHandler 
+: IQueryHandler<GetPaginatedMenuItemsQuery, IResult<PaginationDto<MenuItemDto>>>
 {
     private readonly IMenuItemService _menuItemService;
     public GetPaginatedMenuItemsQueryHandler(IMenuItemService menuItemService)
     {
         _menuItemService = menuItemService;
     }
-    public Task<IResult<PaginationDto<MenuItem>>> Handle(GetPaginatedMenuItemsQuery request, CancellationToken cancellationToken)
+    public Task<IResult<PaginationDto<MenuItemDto>>> Handle(GetPaginatedMenuItemsQuery request, CancellationToken cancellationToken)
     {
-        var result = _menuItemService.GetPaginatedAsync(request.PageNumber, request.PageSize);
+        var result = _menuItemService
+        .GetPaginatedAsync(request.BranchId, request.PageNumber, request.PageSize);
+
         return result;
     }
 }
