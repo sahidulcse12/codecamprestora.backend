@@ -3,7 +3,9 @@ using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Commands.DeleteMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Queries.GetAllMenuItems;
+using CodeCampRestora.Application.Features.MenuItems.Queries.GetPaginatedMenuItems;
 using CodeCampRestora.Application.Models;
+using CodeCampRestora.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 
@@ -58,6 +60,19 @@ namespace CodeCampRestora.Api.Controllers.V1
             Guid id)
         {
             var result = await Sender.Send(new GetAllMenuItemsQuery(id));
+            return result;
+        }
+
+        [HttpGet("Paginated")]
+        [SwaggerOperation(
+            Summary = "Get paginated menu items",
+            Description = @"Sample Request:
+            Get: api/v1/MenuItem/Paginated?PageNumber=1&PageSize=10"
+        )]
+        public async Task<IResult<PaginationDto<MenuItem>>> GetPaginated(int PageNumber, int PageSize)
+        {
+            
+            var result = await Sender.Send(new GetPaginatedMenuItemsQuery(PageNumber, PageSize));
             return result;
         }
     }
