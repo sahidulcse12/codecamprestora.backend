@@ -10,6 +10,5 @@ public class ReviewComment : AuditableEntity<Guid>
     public bool IsCommentHidden { get; set; } = false;
     public Guid ReviewId { get; set; }
     public virtual Review Review { get; set; }
-    public Guid BranchId { get; set; }
-    public virtual Branch Branch { get; set; }
+    
 }
