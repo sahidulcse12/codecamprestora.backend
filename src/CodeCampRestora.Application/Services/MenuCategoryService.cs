@@ -2,6 +2,7 @@ using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities;
 using Mapster;
@@ -12,14 +13,28 @@ namespace CodeCampRestora.Application.Services;
 public class MenuCategoryService : IMenuCategoryService
 {
     private readonly IUnitOfWork _unitOfWork;
-    public MenuCategoryService(IUnitOfWork unitOfWork)
+    private readonly IImageService _imageService;
+    public MenuCategoryService(IUnitOfWork unitOfWork, IImageService imageService)
     {
         _unitOfWork = unitOfWork;
+        _imageService = imageService;
     }
-    public async Task<IResult<Guid>> CreateCategoryAsync(MenuCategory menuCategory)
+    public async Task<IResult<Guid>> CreateCategoryAsync(CreateMenuCategoryCommand menuCategoryDto)
     {
-        await _unitOfWork.MenuCategory.AddAsync(menuCategory);
-        await _unitOfWork.SaveChangesAsync();
+        var imageEO = menuCategoryDto.Image.Adapt<Image>();
+        var result = await _imageService.UploadImageAsync(imageEO);
+
+        var menuCategory = menuCategoryDto.Adapt<MenuCategory>();
+
+        if(result.IsSuccess)
+        {
+            var imageId = result.Data;
+            
+            menuCategory.ImageId = imageId;
+            await _unitOfWork.MenuCategory.AddAsync(menuCategory);
+            await _unitOfWork.SaveChangesAsync();
+        }
+
         return Result<Guid>.Success(menuCategory.Id);
     }
 
