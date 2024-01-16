@@ -1,7 +1,6 @@
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Services
 {
