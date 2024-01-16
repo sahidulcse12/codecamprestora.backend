@@ -19,7 +19,7 @@ public class MenuItemService : IMenuItemService
     }
     public async Task<IResult<Guid>> CreateItemAsync(MenuItem menuItem)
     {
-        await _unitOfWork.MenuItem.AddAsync(menuItem);
+        await _unitOfWork.MenuItem.UpdateAsync(menuItem);
         await _unitOfWork.SaveChangesAsync();
         return Result<Guid>.Success(menuItem.Id);
     }

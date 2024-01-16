@@ -17,7 +17,7 @@ public class CreateReviewCommandHandler : ICommandHandler<CreateReviewCommand, I
     {
         var ReviewEO = request.Adapt<Domain.Entities.Review>();
 
-        await _unitOfWork.Reviews.AddAsync(ReviewEO);
+        await _unitOfWork.Reviews.UpdateAsync(ReviewEO);
         await _unitOfWork.SaveChangesAsync();
 
         var reviewOrderDto = ReviewEO.Adapt<ReviewDTO>();

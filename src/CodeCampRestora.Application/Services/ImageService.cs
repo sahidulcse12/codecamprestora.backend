@@ -22,7 +22,7 @@ public class ImageService : IImageService
 
     public async Task<IResult<Guid>> UploadImageAsync(Image image)
     {
-        await _unitOfWork.Images.AddAsync(image);
+        await _unitOfWork.Images.UpdateAsync(image);
         await _unitOfWork.SaveChangesAsync();
 
         return Result<Guid>.Success(image.Id);

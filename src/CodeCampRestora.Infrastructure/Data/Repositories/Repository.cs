@@ -17,7 +17,7 @@ public abstract class Repository<TEntity, TKey> :
         _dbSet = _dbContext.Set<TEntity>();
     }
 
-    public virtual async Task AddAsync(TEntity entity)
+    public virtual async Task UpdateAsync(TEntity entity)
     {
         await _dbSet.AddAsync(entity);
     }

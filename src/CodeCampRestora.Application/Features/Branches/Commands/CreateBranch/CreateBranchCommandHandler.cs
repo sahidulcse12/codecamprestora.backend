@@ -25,7 +25,7 @@ public class  CreateBranchCommandHandler : ICommandHandler<CreateBranchCommand, 
     {
         var branch = request.Adapt<Branch>();
 
-        await _unitOfWork.Branches.AddAsync(branch);
+        await _unitOfWork.Branches.UpdateAsync(branch);
         await _unitOfWork.SaveChangesAsync();
 
         var branchDTO = branch.Adapt<BranchDTO>();

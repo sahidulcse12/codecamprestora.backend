@@ -18,7 +18,7 @@ public class RestaurantService : IRestaurantService
 
     public async Task<IResult> CreateRestaurant(Restaurant restaurant)
     {  
-        await _unitOfWork.Restaurants.AddAsync(restaurant);
+        await _unitOfWork.Restaurants.UpdateAsync(restaurant);
         await _unitOfWork.SaveChangesAsync();
         return Result.Success();
     }
