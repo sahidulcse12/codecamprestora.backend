@@ -12,6 +12,6 @@ namespace CodeCampRestora.Application.Common.Interfaces.Services
         Task<IResult<MenuItemDto>> GetMenuItemByIdAsync(Guid Id);
         Task<IResult> DeleteItemAsync(Guid Id);
         Task<IResult<List<MenuItemDto>>> GetAllMenuItemsAsync(Guid id);
-        Task<IResult<PaginationDto<MenuItem>>> GetPaginatedAsync(int pageNumber, int pageSize);
+        Task<IResult<PaginationDto<MenuItemDto>>> GetPaginatedAsync(Guid Id, int pageNumber, int pageSize);
     }
 }
