@@ -2,6 +2,7 @@ using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Commands.DeleteMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Queries;
+using CodeCampRestora.Application.Features.MenuItems.Queries.GetAllMenuItems;
 using CodeCampRestora.Application.Models;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
@@ -43,6 +44,20 @@ namespace CodeCampRestora.Api.Controllers.V1
             Guid id)
         {
             var result = await Sender.Send(new DeleteMenuItemCommand(id));
+            return result;
+        }
+
+        [HttpGet("GetAll{id:Guid}")]
+        [SwaggerOperation(
+            Summary = "Get all menu items",
+            Description = @"Sample Request:
+            Get: api/v1/MenuItem/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+        )]
+        public async Task<IResult<List<MenuItemDto>>> GetAll(
+            [FromRoute, SwaggerParameter(Description = "Get all menu items by branch id", Required = true)]
+            Guid id)
+        {
+            var result = await Sender.Send(new GetAllMenuItemsQuery(id));
             return result;
         }
     }
