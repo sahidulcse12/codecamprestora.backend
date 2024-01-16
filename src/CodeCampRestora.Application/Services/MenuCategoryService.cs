@@ -70,4 +70,11 @@ public class MenuCategoryService : IMenuCategoryService
         var menuCategoryDto = MenuCategory.Adapt<MenuCategoryDto>();
         return Result<MenuCategoryDto>.Success(menuCategoryDto);
     }
+
+    public async Task<IResult<PaginationDto<MenuCategory>>> GetPaginatedMenuCategoryAsync(int pageNumber, int pageSize)
+    {
+        var menuCategoriesEO = await _unitOfWork.MenuCategory.GetPaginatedAsync(pageNumber, pageSize);
+        var response= new PaginationDto<MenuCategory>(menuCategoriesEO, menuCategoriesEO.TotalCount, menuCategoriesEO.TotalPages);
+        return Result<PaginationDto<MenuCategory>>.Success(response);
+    }
 }
