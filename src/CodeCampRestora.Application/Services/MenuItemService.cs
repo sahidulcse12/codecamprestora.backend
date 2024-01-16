@@ -69,10 +69,13 @@ public class MenuItemService : IMenuItemService
         return Result<MenuItemDto>.Success(menuItemDto);
     }
 
-    public async Task<IResult<PaginationDto<MenuItem>>> GetPaginatedAsync(int pageNumber, int pageSize)
+    public async Task<IResult<PaginationDto<MenuItemDto>>> GetPaginatedAsync(
+        Guid Id, int pageNumber, int pageSize
+    )
     {
-        var menuItemsEO = await _unitOfWork.MenuItem.GetPaginatedAsync(pageNumber, pageSize);
-        var response = new PaginationDto<MenuItem>(menuItemsEO, menuItemsEO.TotalCount, menuItemsEO.TotalPages);
-        return Result<PaginationDto<MenuItem>>.Success(response);
+        var menuItemsEO = await _unitOfWork.MenuItem.GetPaginatedByIdAsync(Id, pageNumber, pageSize);
+        var menuItemsDto = menuItemsEO.Adapt<List<MenuItemDto>>();
+        var response = new PaginationDto<MenuItemDto>(menuItemsDto, menuItemsEO.TotalCount, menuItemsEO.TotalPages);
+        return Result<PaginationDto<MenuItemDto>>.Success(response);
     }
 }
