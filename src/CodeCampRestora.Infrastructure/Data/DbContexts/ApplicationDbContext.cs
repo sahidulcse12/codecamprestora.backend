@@ -18,6 +18,8 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Order> Orders {  get; set; }
     public DbSet<OrderItem> OrderItems {  get; set; }
     public DbSet<Branch> Branches => Set<Branch>();
-    public DbSet<MenuItem> MenuItems => Set<MenuItem>();
+     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
+    public DbSet<Review> Reviews => Set<Review>();
+
 }
