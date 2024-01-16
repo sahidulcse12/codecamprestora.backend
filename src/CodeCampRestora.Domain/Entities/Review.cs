@@ -11,4 +11,5 @@ namespace CodeCampRestora.Domain.Entities
         public bool HideReview { get; set; }
         public ICollection<ReviewComment>? ReviewComments { get; set; }
     }
+
 }
