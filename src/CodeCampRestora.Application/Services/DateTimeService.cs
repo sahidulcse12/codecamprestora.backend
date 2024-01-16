@@ -1,5 +1,6 @@
 ﻿using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
+using FluentValidation.Results;
 using System.Globalization;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Services;
@@ -22,7 +23,11 @@ public class DateTimeService : IDateTimeService
             DateTimeStyles.None,
             out TimeOnly timeOnly))
         {
-            return timeOnly;
+            var today = DateTime.Today;
+            today += timeOnly.ToTimeSpan();
+            var todayAsUTC = today.ToUniversalTime();
+
+            return TimeOnly.FromDateTime(todayAsUTC);
         }
         else
         {
