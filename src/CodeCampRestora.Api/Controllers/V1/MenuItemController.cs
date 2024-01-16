@@ -65,14 +65,14 @@ namespace CodeCampRestora.Api.Controllers.V1
 
         [HttpGet("Paginated")]
         [SwaggerOperation(
-            Summary = "Get paginated menu items",
+            Summary = "Get paginated menu items with branchId",
             Description = @"Sample Request:
-            Get: api/v1/MenuItem/Paginated?PageNumber=1&PageSize=10"
+            Get: api/v1/MenuItem/Paginated?BranchId=3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c&PageNumber=1&PageSize=10"
         )]
-        public async Task<IResult<PaginationDto<MenuItem>>> GetPaginated(int PageNumber, int PageSize)
+        public async Task<IResult<PaginationDto<MenuItemDto>>> GetPaginated(Guid BranchId, int PageNumber, int PageSize)
         {
             
-            var result = await Sender.Send(new GetPaginatedMenuItemsQuery(PageNumber, PageSize));
+            var result = await Sender.Send(new GetPaginatedMenuItemsQuery(BranchId, PageNumber, PageSize));
             return result;
         }
     }
