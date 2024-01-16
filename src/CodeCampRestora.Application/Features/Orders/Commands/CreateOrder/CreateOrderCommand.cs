@@ -10,7 +10,8 @@ namespace CodeCampRestora.Application.Features.Orders.Commands.CreateOrder
     {
         public string CustomerName { get; set; } = default!;
         public string Phone { get; set; } = default!;
-        public string BookingTime { get; set; } = default!;
+        public string Time { get; set; } = default!;
+        public string Date { get; set; } = default!;
         public BookingType BookingType { get; set; }
         public int Seats { get; set; } = default!;
         public OrderStatus OrderStatus { get; set; }

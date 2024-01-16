@@ -10,7 +10,8 @@ namespace CodeCampRestora.Domain.Entities.Orders
         public Guid UserId { get; set; }
         public string CustomerName { get; set; } = default!;
         public string Phone { get; set; } = default!;
-        public DateTime BookingTime { get; set; }
+        public DateOnly Date { get; set; }
+        public TimeOnly Time { get; set; }
         public BookingType BookingType { get; set; }
         public int Seats { get; set; }
         public OrderStatus OrderStatus { get; set; }

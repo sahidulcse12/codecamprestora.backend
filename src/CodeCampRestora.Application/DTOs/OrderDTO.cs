@@ -13,7 +13,8 @@ public class OrderDTO
     public Guid UserId { get; set; }
     public string CustomerName { get; set; } = default!;
     public string Phone { get; set; } = default!;
-    public DateTime BookingTime { get; set; }
+    public string Time { get; set; } = default!;
+    public string Date { get; set; } = default!;
     public BookingType BookingType { get; set; }
     public int Seats { get; set; }
     public OrderStatus OrderStatus { get; set; }
@@ -37,7 +38,8 @@ public class OrderItemDTO
 {
     public string ItemName { get; set; } = default!;
     public int Quantity { get; set; } = default!;
-    public double Price { get; set; } = default!;
+    public double UnitPrice { get; set; } = default!;
+    public double TotalItemPrice { get; set; } = default!;
     // public Guid OrderId { get; set; }
     // public Guid MenuItemId { get; set; }
     // public OrderDTO? Order { get; set; }

@@ -6,10 +6,9 @@ namespace CodeCampRestora.Domain.Entities.Orders
     {
         public string ItemName { get; set; } = default!;
         public int Quantity { get; set; } = default!;
-        public double Price { get; set; } = default!;
+        public double UnitPrice { get; set; } = default!;
+        public double TotalItemPrice { get; set; } = default!;
         public Guid OrderId { get; set; }
         public Guid MenuItemId { get; set; }
-        // public Order? Order { get; set; }
-        // public MenuItem MenuItem { get; set; }
     }
 }
