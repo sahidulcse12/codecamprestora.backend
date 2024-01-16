@@ -23,36 +23,9 @@ public class  CreateBranchCommandHandler : ICommandHandler<CreateBranchCommand, 
 
     public async Task<IResult<BranchDTO>> Handle(CreateBranchCommand request, CancellationToken cancellationToken)
     {
-        var branch = new Branch
-        {
-            Name = request.Name,
-            IsAvailable = request.IsAvailable,
-            PriceRange = request.PriceRange,
-            RestaurantId = request.RestaurantId,
-            Address = new Address
-            {
-                Latitude = request.BranchAddress!.Latitude,
-                Longitude = request.BranchAddress.Longitude,
-                Thana = request.BranchAddress.Thana,
-                District = request.BranchAddress.District,
-                Division = request.BranchAddress.Division,
-                AreaDetails = request.BranchAddress.AreaDetails,
-            },
-            OpeningClosingTimes = request.BranchOpeningClosingTime!.Select(x => new OpeningClosingTime
-            {
-                DayOfWeek = x.DayOfWeek,
-                Opening = _dateTimeService.ConvertToTimeOnly(x.Opening),
-                Closing = _dateTimeService.ConvertToTimeOnly(x.Closing),
-                IsClosed = x.IsClosed
+        var branch = request.Adapt<Branch>();
 
-            }).ToList(),
-            CuisineTypes = request.BranchCuisineType!.Select(x => new CuisineType
-            {
-                CuisineTag = x.CuisineTag,
-            }).ToList(),
-        };
-
-       await _unitOfWork.Branches.AddAsync(branch);
+        await _unitOfWork.Branches.AddAsync(branch);
         await _unitOfWork.SaveChangesAsync();
 
         var branchDTO = branch.Adapt<BranchDTO>();
