@@ -7,20 +7,34 @@ using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Domain.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
+using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 
 namespace CodeCampRestora.Application.Services;
 [ScopedLifetime]
 public class MenuItemService : IMenuItemService
 {
     private readonly IUnitOfWork _unitOfWork;
-    public MenuItemService(IUnitOfWork unitOfWork)
+    private readonly IImageService _imageService;
+    public MenuItemService(IUnitOfWork unitOfWork, IImageService imageService)
     {
         _unitOfWork = unitOfWork;
+        _imageService = imageService;
     }
-    public async Task<IResult<Guid>> CreateItemAsync(MenuItem menuItem)
+    public async Task<IResult<Guid>> CreateItemAsync(CreateMenuItemCommand menuItemDto)
     {
-        await _unitOfWork.MenuItem.AddAsync(menuItem);
-        await _unitOfWork.SaveChangesAsync();
+        var imageEO = menuItemDto.Image.Adapt<Image>();
+        var result = await _imageService.UploadImageAsync(imageEO);
+
+        var menuItem = menuItemDto.Adapt<MenuItem>();
+
+        if(result.IsSuccess)
+        {
+            var imageId = result.Data;
+            
+            menuItem.ImageId = imageId;
+            await _unitOfWork.MenuItem.AddAsync(menuItem);
+            await _unitOfWork.SaveChangesAsync();
+        }
         return Result<Guid>.Success(menuItem.Id);
     }
 
