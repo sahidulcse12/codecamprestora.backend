@@ -1,14 +1,11 @@
+using CodeCampRestora.Domain.Entities.Common;
+
 namespace CodeCampRestora.Domain.Entities.Branches;
 
-public class CuisineType 
-{
-    public CuisineType()
-    {
-        Id = Guid.NewGuid();
-    }
 
-    public Guid Id { get; set; }
-    public required string CuisineTag { get; set; }
+public class CuisineType: AuditableEntity<Guid>
+{
+    public string CuisineTag { get; set; } = default!;
     public Guid BranchId { get; set; }
 
 }
