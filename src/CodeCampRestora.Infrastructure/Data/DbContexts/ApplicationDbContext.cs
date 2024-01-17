@@ -17,6 +17,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Branch> Branches => Set<Branch>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
-    public DbSet<ReviewComment> ReviewComments => Set<ReviewComment>();
     public DbSet<Review> Reviews => Set<Review>();
+    public DbSet<ReviewComment> ReviewComments => Set<ReviewComment>();
 }
