@@ -17,7 +17,7 @@ public class CreateReviewCommentCommandHandler : ICommandHandler<CreateReviewCom
     public async Task<IResult> Handle(CreateReviewCommentCommand request, CancellationToken cancellationToken)
     {
         var comment = request.Adapt<ReviewComment>();
-        await _unitOfWork.Comments.UpdateAsync(comment);
+        await _unitOfWork.Comments.AddAsync(comment);
         await _unitOfWork.SaveChangesAsync();
 
         return Result.Success();

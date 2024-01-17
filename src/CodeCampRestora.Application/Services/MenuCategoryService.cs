@@ -18,7 +18,7 @@ public class MenuCategoryService : IMenuCategoryService
     }
     public async Task<IResult<Guid>> CreateCategoryAsync(MenuCategory menuCategory)
     {
-        await _unitOfWork.MenuCategory.UpdateAsync(menuCategory);
+        await _unitOfWork.MenuCategory.AddAsync(menuCategory);
         await _unitOfWork.SaveChangesAsync();
         return Result<Guid>.Success(menuCategory.Id);
     }
