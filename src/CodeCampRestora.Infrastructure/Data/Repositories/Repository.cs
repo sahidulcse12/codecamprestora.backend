@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 ﻿using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
+using CodeCampRestora.Infrastructure.Entities;
+using CodeCampRestora.Domain.Entities.Branches;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
@@ -79,4 +81,6 @@ public abstract class Repository<TEntity, TKey> :
         var PagedList = await PagedList<TEntity>.ToPagedListAsync(Entities, PageNumber, PageSize);
         return PagedList;
     }
+    
+
 }
