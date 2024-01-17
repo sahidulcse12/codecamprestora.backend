@@ -78,4 +78,15 @@ public class MenuItemService : IMenuItemService
         var response = new PaginationDto<MenuItemDto>(menuItemsDto, menuItemsEO.TotalCount, menuItemsEO.TotalPages);
         return Result<PaginationDto<MenuItemDto>>.Success(response);
     }
+
+    public async Task<IResult> UpdateMenuItemDisplayOrderAsync(List<MenuItemDto> menuItems)
+    {
+        var menuItemsEO = menuItems.Adapt<List<MenuItem>>();
+        var result = await _unitOfWork.MenuItem.UpdateMenuItemsAsync(menuItemsEO);
+        if (result.IsSuccess)
+        {
+            await _unitOfWork.SaveChangesAsync();
+        }
+        return result;
+    }
 }
