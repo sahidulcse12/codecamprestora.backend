@@ -10,7 +10,6 @@ public class Branch: AuditableEntity<Guid>
     public bool IsAvailable { get; set; }
     public Guid RestaurantId { get; set; }
     public Address? Address { get; set; }
-    public ICollection<ReviewComment>? Reviews { get; set; }
     public IList<CuisineType>? CuisineTypes { get; set; }
     public IList<OpeningClosingTime>? OpeningClosingTimes { get; set; }
 

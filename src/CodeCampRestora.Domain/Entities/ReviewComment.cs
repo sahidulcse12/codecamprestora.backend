@@ -9,6 +9,5 @@ public class ReviewComment : AuditableEntity<Guid>
     public string CommentText { get; set; } = default!;
     public bool IsCommentHidden { get; set; } = false;
     public Guid ReviewId { get; set; }
-    public virtual Review Review { get; set; }
-    
+    public virtual Review Review { get; set; } = default!;
 }
