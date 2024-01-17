@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
-using System.Reflection;
 
 namespace CodeCampRestora.Infrastructure;
 
@@ -11,7 +10,7 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionStringKey = "TestConnection";
+        var connectionStringKey = "ProductionConnection";
         var assemblyName = Assembly.GetExecutingAssembly().FullName;
         services.AddDbContext<ApplicationDbContext>(options =>
         {

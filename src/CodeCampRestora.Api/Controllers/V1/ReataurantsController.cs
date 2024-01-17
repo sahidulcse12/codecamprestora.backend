@@ -8,7 +8,7 @@ using CodeCampRestora.Application.Models;
 
 public class RestaurantsController : ApiBaseController
 {
-    [HttpPost]
+    [HttpPost]               // TODO: End point will be removed latter
     [SwaggerOperation(
     Summary = "Create a restaurant",
     Description = @"Sample Request:
