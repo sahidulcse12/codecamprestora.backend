@@ -1,8 +1,6 @@
-using CodeCampRestora.Application.Common.Helpers.Pagination;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Models;
-using CodeCampRestora.Domain.Entities;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Services
 {
@@ -13,5 +11,6 @@ namespace CodeCampRestora.Application.Common.Interfaces.Services
         Task<IResult> DeleteItemAsync(Guid Id);
         Task<IResult<List<MenuItemDto>>> GetAllMenuItemsAsync(Guid id);
         Task<IResult<PaginationDto<MenuItemDto>>> GetPaginatedAsync(Guid Id, int pageNumber, int pageSize);
+        Task<IResult> UpdateMenuItemDisplayOrderAsync(List<MenuItemDto> menuItems);
     }
 }
