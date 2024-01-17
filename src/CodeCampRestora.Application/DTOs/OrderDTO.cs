@@ -29,7 +29,6 @@ public class OrderDTO
     public double Discount { get; set; }
     public double TotalPrice { get; set; }
     public List<OrderItemDTO>? OrderItems { get; set; }
-    // public List<Payment> Payments { get; set; }
     // public User User { get; set; }
     // public Branch Branch { get; set; }
 }
@@ -42,7 +41,5 @@ public class OrderItemDTO
     public double TotalItemPrice { get; set; } = default!;
     // public Guid OrderId { get; set; }
     // public Guid MenuItemId { get; set; }
-    // public OrderDTO? Order { get; set; }
-    // public MenuItem MenuItem { get; set; }
 }
 
