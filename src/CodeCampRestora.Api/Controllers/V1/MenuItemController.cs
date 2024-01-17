@@ -1,6 +1,7 @@
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
 using CodeCampRestora.Application.Features.MenuItems.Commands.DeleteMenuItem;
+using CodeCampRestora.Application.Features.MenuItems.Commands.PutDisplayOrder;
 using CodeCampRestora.Application.Features.MenuItems.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Queries.GetAllMenuItems;
 using CodeCampRestora.Application.Features.MenuItems.Queries.GetPaginatedMenuItems;
@@ -73,6 +74,18 @@ namespace CodeCampRestora.Api.Controllers.V1
         {
             
             var result = await Sender.Send(new GetPaginatedMenuItemsQuery(BranchId, PageNumber, PageSize));
+            return result;
+        }
+
+        [HttpPut("UpdateDisplayOrder")]
+        [SwaggerOperation(
+            Summary = "Edit display order",
+            Description = @"Sample Request:
+            Get: api/v1/MenuItem/UpdateDisplayOrder"
+        )]
+        public async Task<Application.Models.IResult> Update(List<MenuItemDto> menuItems)
+        {
+            var result = await Sender.Send(new UpdateMenuItemDisplayOrderCommnad(menuItems));
             return result;
         }
     }
