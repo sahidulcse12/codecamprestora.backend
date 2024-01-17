@@ -12,4 +12,5 @@ public class Branch: AuditableEntity<Guid>
     public Address? Address { get; set; }
     public IList<CuisineType>? CuisineTypes { get; set; }
     public IList<OpeningClosingTime>? OpeningClosingTimes { get; set; }
+
 }

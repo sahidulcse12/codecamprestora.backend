@@ -1,5 +1,5 @@
-using CodeCampRestora.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Domain.Entities.Branches;
@@ -17,6 +17,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Branch> Branches => Set<Branch>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
+    public DbSet<ReviewComment> ReviewComments => Set<ReviewComment>();
     public DbSet<Review> Reviews => Set<Review>();
-
 }
