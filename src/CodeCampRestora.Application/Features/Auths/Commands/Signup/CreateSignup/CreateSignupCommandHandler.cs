@@ -1,33 +1,29 @@
-using MediatR;
 using Mapster;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
+using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Application.Features.RestaurantCQ.Commands.CreateRestaurant;
 
 namespace CodeCampRestora.Application.Features.Auths.Commands.Signup.CreateSignup;
 
 public class CreateSignupCommandHandler : ICommandHandler<CreateSignupCommand, IResult>
 {
     private readonly IIdentityService _identityService;
-    private readonly IUnitOfWork _unitOfWork;
-    private readonly IMediator _mediator;
+    private readonly IRestaurantService _restaurantService;
 
     public CreateSignupCommandHandler(
         IIdentityService identityService,
-        IMediator mediator,
-        IUnitOfWork unitOfWork)
+        IRestaurantService restaurantService)
     {
         _identityService = identityService;
-        _mediator = mediator;
-        _unitOfWork = unitOfWork;
+        _restaurantService = restaurantService;
     }
 
     public async Task<IResult> Handle(CreateSignupCommand request, CancellationToken cancellationToken)
     {
-        var restaurantResult = await _mediator.Send(new CreateRestaurantCommand("Your restaurant", Guid.NewGuid()));
+        var restaurantEO = Restaurant.CreateDemoRestaurant;
+        var restaurantResult = await _restaurantService.CreateRestaurantAsync(restaurantEO);
         if(!restaurantResult.IsSuccess) return restaurantResult;
 
         var registerUserDTO = request.Adapt<RegisterUserDTO>();

@@ -19,7 +19,7 @@ public class CreateRestaurantCommandHandler : ICommandHandler<CreateRestaurantCo
     {
         var restaurantModel = request.Adapt<Restaurant>();
 
-        await _restaurantService.CreateRestaurant(restaurantModel);
+        await _restaurantService.CreateRestaurantAsync(restaurantModel);
         return Result.Success();
     }
 }
