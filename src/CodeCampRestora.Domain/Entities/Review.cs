@@ -8,8 +8,8 @@ namespace CodeCampRestora.Domain.Entities
         public  string? Description { set; get; }
         public  double Rating { set; get; }
         public Guid OrderId { set; get; }
-        public Guid BrandId { set; get; }
-        public Branch? BranchId { set; get; }
+        public Guid BranchId { set; get; }
+        public Branch? Branch { set; get; }
         public bool IsReviewHidden { get; set; }   
         public bool HideReview { get; set; }
         public ICollection<ReviewComment>? ReviewComments { get; set; }
