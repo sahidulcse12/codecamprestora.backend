@@ -1,13 +1,15 @@
-using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
-using CodeCampRestora.Application.Features.MenuCategories.Queries;
-using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
-using IResult =  CodeCampRestora.Application.Models.IResult;
 using Microsoft.AspNetCore.Mvc;
+using CodeCampRestora.Domain.Entities;
+using CodeCampRestora.Application.DTOs;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
+using IResult =  CodeCampRestora.Application.Models.IResult;
+using CodeCampRestora.Application.Features.MenuCategories.Queries;
+using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.GetAllMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Queries.GetAllHomeMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Queries.GetPaginatedMenuCategory;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -73,6 +75,19 @@ public class MenuCategoryController : ApiBaseController
         Guid id)
     {
         var result = await Sender.Send(new DeleteMenuCategoryCommand(id));
+        return result;
+    }
+
+    [HttpGet("Paginated")]
+    [SwaggerOperation(
+        Summary = "Get paginated menu categories",
+        Description = @"Sample Request:
+        Get: api/v1/MenuCategory/Paginated?PageNumber=1&PageSize=10"
+    )]
+    public async Task<IResult<PaginationDto<MenuCategory>>> GetPaginated(int PageNumber, int PageSize)
+    {
+        
+        var result = await Sender.Send(new GetPaginatedMenuCategoriesQuery(PageNumber, PageSize));
         return result;
     }
 }
