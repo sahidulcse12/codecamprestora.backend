@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.GetAllMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Queries.GetAllHomeMenuCategory;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -44,7 +45,20 @@ public class MenuCategoryController : ApiBaseController
         [FromRoute, SwaggerParameter(Description = "Get all menu categories by restaurant id", Required = true)]
         Guid id)
     {
-        var result = await Sender.Send(new GetAllMenuCategoryQuery(id));
+        var result = await Sender.Send(new GetAllHomeMenuCategory(id));
+        return result;
+    }
+
+    [HttpGet("GetAllHomeMenu")]
+    [SwaggerOperation(
+        Summary = "Get all menu Categories",
+        Description = @"Sample Request:
+        Get: api/v1/MenuCategory/GetAllHome"
+    )]
+
+    public async Task<IResult<List<MenuCategoryDto>>> GetAllHomeMenu()
+    {
+        var result = await Sender.Send(new GetAllHomeMenuCategoryQuery());
         return result;
     }
 
