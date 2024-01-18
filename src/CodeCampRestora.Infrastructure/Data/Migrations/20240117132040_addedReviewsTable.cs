@@ -20,7 +20,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     Rating = table.Column<double>(type: "double precision", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),
-                    HideReview = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: false),
