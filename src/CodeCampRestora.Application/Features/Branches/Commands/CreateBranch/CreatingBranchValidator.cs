@@ -8,6 +8,6 @@ public class CreatingBranchValidator : ApplicationValidator<CreateBranchCommand>
     public CreatingBranchValidator()
     {
         RuleFor(item => item.Name).NotEmpty().WithMessage("Branch Name can't be empty");
-        RuleFor(item => item.BranchAddress).NotEmpty().WithMessage("Branch Adreess can't be empty");
+        RuleFor(item => item.Address).NotEmpty().WithMessage("Branch Adreess can't be empty");
     }
 }

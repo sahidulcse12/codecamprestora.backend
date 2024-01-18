@@ -4,8 +4,6 @@ using CodeCampRestora.Application.Common.Interfaces.Services;
 
 namespace CodeCampRestora.Application.Services;
 
-
-
 [ScopedLifetime]
 public class DateTimeService : IDateTimeService
 {
@@ -20,7 +18,11 @@ public class DateTimeService : IDateTimeService
             DateTimeStyles.None,
             out TimeOnly timeOnly))
         {
-            return timeOnly;
+            var today = DateTime.Today;
+            today += timeOnly.ToTimeSpan();
+            var todayAsUTC = today.ToUniversalTime();
+
+            return TimeOnly.FromDateTime(todayAsUTC);
         }
         else
         {

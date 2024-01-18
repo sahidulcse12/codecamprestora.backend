@@ -13,6 +13,10 @@ public static class MapsterConfig
         TypeAdapterConfig<UpdateRestaurantCommand, Restaurant>
             .NewConfig()
             .Ignore(x => x.Id);
+
+        TypeAdapterConfig<UpdateBranchCommand, Branch>
+            .NewConfig()
+            .Ignore(src => src.Id);
     }
      
 }

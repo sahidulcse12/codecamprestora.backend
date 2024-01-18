@@ -22,16 +22,14 @@ public class BranchDTO
 
 public class BranchCuisineTypeDTO
 {
-    public string CuisineTag { get; set; } = default!;
-
-
+    public required string CuisineTag { get; set; } = default!;
 }
 
 public class BranchOpeningClosingTimeDTO
 {
-    public DayOfWeek DayOfWeek { get; set; }
-    public string Opening { get; set; }
-    public string Closing { get; set; }
+    public DayOfWeek Day { get; set; }
+    public string OpeningHours { get; set; } = default!;
+    public string ClosingHours { get; set; } = default!;
     public bool IsClosed { get; set; }
 }
 
