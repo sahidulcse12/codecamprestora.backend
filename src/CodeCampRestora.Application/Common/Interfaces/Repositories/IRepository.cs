@@ -1,5 +1,8 @@
+﻿using Microsoft.EntityFrameworkCore;
 ﻿using System.Linq.Expressions;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
+using CodeCampRestora.Domain.Entities.Branches;
+using CodeCampRestora.Infrastructure.Entities;
 
 namespace CodeCampRestora.Application.Common.Interfaces.Repositories;
 public interface IRepository<TEntity, TKey> where TEntity : class
@@ -12,4 +15,6 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize); 
     IEnumerable<TEntity> GetByFilter(Expression<Func<TEntity, bool>> filter);
     Task<bool> DoesExist(Expression<Func<TEntity, bool>> predicate);
+    IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties);
+    
 }
