@@ -12,7 +12,11 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     Task AddAsync(TEntity entity);
     Task UpdateAsync(TKey id, TEntity entity);
     Task DeleteAsync(TKey id);
-    Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize); 
+    Task<PagedList<TEntity?>> GetPaginatedAsync(
+        int PageNumber, 
+        int PageSize,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
+    );
     IEnumerable<TEntity> GetByFilter(Expression<Func<TEntity, bool>> filter);
     Task<bool> DoesExist(Expression<Func<TEntity, bool>> predicate);
     IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties);
