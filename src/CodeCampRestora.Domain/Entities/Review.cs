@@ -10,7 +10,9 @@ namespace CodeCampRestora.Domain.Entities
         public Guid OrderId { set; get; }
         public Guid BrandId { set; get; }
         public Branch? BranchId { set; get; }
-        public bool IsReviewHidden { get; set; }
-
+        public bool IsReviewHidden { get; set; }   
+        public bool HideReview { get; set; }
+        public ICollection<ReviewComment>? ReviewComments { get; set; }
     }
+
 }
