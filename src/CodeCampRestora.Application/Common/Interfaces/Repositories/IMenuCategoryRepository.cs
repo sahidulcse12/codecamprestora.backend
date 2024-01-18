@@ -7,5 +7,6 @@ namespace CodeCampRestora.Application.Common.Interfaces.Repositories
     public interface IMenuCategoryRepository : IRepository<MenuCategory, Guid>
     {
         Task<List<MenuCategory>> GetAllByIdAsync(Guid Id);
+        Task<List<MenuCategory>> GetAllHomeMenuCategoryAsync();
     }
 }
