@@ -35,10 +35,11 @@ public class ApplicationDbContext
     {
         builder.Entity<ApplicationRole>().HasData
         (
-            new ApplicationRole { Id = Guid.NewGuid(), Name = "Admin", ConcurrencyStamp = "1", NormalizedName = "ADMIN" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "User", ConcurrencyStamp = "1", NormalizedName = "USER" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "Owner", ConcurrencyStamp = "2", NormalizedName = "OWNER" },
             new ApplicationRole { Id = Guid.NewGuid(), Name = "Manager", ConcurrencyStamp = "3", NormalizedName = "MANAGER" },
-            new ApplicationRole { Id = Guid.NewGuid(), Name = "Waiter", ConcurrencyStamp = "2", NormalizedName = "WAITER" },
-            new ApplicationRole { Id = Guid.NewGuid(), Name = "User", ConcurrencyStamp = "4", NormalizedName = "USER" }
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "Waiter", ConcurrencyStamp = "4", NormalizedName = "WAITER" },
+            new ApplicationRole { Id = Guid.NewGuid(), Name = "KitchenStuff", ConcurrencyStamp = "5", NormalizedName = "KITCHENSTUFF" }
         );
     }
 

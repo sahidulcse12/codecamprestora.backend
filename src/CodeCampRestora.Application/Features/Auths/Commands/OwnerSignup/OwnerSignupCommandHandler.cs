@@ -5,14 +5,14 @@ using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 
-namespace CodeCampRestora.Application.Features.Auths.Commands.Signup.CreateSignup;
+namespace CodeCampRestora.Application.Features.Auths.Commands.RestaurantOwner.Signup;
 
-public class CreateSignupCommandHandler : ICommandHandler<CreateSignupCommand, IResult>
+public class OwnerSignupCommandHandler : ICommandHandler<OwnerSignupCommand, IResult>
 {
     private readonly IIdentityService _identityService;
     private readonly IRestaurantService _restaurantService;
 
-    public CreateSignupCommandHandler(
+    public OwnerSignupCommandHandler(
         IIdentityService identityService,
         IRestaurantService restaurantService)
     {
@@ -20,7 +20,7 @@ public class CreateSignupCommandHandler : ICommandHandler<CreateSignupCommand, I
         _restaurantService = restaurantService;
     }
 
-    public async Task<IResult> Handle(CreateSignupCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(OwnerSignupCommand request, CancellationToken cancellationToken)
     {
         var restaurantEO = Restaurant.CreateDemoRestaurant;
         var restaurantResult = await _restaurantService.CreateRestaurantAsync(restaurantEO);

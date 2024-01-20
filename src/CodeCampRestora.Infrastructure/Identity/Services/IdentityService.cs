@@ -48,7 +48,7 @@ public class IdentityService : IIdentityService
     public async Task<IResult> RegisterRestaurantOwnerAsync(RegisterUserDTO registerUserDto, Guid restaurantId)
     {
         var user = await _applicationUserManager.FindByEmailAsync(registerUserDto.Email);
-        if (user is not null) return Result.Failure( StatusCodes.Status403Forbidden, AuthErrors.UserExists);
+        if (user is not null) return Result.Failure(StatusCodes.Status403Forbidden, AuthErrors.UserExists);
 
         var newUser = new ApplicationUser
         {
@@ -60,10 +60,11 @@ public class IdentityService : IIdentityService
         };
 
         var result = await _applicationUserManager.CreateAsync(newUser, registerUserDto.Password);
-        if (!result.Succeeded) return Result.Failure( StatusCodes.Status500InternalServerError, AuthErrors.UserCreationFailed);
+        if (!result.Succeeded) return Result.Failure(StatusCodes.Status500InternalServerError, AuthErrors.UserCreationFailed);
 
         var createdUser = await _applicationUserManager.FindByEmailAsync(registerUserDto.Email);
-        var role = await _applicationRoleManager.FindByNameAsync(registerUserDto.RoleType.ToString());
+        Console.WriteLine();
+        var role = await _applicationRoleManager.FindByNameAsync(UserRoles.Owner.ToString());
 
         if (createdUser is null || role is null)
         {
@@ -184,10 +185,11 @@ public class IdentityService : IIdentityService
             || string.IsNullOrEmpty(userId))
             return AuthResult.Failure(AuthErrors.ClaimsNotFound);
 
-        var isRestaurantOwner = roles.Contains(UserRoles.Admin.ToString());
+        var isRestaurantOwner = roles.Contains(UserRoles.Owner.ToString());
         if(isRestaurantOwner)
         {
-            if(string.IsNullOrEmpty(restaurantId)) return AuthResult.Failure(AuthErrors.ClaimsNotFound);
+            if(string.IsNullOrEmpty(restaurantId))
+                return AuthResult.Failure(AuthErrors.ClaimsNotFound);
 
             var ownerAccessTokenValidationResult = ValidateAccessToken(expiryInSeconds, accessToken,
                 refreshToken, userId, roles, restaurantId);
@@ -256,14 +258,14 @@ public class IdentityService : IIdentityService
         await _dbContext.DbSet<RefreshToken>().AddAsync(refreshToken);
         await _dbContext.SaveChangesAsync();
 
-        if (userRoles.Contains(UserRoles.Admin.ToString()))
+        if (userRoles.Contains(UserRoles.Owner.ToString()))
         {
             return AuthOwnerResult.Success(accessToken, refreshToken.Id.ToString(), securityToken.ValidTo,
                 user.Id.ToString(), user.RestaurantId.ToString()!, userRoles);
         }
 
         return AuthResult.Success(accessToken, refreshToken.Id.ToString(), securityToken.ValidTo,
-                user.Id.ToString(), userRoles); ;
+                user.Id.ToString(), userRoles);
     }
 
     private async Task<(bool IsValid, ClaimsIdentity ClaimsIdentity)> GetPrincipalFromExpiredTokenAsync(string accessToken)

@@ -4,18 +4,18 @@ using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 
-namespace CodeCampRestora.Application.Features.Auths.Commands.Login.CreateLogin;
+namespace CodeCampRestora.Application.Features.Auths.Commands.OwnerLogin;
 
-public class CreateLoginCommandHandler : ICommandHandler<CreateLoginCommand, IResult>
+public class OwnerLoginCommandCommandHandler : ICommandHandler<OwnerLoginCommand, IResult>
 {
     private readonly IIdentityService _identityService;
 
-    public CreateLoginCommandHandler(IIdentityService identityService)
+    public OwnerLoginCommandCommandHandler(IIdentityService identityService)
     {
         _identityService = identityService;
     }
 
-    public async Task<IResult> Handle(CreateLoginCommand request, CancellationToken cancellationToken)
+    public async Task<IResult> Handle(OwnerLoginCommand request, CancellationToken cancellationToken)
     {
         var loginDTO = request.Adapt<LoginDTO>();
         var result = await _identityService.AuthenticatRestaurantOwnerAsync(loginDTO);

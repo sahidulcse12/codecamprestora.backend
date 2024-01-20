@@ -1,9 +1,9 @@
 ﻿using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 
-namespace CodeCampRestora.Application.Features.User.Commands.UserSignup.CreateUserSignup;
+namespace CodeCampRestora.Application.Features.Auths.Commands.UserSignup;
 
-public record CreateUserSignupCommand(
+public record UserSignupCommand(
     string FirstName,
     string LastName,
     string Email,
