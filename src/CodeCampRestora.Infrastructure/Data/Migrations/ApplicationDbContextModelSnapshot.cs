@@ -305,9 +305,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<bool>("HideReview")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsReviewHidden")
                         .HasColumnType("boolean");
 
