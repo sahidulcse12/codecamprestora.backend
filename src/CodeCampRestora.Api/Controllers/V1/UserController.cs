@@ -1,32 +1,31 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using IResult = CodeCampRestora.Application.Models.IResult;
-using CodeCampRestora.Application.Features.Auths.Commands.RefreshToken.CreateRefreshToken;
-using CodeCampRestora.Application.Features.User.Commands.UserSignup.CreateUserSignup;
-using CodeCampRestora.Application.Features.User.Commands.UserLogin;
+using CodeCampRestora.Application.Features.Auths.Commands.UserLogin;
+using CodeCampRestora.Application.Features.Auths.Commands.UserSignup;
+using CodeCampRestora.Application.Features.Auths.Commands.CreateRefreshToken;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
-[ApiController]
+[Route("api/v1/users")]
 public class UserController : ApiBaseController
 {
-    [HttpPost("userRegister")]
-    public async Task<IResult> Register(CreateUserSignupCommand command)
+    [HttpPost("register")]
+    public async Task<IResult> Register([FromBody] UserSignupCommand command)
     {
         var result = await Sender.Send(command);
         return result;
     }
 
     [HttpPost("login")]
-    public async Task<IResult> Login([FromBody] CreateUserLoginCommand command)
+    public async Task<IResult> Login([FromBody] UserLoginCommand command)
     {
         var result = await Sender.Send(command);
-        return (IResult)result;
+        return result;
     }
 
     [HttpPost("refresh")]
-    public async Task<IResult> RefreshToken(CreateRefreshTokenCommand command)
+    public async Task<IResult> RefreshToken([FromBody] CreateRefreshTokenCommand command)
     {
         var result = await Sender.Send(command);
-        return (IResult)result;
+        return result;
     }
 }

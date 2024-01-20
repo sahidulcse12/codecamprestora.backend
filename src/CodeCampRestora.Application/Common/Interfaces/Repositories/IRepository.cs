@@ -10,7 +10,6 @@ public interface IRepository<TEntity, TKey> where TEntity : class
     Task AddAsync(TEntity entity);
     Task UpdateAsync(TKey id, TEntity entity);
     Task DeleteAsync(TKey id);
-    Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize);
     Task<PagedList<TEntity?>> GetPaginatedAsync(
         int PageNumber,
         int PageSize,

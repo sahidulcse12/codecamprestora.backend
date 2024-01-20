@@ -2,7 +2,6 @@ using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
-using IResult =  CodeCampRestora.Application.Models.IResult;
 using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
