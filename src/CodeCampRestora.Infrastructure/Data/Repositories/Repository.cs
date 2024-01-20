@@ -1,7 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Infrastructure.Data.Repositories;
 
@@ -62,11 +62,26 @@ public abstract class Repository<TEntity, TKey> :
         return doesExist;
     }
 
-    public async Task<PagedList<TEntity?>> GetPaginatedAsync(int PageNumber, int PageSize)
+    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties)
     {
-        var Entities = _dbSet.AsQueryable();
-        var PagedList = await PagedList<TEntity>.ToPagedListAsync(Entities, PageNumber, PageSize);
+        IQueryable<TEntity> query = _dbSet;
 
-        return PagedList;
+        foreach (var navigationProperty in navigationProperties)
+        {
+            query = query.Include(navigationProperty);
+        }
+
+        return query;
+    }
+
+    public async Task<PagedList<TEntity>?> GetPaginatedAsync(
+        int PageNumber,
+        int PageSize,
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null
+    )
+    {
+        var entities = _dbSet.AsQueryable();
+        var pagedList = await PagedList<TEntity>.ToPagedListAsync(entities, PageNumber, PageSize, orderBy);
+        return pagedList;
     }
 }
