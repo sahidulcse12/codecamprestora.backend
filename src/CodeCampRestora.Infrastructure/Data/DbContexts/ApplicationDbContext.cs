@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Domain.Identity;
+using CodeCampRestora.Domain.Entities.Orders;
 using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
 using CodeCampRestora.Domain.Entities.Branches;
@@ -50,6 +51,8 @@ public class ApplicationDbContext
     public DbSet<Branch> Branches => Set<Branch>();
     public DbSet<MenuItem> MenuItems => Set<MenuItem>();
     public DbSet<MenuCategory> MenuCategories => Set<MenuCategory>();
+    public DbSet<Order> Orders {  get; set; }
+    public DbSet<OrderItem> OrderItems {  get; set; }
     public DbSet<Review> Reviews => Set<Review>();
     public DbSet<ReviewComment> ReviewComments => Set<ReviewComment>();
 }

@@ -4,4 +4,5 @@ public interface IDateTimeService
 {
     DateTime Now { get; }
     public TimeOnly ConvertToTimeOnly(string timeString);
+    public DateTime ConvertToDateOnly(string dateString);
 }
