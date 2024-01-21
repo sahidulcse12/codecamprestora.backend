@@ -73,15 +73,14 @@ public abstract class Repository<TEntity, TKey> :
 
         return query;
     }
-
-    public async Task<PagedList<TEntity>?> GetPaginatedAsync(
-        int PageNumber,
+    public async Task<PagedList<TEntity?>> GetPaginatedAsync(
+        int PageNumber, 
         int PageSize,
-        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>>? orderBy = null
+        Func<IQueryable<TEntity>, IOrderedQueryable<TEntity>> orderBy = null
     )
     {
-        var entities = _dbSet.AsQueryable();
-        var pagedList = await PagedList<TEntity>.ToPagedListAsync(entities, PageNumber, PageSize, orderBy);
-        return pagedList;
+        var Entities = _dbSet.AsQueryable();
+        var PagedList = await PagedList<TEntity>.ToPagedListAsync(Entities, PageNumber, PageSize, orderBy);
+        return PagedList;
     }
 }
