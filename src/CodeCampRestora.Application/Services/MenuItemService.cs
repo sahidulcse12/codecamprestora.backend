@@ -73,7 +73,11 @@ public class MenuItemService : IMenuItemService
         Guid Id, int pageNumber, int pageSize
     )
     {
-        var menuItemsEO = await _unitOfWork.MenuItem.GetPaginatedByIdAsync(Id, pageNumber, pageSize);
+        var menuItemsEO = await _unitOfWork.MenuItem.GetPaginatedByIdAsync(
+            Id,
+            pageNumber, 
+            pageSize
+        );
         var menuItemsDto = menuItemsEO.Adapt<List<MenuItemDto>>();
         var response = new PaginationDto<MenuItemDto>(menuItemsDto, menuItemsEO.TotalCount, menuItemsEO.TotalPages);
         return Result<PaginationDto<MenuItemDto>>.Success(response);
