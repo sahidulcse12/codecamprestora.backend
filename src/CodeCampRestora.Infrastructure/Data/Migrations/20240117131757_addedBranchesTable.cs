@@ -11,13 +11,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<Guid>(
-                name: "BranchId",
-                table: "Restaurants",
-                type: "uuid",
-                nullable: false,
-                defaultValue: new Guid("00000000-0000-0000-0000-000000000000"));
-
             migrationBuilder.CreateTable(
                 name: "Branches",
                 columns: table => new
@@ -99,9 +92,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    DayOfWeek = table.Column<int>(type: "integer", nullable: false),
-                    Opening = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    Closing = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    Day = table.Column<int>(type: "integer", nullable: false),
+                    OpeningHours = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
+                    ClosingHours = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
                     IsClosed = table.Column<bool>(type: "boolean", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
@@ -156,10 +149,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Branches");
-
-            migrationBuilder.DropColumn(
-                name: "BranchId",
-                table: "Restaurants");
         }
     }
 }

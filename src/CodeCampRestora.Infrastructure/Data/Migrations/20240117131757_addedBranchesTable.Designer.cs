@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeCampRestora.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20240116073548_addedBranchesTable")]
+    [Migration("20240117131757_addedBranchesTable")]
     partial class addedBranchesTable
     {
         /// <inheritdoc />
@@ -161,7 +161,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uuid");
 
-                    b.Property<TimeOnly>("Closing")
+                    b.Property<TimeOnly>("ClosingHours")
                         .HasColumnType("time without time zone");
 
                     b.Property<DateTime>("Created")
@@ -171,7 +171,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("DayOfWeek")
+                    b.Property<int>("Day")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsClosed")
@@ -184,7 +184,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<TimeOnly>("Opening")
+                    b.Property<TimeOnly>("OpeningHours")
                         .HasColumnType("time without time zone");
 
                     b.HasKey("Id");
@@ -192,32 +192,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("BranchId");
 
                     b.ToTable("OpeningClosingTime");
-                });
-
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.Image", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Base64")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Images");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Category", b =>
@@ -260,9 +234,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("integer");
 
@@ -273,8 +244,8 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
