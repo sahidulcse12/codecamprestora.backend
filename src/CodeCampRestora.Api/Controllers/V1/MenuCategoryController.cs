@@ -8,6 +8,7 @@ using CodeCampRestora.Application.Features.MenuCategories.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.GetAllMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Queries.GetPaginatedMenuCategory;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
