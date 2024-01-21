@@ -8,18 +8,23 @@ builder.Services
     .AddApi()
     .AddSwagger()
     .AddApplicationServices()
-    .AddInfrastructureServices();
+    .AddInfrastructureServices(builder.Configuration);
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// app.Environment.EnvironmentName = Environments.Development;
+//if (app.Environment.IsDevelopment())
+//{
+//    app.UseSwagger();
+//    app.UseSwaggerUI();
+//}
 
+app.UseSwagger();
+app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseCors();
 app.UseAuthorization();
+app.UseErrorHandlingMiddleware();
 app.MapControllers();
 
 app.Run();

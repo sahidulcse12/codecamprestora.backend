@@ -1,6 +1,9 @@
+using FluentValidation;
 using System.Reflection;
-using Microsoft.Extensions.DependencyInjection;
 using CodeCampRestora.Application.Attributes;
+using Microsoft.Extensions.DependencyInjection;
+using CodeCampRestora.Application.Common.Behaviors;
+
 
 namespace CodeCampRestora.Application;
 
@@ -9,16 +12,22 @@ public static class ServicesConfiguration
     public static IServiceCollection AddApplicationServices(this IServiceCollection services)
     {
         var currentExecutingAssembly = Assembly.GetExecutingAssembly();
+        
         services.AddMediatR(cfg =>
         {
             cfg.Lifetime = ServiceLifetime.Scoped;
             cfg.RegisterServicesFromAssembly(currentExecutingAssembly);
+            cfg.AddOpenBehavior(typeof(ValidationBehavior<,>));
         });
+
+        services.AddValidatorsFromAssembly(currentExecutingAssembly);
 
         services
             .AddServices(typeof(ScopedLifetimeAttribute))
             .AddServices(typeof(TransientLifeTimeAttribute))
             .AddServices(typeof(SingletonLifeTimeAttribute));
+
+        MapsterConfig.AddMapsterConfig();
 
         return services;
     }
