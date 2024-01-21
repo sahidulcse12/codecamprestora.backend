@@ -22,4 +22,9 @@ public class MenuCategoryRepository : Repository<MenuCategory, Guid>, IMenuCateg
         var Entities = _menuCategory.Where(e => e.RestaurantId == Id).ToList();
         return Entities;
     }
+
+    public async Task<List<MenuCategory>> GetAllHomeMenuCategoryAsync()
+    {
+        return await _menuCategory.ToListAsync();
+    }
 }
