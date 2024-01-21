@@ -1,5 +1,4 @@
-﻿using CodeCampRestora.Domain.Entities;
-using CodeCampRestora.Domain.Entities.Common;
+﻿using CodeCampRestora.Domain.Entities.Common;
 using CodeCampRestora.Domain.Entities.Branches;
 
 namespace CodeCampRestora.Infrastructure.Entities;
