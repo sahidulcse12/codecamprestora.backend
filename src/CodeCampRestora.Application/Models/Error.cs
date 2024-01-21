@@ -20,6 +20,11 @@ public record BranchErrors
 {
     public static Error NotFound => new("Branch.NotFound", "Branch doesn't exist.");
 }
+public record DateTimeErrors
+{
+    public static Error InvalidTimeFormate => new("Branch.InvalidTimeFormat", "Time formate isn't Correct");
+
+}
 
 public record ReviewErrors
 {
