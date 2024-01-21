@@ -207,6 +207,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -257,8 +260,8 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<int?>("DisplayOrder")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
 
                     b.Property<string>("Ingredients")
                         .IsRequired()
