@@ -34,4 +34,17 @@ public class DateTimeService : IDateTimeService
             throw new ArgumentException("Invalid time format", nameof(timeString));
         }
     }
+
+    public DateTime ConvertToDateOnly(string dateString)
+    {
+
+        if (DateTime.TryParseExact(dateString, "dd MMM yyyy", CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime resultDateTime))
+        {
+            return resultDateTime;
+        }
+        else
+        {
+            throw new ArgumentException("Invalid date format", nameof(dateString));
+        }
+    }
 }
