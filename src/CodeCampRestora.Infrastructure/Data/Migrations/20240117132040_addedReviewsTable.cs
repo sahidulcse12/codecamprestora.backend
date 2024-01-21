@@ -20,6 +20,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     Rating = table.Column<double>(type: "double precision", nullable: false),
                     OrderId = table.Column<Guid>(type: "uuid", nullable: false),
                     BranchId = table.Column<Guid>(type: "uuid", nullable: false),
+                    IsReviewHidden = table.Column<bool>(type: "boolean", nullable: false),
                     CreatedBy = table.Column<string>(type: "text", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModifiedBy = table.Column<string>(type: "text", nullable: false),
@@ -31,7 +32,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReviewComment",
+                name: "ReviewComments",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -57,7 +58,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReviewComment_ReviewId",
-                table: "ReviewComment",
+                table: "ReviewComments",
                 column: "ReviewId");
         }
 
@@ -65,7 +66,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "ReviewComment");
+                name: "ReviewComments");
 
             migrationBuilder.DropTable(
                 name: "Reviews");

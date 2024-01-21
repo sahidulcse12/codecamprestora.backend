@@ -1,8 +1,8 @@
 namespace CodeCampRestora.Application.Models;
 
-public record Error(string code, string Description)
+public record Error(string Code, string Description)
 {
-    public static Error NotFound(string description) => new("not_found", description);
+    public static Error NotFound(string description) => new("NotFound", description);
     public static Error NotValidated(string code, string description) => new($"{code}_validation_failed", description);
 }
 
@@ -20,6 +20,11 @@ public record AuthErrors
     public static Error TokenMismatch => new("Jwt.TokenMismatch", "The refresh token does not belong to this access token.");
     public static Error TokenIsUsed => new("Jwt.Used", "The refresh token has been used.");
     public static Error TokenGenerationFailed => new("JWT.GenerationFailed", "Something went wrong.");
+}
+
+public record ImageErrors()
+{
+    public static readonly Error NotFound = new("Image.NotFound", "Image doesn't exist");
 }
 
 public record RestaurantErrors
