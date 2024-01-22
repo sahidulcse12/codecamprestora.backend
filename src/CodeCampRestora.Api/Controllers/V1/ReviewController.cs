@@ -13,8 +13,16 @@ namespace CodeCampRestora.Api.Controllers.V1;
 public class ReviewController : ApiBaseController
 {   
     [HttpGet]
+    
+    public async Task<IResult<List<ReviewDTO>>> GetAll(int pageNumber, int pageSize)
+    {
+        var request = new GetAllReviewQuery(pageNumber,pageSize);
+        var response = await Sender.Send(request);
+        return response;
+    }
+    [HttpPost]
     [SwaggerOperation(
-        Summary = "Getting All Reviews",
+        Summary = "Create Reviews",
         Description = @"Sample Request:
             Get: api/v1/Review
             {
@@ -24,14 +32,7 @@ public class ReviewController : ApiBaseController
             ""Description"":""Someting""
             }"
     )]
-    public async Task<IResult<List<ReviewDTO>>> GetAll(int pageNumber, int pageSize)
-    {
-        var request = new GetAllReviewQuery(pageNumber,pageSize);
-        var response = await Sender.Send(request);
-        return response;
-    }
-    [HttpPost]
-    public async Task<Application.Models.IResult> Post([FromBody]CreateReviewCommand reviewCommand)
+    public async Task<Application.Models.IResult> CreateReviews([FromBody]CreateReviewCommand reviewCommand)
     {
         var result = await Sender.Send(reviewCommand);
         return result;
