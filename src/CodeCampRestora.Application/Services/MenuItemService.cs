@@ -8,6 +8,7 @@ using CodeCampRestora.Domain.Entities;
 using Mapster;
 using Microsoft.AspNetCore.Http;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuItem;
+using CodeCampRestora.Application.Features.MenuCategories.Commands.UpdateMenuCategory;
 
 namespace CodeCampRestora.Application.Services;
 [ScopedLifetime]
@@ -26,6 +27,8 @@ public class MenuItemService : IMenuItemService
         // var result = await _imageService.UploadImageAsync(imageEO);
 
         var menuItem = menuItemDto.Adapt<MenuItem>();
+        menuItem.ImagePath = menuItemDto.Image.Name;
+        
         await _unitOfWork.MenuItem.AddAsync(menuItem);
         await _unitOfWork.SaveChangesAsync();
 
@@ -42,7 +45,7 @@ public class MenuItemService : IMenuItemService
 
     public async Task<IResult> DeleteItemAsync(Guid Id)
     {
-        var MenuItem = await _unitOfWork.MenuCategory.GetByIdAsync(Id);
+        var MenuItem = await _unitOfWork.MenuItem.GetByIdAsync(Id);
         if(MenuItem is null) return Result.Failure(
             StatusCodes.Status404NotFound,
             Error.NotFound("Item not found!"));
@@ -83,6 +86,26 @@ public class MenuItemService : IMenuItemService
         var menuItemsDto = menuItemsEO.Adapt<List<MenuItemDto>>();
         var response = new PaginationDto<MenuItemDto>(menuItemsDto, menuItemsEO.TotalCount, menuItemsEO.TotalPages);
         return Result<PaginationDto<MenuItemDto>>.Success(response);
+    }
+
+    public async Task<IResult> UpdateMenuItemAsync(UpdateMenuItemCommand request)
+    {
+        var menuItemEO = await _unitOfWork.MenuItem.GetByIdAsync(request.Id);
+
+        if (menuItemEO == null)
+        {
+            return Result.Failure(
+                StatusCodes.Status404NotFound,
+                Error.NotFound($"Menu item not found with Id {request.Id}"));
+        }
+
+        var menuItem = request.Adapt<MenuItem>();
+        menuItem.ImagePath = "string";
+
+        await _unitOfWork.MenuItem.UpdateAsync(request.Id, menuItem);
+        await _unitOfWork.SaveChangesAsync();
+
+        return Result.Success(StatusCodes.Status204NoContent);
     }
 
     public async Task<IResult> UpdateMenuItemDisplayOrderAsync(List<MenuItemDto> menuItems)

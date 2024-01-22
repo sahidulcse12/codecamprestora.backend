@@ -211,6 +211,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
@@ -264,6 +265,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Ingredients")

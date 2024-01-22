@@ -12,16 +12,10 @@ builder.Services
 
 var app = builder.Build();
 
-// app.Environment.EnvironmentName = Environments.Development;
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-
 app.UseSwagger();
 app.UseSwaggerUI();
 app.UseHttpsRedirection();
+app.UseAuthentication();
 app.UseCors();
 app.UseAuthorization();
 app.UseErrorHandlingMiddleware();
