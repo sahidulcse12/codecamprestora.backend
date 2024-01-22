@@ -16,7 +16,7 @@ public class ReviewController : ApiBaseController
     [SwaggerOperation(
         Summary = "Getting All Reviews",
         Description = @"Sample Request:
-            Post: api/v1/Review
+            Get: api/v1/Review
             {
             ""BranchId"": ""7C12E100-D081-49F5-94FE-D0D1598945C3"",
             ""OrderId"":""7C12E100-D081-49F5-94FE-D0D1598945C3"",
