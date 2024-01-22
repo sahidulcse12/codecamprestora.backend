@@ -6,16 +6,18 @@ using MediatR;
 
 namespace CodeCampRestora.Application.Features.MenuCategories.Queries.GetPaginatedMenuCategory
 {
-    public class GetPaginatedMenuCategoriesQueryHandler : IQueryHandler<GetPaginatedMenuCategoriesQuery, IResult<PaginationDto<Domain.Entities.MenuCategory>>>
+    public class GetPaginatedMenuCategoriesQueryHandler : IQueryHandler<GetPaginatedMenuCategoriesQuery, IResult<PaginationDto<MenuCategoryDto>>>
     {
         private readonly IMenuCategoryService _menuCategoryService;
         public GetPaginatedMenuCategoriesQueryHandler(IMenuCategoryService menuCategoryService)
         {
             _menuCategoryService = menuCategoryService;
         }
-        Task<IResult<PaginationDto<Domain.Entities.MenuCategory>>> IRequestHandler<GetPaginatedMenuCategoriesQuery, IResult<PaginationDto<Domain.Entities.MenuCategory>>>.Handle(GetPaginatedMenuCategoriesQuery request, CancellationToken cancellationToken)
+        Task<IResult<PaginationDto<MenuCategoryDto>>> IRequestHandler<GetPaginatedMenuCategoriesQuery, IResult<PaginationDto<MenuCategoryDto>>>.Handle(
+            GetPaginatedMenuCategoriesQuery request, CancellationToken cancellationToken
+        )
         {
-            var result = _menuCategoryService.GetPaginatedMenuCategoryAsync(request.PageNumber, request.PageSize);
+            var result = _menuCategoryService.GetPaginatedMenuCategoryAsync(request.RestaurantId, request.PageNumber, request.PageSize);
             return result;
         }
     }
