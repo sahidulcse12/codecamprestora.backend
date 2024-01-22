@@ -16,6 +16,7 @@ public static class ServicesConfiguration
 {
     public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
+
         services.AddIdentityCore<ApplicationUser>(
             options =>
             {

@@ -3,6 +3,7 @@ using System;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeCampRestora.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240122062225_addedIdentityTables")]
+    partial class addedIdentityTables
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -290,135 +293,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("MenuItems");
-                });
-
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.Order", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("BookingType")
-                        .HasColumnType("integer");
-
-                    b.Property<Guid>("BranchId")
-                        .HasColumnType("uuid");
-
-                    b.Property<string>("Comment")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("CustomerName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<double>("DeliveryCharge")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("Discount")
-                        .HasColumnType("double precision");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("OrderStatus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("OrderTrackingNumber")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("OrderTrackingNumber"));
-
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<int>("Seats")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("ServingTime")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<double>("SubTotal")
-                        .HasColumnType("double precision");
-
-                    b.Property<TimeOnly>("Time")
-                        .HasColumnType("time without time zone");
-
-                    b.Property<double>("TotalPrice")
-                        .HasColumnType("double precision");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
-
-                    b.Property<double>("VAT")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Orders");
-                });
-
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.OrderItem", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<DateTime>("Created")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ItemName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime?>("LastModified")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("LastModifiedBy")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<Guid>("MenuItemId")
-                        .HasColumnType("uuid");
-
-                    b.Property<Guid>("OrderId")
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("Quantity")
-                        .HasColumnType("integer");
-
-                    b.Property<double>("TotalItemPrice")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("UnitPrice")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("OrderId");
-
-                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Review", b =>
@@ -730,35 +604,35 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8b6e10d4-1c75-4c0b-9417-a55c2241bcb2"),
+                            Id = new Guid("388d9cb6-f605-484f-a09a-f2d7967e94b8"),
                             ConcurrencyStamp = "1",
                             Name = "User",
                             NormalizedName = "USER"
                         },
                         new
                         {
-                            Id = new Guid("ac12af63-15b6-48ea-b132-c9f27e15df90"),
+                            Id = new Guid("500f649f-b39c-4860-b350-6a5685faac6f"),
                             ConcurrencyStamp = "2",
                             Name = "Owner",
                             NormalizedName = "OWNER"
                         },
                         new
                         {
-                            Id = new Guid("e0b4d5f8-7340-4c6e-9d66-58e120a9298f"),
+                            Id = new Guid("2397dcb6-35d4-4ace-84df-bf9d98109e2b"),
                             ConcurrencyStamp = "3",
                             Name = "Manager",
                             NormalizedName = "MANAGER"
                         },
                         new
                         {
-                            Id = new Guid("a5e34882-8d8b-49f9-bc47-5ca81c3759c9"),
+                            Id = new Guid("5ca39585-5c0b-4c5b-8d4f-4e6265e975b1"),
                             ConcurrencyStamp = "4",
                             Name = "Waiter",
                             NormalizedName = "WAITER"
                         },
                         new
                         {
-                            Id = new Guid("74c34278-22b3-452e-9e04-7d596f4fcbef"),
+                            Id = new Guid("74ae22f3-8c48-43b3-a189-c071619d2609"),
                             ConcurrencyStamp = "5",
                             Name = "KitchenStuff",
                             NormalizedName = "KITCHENSTUFF"
@@ -936,15 +810,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.OrderItem", b =>
-                {
-                    b.HasOne("CodeCampRestora.Domain.Entities.Orders.Order", null)
-                        .WithMany("OrderItems")
-                        .HasForeignKey("OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Review", b =>
                 {
                     b.HasOne("CodeCampRestora.Domain.Entities.Branches.Branch", "Branch")
@@ -1052,11 +917,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Navigation("CuisineTypes");
 
                     b.Navigation("OpeningClosingTimes");
-                });
-
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.Order", b =>
-                {
-                    b.Navigation("OrderItems");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Review", b =>
