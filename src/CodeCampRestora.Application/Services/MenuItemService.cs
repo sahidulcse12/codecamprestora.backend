@@ -26,6 +26,8 @@ public class MenuItemService : IMenuItemService
         // var result = await _imageService.UploadImageAsync(imageEO);
 
         var menuItem = menuItemDto.Adapt<MenuItem>();
+        menuItem.ImagePath = menuItemDto.Image.Name;
+        
         await _unitOfWork.MenuItem.AddAsync(menuItem);
         await _unitOfWork.SaveChangesAsync();
 
