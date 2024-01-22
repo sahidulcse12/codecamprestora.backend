@@ -17,7 +17,6 @@ public class GetAllReviewQueryHandler : IQueryHandler<GetAllReviewQuery, IResult
     public async Task<IResult<List<ReviewDTO>>> Handle(GetAllReviewQuery request, CancellationToken cancellationToken)
     {
          var reviews = await _unitOfWork.Reviews.Get("ReviewComments", request.PageNumber,request.PageSize);
-        //var reviews =  await _unitOfWork.Reviews.IncludeProps(request.PageNumber,request.PageSize, entities => entities.ReviewComments);
         var reviewsDto = reviews.Adapt<List<ReviewDTO>>();
         
         return Result<List<ReviewDTO>>.Success(reviewsDto);
