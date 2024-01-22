@@ -3,7 +3,6 @@ using CodeCampRestora.Domain.Entities;
 using CodeCampRestora.Application.DTOs;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
-using IResult =  CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.MenuCategories.Queries;
 using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
@@ -72,7 +71,6 @@ public class MenuCategoryController : ApiBaseController
     )]
     public async Task<IResult<PaginationDto<MenuCategory>>> GetPaginated(int PageNumber, int PageSize)
     {
-        
         var result = await Sender.Send(new GetPaginatedMenuCategoriesQuery(PageNumber, PageSize));
         return result;
     }

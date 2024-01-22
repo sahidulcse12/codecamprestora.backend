@@ -73,6 +73,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")

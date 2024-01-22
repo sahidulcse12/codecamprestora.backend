@@ -1,19 +1,14 @@
-﻿using CodeCampRestora.Application.Attributes;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using FluentValidation.Results;
 using System.Globalization;
+using CodeCampRestora.Application.Attributes;
+using CodeCampRestora.Application.Common.Interfaces.Services;
 
-namespace CodeCampRestora.Application.Common.Interfaces.Services;
+namespace CodeCampRestora.Application.Services;
 
 [ScopedLifetime]
 public class DateTimeService : IDateTimeService
 {
-    //private readonly IUnitOfWork _unitOfWork;
+    public DateTime Now => DateTime.UtcNow;
 
-    //public DateTimeService(IUnitOfWork unitOfWork)
-    //{
-    //    _unitOfWork = unitOfWork;
-    //}
     public TimeOnly ConvertToTimeOnly(string timeString)
     {
         if (TimeOnly.TryParseExact(
