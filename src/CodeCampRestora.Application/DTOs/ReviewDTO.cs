@@ -1,4 +1,6 @@
-﻿namespace CodeCampRestora.Application.DTOs
+﻿using CodeCampRestora.Domain.Entities;
+
+namespace CodeCampRestora.Application.DTOs
 {
     public class ReviewDTO
     {
@@ -6,5 +8,6 @@
         public double Rating { set; get; }
         public Guid OrderId { set; get; }
         public bool IsReviewHidden { get; set; }
+        public IList<ReviewCommentDTO> ReviewComments { set; get; }
     }
 }
