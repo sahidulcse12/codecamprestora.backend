@@ -1,13 +1,11 @@
-﻿using CodeCampRestora.Application.Common.Helpers.Pagination;
+﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
+using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Features.Orders.Queries.GetAllOrder;
 using CodeCampRestora.Application.Features.Orders.Commands.CreateOrder;
 using CodeCampRestora.Application.Features.Orders.Commands.UpdateOrder;
-using CodeCampRestora.Application.Features.Orders.Queries.GetAllOrder;
 using CodeCampRestora.Application.Features.Orders.Queries.GetOrderById;
-using CodeCampRestora.Application.Models;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using IResult = CodeCampRestora.Application.Models.IResult;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
