@@ -51,7 +51,8 @@ public static class ServicesConfiguration
             options.TokenValidationParameters = tokenValidationParameter;
         });
 
-        var connectionStringKey = "TestConnection";
+        //var connectionStringKey = "TestConnection";
+        var connectionStringKey = "ProductionConnection";
         var assemblyName = Assembly.GetExecutingAssembly().FullName;
         services.AddDbContext<ApplicationDbContext>(options =>
         {
