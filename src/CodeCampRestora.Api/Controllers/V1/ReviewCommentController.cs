@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.Features.ReviewComments;
-using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.ReviewComments.CommentHideCommand;
 
 namespace CodeCampRestora.Api.Controllers.V1;
