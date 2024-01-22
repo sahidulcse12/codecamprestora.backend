@@ -63,39 +63,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Orders",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    BranchId = table.Column<Guid>(type: "uuid", nullable: false),
-                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CustomerName = table.Column<string>(type: "text", nullable: false),
-                    Phone = table.Column<string>(type: "text", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Time = table.Column<TimeOnly>(type: "time without time zone", nullable: false),
-                    BookingType = table.Column<int>(type: "integer", nullable: false),
-                    Seats = table.Column<int>(type: "integer", nullable: false),
-                    OrderStatus = table.Column<int>(type: "integer", nullable: false),
-                    OrderTrackingNumber = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Comment = table.Column<string>(type: "text", nullable: false),
-                    ServingTime = table.Column<string>(type: "text", nullable: false),
-                    SubTotal = table.Column<double>(type: "double precision", nullable: false),
-                    VAT = table.Column<double>(type: "double precision", nullable: false),
-                    DeliveryCharge = table.Column<double>(type: "double precision", nullable: false),
-                    Discount = table.Column<double>(type: "double precision", nullable: false),
-                    TotalPrice = table.Column<double>(type: "double precision", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Orders", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "RefreshTokens",
                 columns: table => new
                 {
@@ -236,43 +203,16 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         principalColumn: "Id");
                 });
 
-            migrationBuilder.CreateTable(
-                name: "OrderItems",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    ItemName = table.Column<string>(type: "text", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    UnitPrice = table.Column<double>(type: "double precision", nullable: false),
-                    TotalItemPrice = table.Column<double>(type: "double precision", nullable: false),
-                    OrderId = table.Column<Guid>(type: "uuid", nullable: false),
-                    MenuItemId = table.Column<Guid>(type: "uuid", nullable: false),
-                    CreatedBy = table.Column<string>(type: "text", nullable: false),
-                    Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    LastModifiedBy = table.Column<string>(type: "text", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OrderItems", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OrderItems_Orders_OrderId",
-                        column: x => x.OrderId,
-                        principalTable: "Orders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.InsertData(
                 table: "AspNetRoles",
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { new Guid("0d8a013e-7358-4368-9489-619759e40e76"), "2", "Owner", "OWNER" },
-                    { new Guid("3d87619d-24fa-4fd5-9819-b6013bd03837"), "4", "Waiter", "WAITER" },
-                    { new Guid("4a2ea1e6-eb5b-45ff-a3bd-9533303bb3a9"), "1", "User", "USER" },
-                    { new Guid("6e8ecf47-be93-40f9-a72a-13ac1ca562db"), "5", "KitchenStuff", "KITCHENSTUFF" },
-                    { new Guid("98518ba3-751a-4d23-b648-6d95c833962d"), "3", "Manager", "MANAGER" }
+                    { new Guid("2397dcb6-35d4-4ace-84df-bf9d98109e2b"), "3", "Manager", "MANAGER" },
+                    { new Guid("388d9cb6-f605-484f-a09a-f2d7967e94b8"), "1", "User", "USER" },
+                    { new Guid("500f649f-b39c-4860-b350-6a5685faac6f"), "2", "Owner", "OWNER" },
+                    { new Guid("5ca39585-5c0b-4c5b-8d4f-4e6265e975b1"), "4", "Waiter", "WAITER" },
+                    { new Guid("74ae22f3-8c48-43b3-a189-c071619d2609"), "5", "KitchenStuff", "KITCHENSTUFF" }
                 });
 
             migrationBuilder.CreateIndex(
@@ -329,11 +269,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrderItems_OrderId",
-                table: "OrderItems",
-                column: "OrderId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Staffs_ApplicationUserId",
                 table: "Staffs",
                 column: "ApplicationUserId",
@@ -383,9 +318,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "OrderItems");
-
-            migrationBuilder.DropTable(
                 name: "RefreshTokens");
 
             migrationBuilder.DropTable(
@@ -393,9 +325,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
