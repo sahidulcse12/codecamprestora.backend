@@ -1,8 +1,8 @@
-﻿using CodeCampRestora.Application.Attributes;
-using CodeCampRestora.Application.Common.Interfaces.Repositories;
-using CodeCampRestora.Application.Common.Interfaces.Services;
-using CodeCampRestora.Application.Models;
+﻿using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Attributes;
 using CodeCampRestora.Infrastructure.Entities;
+using CodeCampRestora.Application.Common.Interfaces.Services;
+using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
 namespace CodeCampRestora.Application.Services;
 
@@ -16,10 +16,10 @@ public class RestaurantService : IRestaurantService
         _unitOfWork = unitOfWork;
     }
 
-    public async Task<IResult> CreateRestaurant(Restaurant restaurant)
-    {  
+    public async Task<IResult<Guid>> CreateRestaurantAsync(Restaurant restaurant)
+    {
         await _unitOfWork.Restaurants.AddAsync(restaurant);
         await _unitOfWork.SaveChangesAsync();
-        return Result.Success();
+        return Result<Guid>.Success(restaurant.Id);
     }
 }

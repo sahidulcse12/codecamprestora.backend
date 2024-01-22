@@ -5,5 +5,5 @@ namespace CodeCampRestora.Application.Common.Interfaces.Services;
 
 public interface IRestaurantService
 {
-    Task<IResult> CreateRestaurant(Restaurant restaurant);
+    Task<IResult<Guid>> CreateRestaurantAsync(Restaurant restaurant);
 }

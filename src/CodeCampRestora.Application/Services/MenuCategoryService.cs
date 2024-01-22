@@ -25,6 +25,8 @@ public class MenuCategoryService : IMenuCategoryService
         // var result = await _imageService.UploadImageAsync(imageEO);
 
         var menuCategory = menuCategoryDto.Adapt<MenuCategory>();
+        menuCategory.ImagePath = menuCategoryDto.Image.Name;
+        
         await _unitOfWork.MenuCategory.AddAsync(menuCategory);
         await _unitOfWork.SaveChangesAsync();
 
