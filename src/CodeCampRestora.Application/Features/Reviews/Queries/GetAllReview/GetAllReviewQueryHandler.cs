@@ -1,8 +1,8 @@
-﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+﻿using Mapster;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
-using Mapster;
 
 namespace CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
 
