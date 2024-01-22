@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
 namespace CodeCampRestora.Api.Controllers.V1;
-using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.RestaurantCQ.Commands.UpdateRestaurant;
 using CodeCampRestora.Application.Features.RestaurantCQ.Commands.CreateRestaurant;
 using CodeCampRestora.Application.Models;
@@ -9,7 +8,7 @@ using CodeCampRestora.Application.Models;
 public class RestaurantsController : ApiBaseController
 {
     // TODO: End point will be removed later
-    [HttpPost]               
+    [HttpPost]
     [SwaggerOperation(
     Summary = "Create a restaurant",
     Description = @"Sample Request:

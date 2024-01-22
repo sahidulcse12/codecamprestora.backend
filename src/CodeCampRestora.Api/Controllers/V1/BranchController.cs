@@ -2,13 +2,12 @@
 using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.DTOs;
 using Swashbuckle.AspNetCore.Annotations;
-using IResult = CodeCampRestora.Application.Models.IResult;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.Branches.Queries.GetById;
 using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.DeleteBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
-using CodeCampRestora.Application.Models;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -17,7 +16,7 @@ public class BranchController : ApiBaseController
 {
     private readonly ILogger<BranchController> _logger;
     private readonly IMediator _mediator;
-    
+
     public BranchController(ILogger<BranchController> logger, IMediator mediator)
     {
         _logger = logger;
