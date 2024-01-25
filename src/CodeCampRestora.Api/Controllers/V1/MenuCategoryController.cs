@@ -77,7 +77,7 @@ public class MenuCategoryController : ApiBaseController
     [SwaggerOperation(
         Summary = "Get paginated menu categories",
         Description = @"Sample Request:
-        Get: api/v1/MenuCategory/Paginated?PageNumber=1&PageSize=10"
+        Get: api/v1/MenuCategory/Paginated?RestaurantId=3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c&PageNumber=1&PageSize=10"
     )]
     public async Task<IResult<PaginationDto<MenuCategoryDto>>> GetPaginated(Guid RestaurantId, int PageNumber, int PageSize)
     {
