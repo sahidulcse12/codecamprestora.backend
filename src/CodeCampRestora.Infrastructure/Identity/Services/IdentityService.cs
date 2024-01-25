@@ -52,8 +52,7 @@ public class IdentityService : IIdentityService
 
         var newUser = new ApplicationUser
         {
-            FirstName = registerUserDto.FirstName,
-            LastName = registerUserDto.LastName,
+            FullName = registerUserDto.FullName,
             Email = registerUserDto.Email,
             UserName = registerUserDto.Email,
             RestaurantId = restaurantId
@@ -63,7 +62,6 @@ public class IdentityService : IIdentityService
         if (!result.Succeeded) return Result.Failure(StatusCodes.Status500InternalServerError, AuthErrors.UserCreationFailed);
 
         var createdUser = await _applicationUserManager.FindByEmailAsync(registerUserDto.Email);
-        Console.WriteLine();
         var role = await _applicationRoleManager.FindByNameAsync(UserRoles.Owner.ToString());
 
         if (createdUser is null || role is null)
@@ -115,8 +113,7 @@ public class IdentityService : IIdentityService
 
         var newuser = new ApplicationUser
         {
-            FirstName = registerMobileUserDTO.FirstName,
-            LastName = registerMobileUserDTO.LastName,
+            FullName = registerMobileUserDTO.FullName,
             Email = registerMobileUserDTO.Email,
             UserName = registerMobileUserDTO.Phone,
             PhoneNumber = registerMobileUserDTO.Phone,

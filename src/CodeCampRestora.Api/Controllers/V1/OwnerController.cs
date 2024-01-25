@@ -13,7 +13,7 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "register as a restaurant owner",
         Description = @"Sample Request:
-        Post: api/v1/owner/register
+        Post: api/v1/owners/register
         {
             ""firstName"": ""John"",
             ""lastName"": ""Doe"",
@@ -34,7 +34,7 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "Login as a restaurant owner",
         Description = @"Sample Request:
-        Post: api/v1/owner/login
+        Post: api/v1/owners/login
         {
             ""username"": ""john@example.com"",
             ""passoword"": ""Aa123456.""
@@ -53,7 +53,7 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "refresh token",
         Description = @"Sample Request:
-        Post: api/v1/owner/login
+        Post: api/v1/owners/login
         {
             ""accessToken"": ""provided token"",
             ""refreshToken"": ""provided refresh token""
