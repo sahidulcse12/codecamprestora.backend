@@ -8,6 +8,8 @@ using CodeCampRestora.Application.Features.MenuItems.Commands.CreateMenuCategory
 using CodeCampRestora.Application.Features.MenuCategories.Commands.DeleteMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Commands.GetAllMenuCategory;
 using CodeCampRestora.Application.Features.MenuCategories.Queries.GetPaginatedMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Commands.UpdateMenuCategory;
+using CodeCampRestora.Application.Features.MenuCategories.Commands.UpdateDisplayOrder;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -63,15 +65,35 @@ public class MenuCategoryController : ApiBaseController
         return result;
     }
 
+    [HttpPut]
+    [SwaggerOperation(summary: "Update a menu category")]
+    public async Task<IResult> Update([FromBody] UpdateMenuCategoryCommand command)
+    {
+        var result = await Sender.Send(command);
+        return result;
+    }
+
     [HttpGet("Paginated")]
     [SwaggerOperation(
         Summary = "Get paginated menu categories",
         Description = @"Sample Request:
-        Get: api/v1/MenuCategory/Paginated?PageNumber=1&PageSize=10"
+        Get: api/v1/MenuCategory/Paginated?RestaurantId=3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c&PageNumber=1&PageSize=10"
     )]
-    public async Task<IResult<PaginationDto<MenuCategory>>> GetPaginated(int PageNumber, int PageSize)
+    public async Task<IResult<PaginationDto<MenuCategoryDto>>> GetPaginated(Guid RestaurantId, int PageNumber, int PageSize)
     {
-        var result = await Sender.Send(new GetPaginatedMenuCategoriesQuery(PageNumber, PageSize));
+        var result = await Sender.Send(new GetPaginatedMenuCategoriesQuery(RestaurantId, PageNumber, PageSize));
+        return result;
+    }
+
+    [HttpPut("UpdateDisplayOrder")]
+    [SwaggerOperation(
+        Summary = "Update display order",
+        Description = @"Sample Request:
+        Get: api/v1/MenuCategory/UpdateDisplayOrder"
+    )]
+    public async Task<IResult> Update(List<MenuCategoryDto> menuCategories)
+    {
+        var result = await Sender.Send(new UpdateMenuCategoryDisplayOrderCommand(menuCategories));
         return result;
     }
 }

@@ -11,5 +11,5 @@ public class Review : AuditableEntity<Guid>
     public Guid BranchId { set; get; }
     public Branch? Branch { set; get; }
     public bool IsReviewHidden { get; set; }
-    public ICollection<ReviewComment>? ReviewComments { get; set; }
+    public IList<ReviewComment>? ReviewComments { get; set; }
 }
