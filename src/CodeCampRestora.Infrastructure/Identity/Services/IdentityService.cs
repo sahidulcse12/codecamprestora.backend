@@ -90,7 +90,7 @@ public class IdentityService : IIdentityService
         {
             return AuthOwnerResult.Failure(
                 StatusCodes.Status401Unauthorized,
-                AuthErrors.LoginError
+                AuthErrors.LoginFailed
             );
         }
 
@@ -147,7 +147,7 @@ public class IdentityService : IIdentityService
         var user = await _applicationUserManager.FindByNameAsync(mobileUserLoginDto.Phone);
         if (user is null)
         {
-            return AuthOwnerResult.Failure(
+            return AuthResult.Failure(
                 StatusCodes.Status404NotFound,
                 AuthErrors.UserNotFound
             );
@@ -156,9 +156,9 @@ public class IdentityService : IIdentityService
         var isPasswordVerified = await _applicationUserManager.CheckPasswordAsync(user, mobileUserLoginDto.Password);
         if (!isPasswordVerified)
         {
-            return AuthOwnerResult.Failure(
+            return AuthResult.Failure(
                 StatusCodes.Status401Unauthorized,
-                AuthErrors.LoginError
+                AuthErrors.LoginFailed
             );
         }
 
