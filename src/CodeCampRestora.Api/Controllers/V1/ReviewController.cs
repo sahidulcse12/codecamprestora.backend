@@ -13,17 +13,7 @@ namespace CodeCampRestora.Api.Controllers.V1;
 public class ReviewController : ApiBaseController
 {   
     [HttpGet]
-    [SwaggerOperation(
-        Summary = "Getting All Reviews",
-        Description = @"Sample Request:
-            Post: api/v1/Review
-            {
-            ""BranchId"": ""7C12E100-D081-49F5-94FE-D0D1598945C3"",
-            ""OrderId"":""7C12E100-D081-49F5-94FE-D0D1598945C3"",
-            ""Rating"":""4"",
-            ""Description"":""Someting""
-            }"
-    )]
+    
     public async Task<IResult<List<ReviewDTO>>> GetAll(int pageNumber, int pageSize)
     {
         var request = new GetAllReviewQuery(pageNumber,pageSize);
@@ -31,7 +21,18 @@ public class ReviewController : ApiBaseController
         return response;
     }
     [HttpPost]
-    public async Task<Application.Models.IResult> Post([FromBody]CreateReviewCommand reviewCommand)
+    [SwaggerOperation(
+        Summary = "Create Reviews",
+        Description = @"Sample Request:
+            Get: api/v1/Review
+            {
+            ""BranchId"": ""7C12E100-D081-49F5-94FE-D0D1598945C3"",
+            ""OrderId"":""7C12E100-D081-49F5-94FE-D0D1598945C3"",
+            ""Rating"":""4"",
+            ""Description"":""Someting""
+            }"
+    )]
+    public async Task<Application.Models.IResult> CreateReviews([FromBody]CreateReviewCommand reviewCommand)
     {
         var result = await Sender.Send(reviewCommand);
         return result;

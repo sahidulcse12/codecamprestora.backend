@@ -35,7 +35,8 @@ public class IdentityService : IIdentityService
             IConfiguration configuration,
             IApplicationUserManagerAdapter applicationUserManager,
             IApplicationRoleManagerAdapter applicationRoleManager,
-            TokenValidationParameters tokenValidationParameters)
+            TokenValidationParameters tokenValidationParameters,
+            IHttpContextAccessor context)
     {
         _dbContext = dbContext;
         _dateTime = dateTimeService;

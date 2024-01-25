@@ -6,5 +6,5 @@ namespace CodeCampRestora.Application.Features.ReviewComments.CommentHideCommand
 public class CommentHideCommand : ICommand<IResult>
 {
     public Guid Id { get; set; }
-    public bool IsHidden { get; set; }
+    public bool IsCommentHidden { get; set; }
 }
