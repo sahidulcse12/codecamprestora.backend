@@ -1,5 +1,5 @@
-﻿using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using CodeCampRestora.Application.Common.Helpers.Pagination;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 
@@ -19,7 +19,7 @@ public abstract class Repository<TEntity, TKey> :
 
     public virtual async Task AddAsync(TEntity entity)
     {
-        await _dbSet.AddAsync(entity);
+        await Task.FromResult(_dbSet.Add(entity));
     }
 
     public async Task DeleteAsync(TKey id)
@@ -62,7 +62,7 @@ public abstract class Repository<TEntity, TKey> :
         return doesExist;
     }
 
-    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object?>>[] navigationProperties)
+    public IQueryable<TEntity> IncludeProps(params Expression<Func<TEntity, object>>[] navigationProperties)
     {
         IQueryable<TEntity> query = _dbSet;
 
@@ -74,6 +74,7 @@ public abstract class Repository<TEntity, TKey> :
         return query;
     }
 
+
     public async Task<PagedList<TEntity>?> GetPaginatedAsync(
         int PageNumber,
         int PageSize,
@@ -83,5 +84,23 @@ public abstract class Repository<TEntity, TKey> :
         var entities = _dbSet.AsQueryable();
         var pagedList = await PagedList<TEntity>.ToPagedListAsync(entities, PageNumber, PageSize, orderBy);
         return pagedList;
+    }
+
+    public virtual async Task<IList<TEntity>> Get(
+            string includeProperties = "", int pageIndex = 1, int pageSize = 10)
+    {
+        IQueryable<TEntity> query = _dbSet;
+        var total = await query.CountAsync();
+        var totalDisplay = total;
+
+        foreach (var includeProperty in includeProperties.Split
+            (new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries))
+        {
+            query = query.Include(includeProperty);
+        }
+        var result = query.Skip((pageIndex - 1) * pageSize).Take(pageSize);
+
+        return result.ToList();
+        
     }
 }

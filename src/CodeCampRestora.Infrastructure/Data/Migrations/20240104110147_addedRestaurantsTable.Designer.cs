@@ -65,9 +65,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Guid>("CategoryId")
-                        .HasColumnType("uuid");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -76,6 +73,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")

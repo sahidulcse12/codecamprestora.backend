@@ -19,10 +19,10 @@ public class PagedList<T> : List<T>
     public int TotalCount { get; set; }
 
     public static async Task<PagedList<T>> ToPagedListAsync(
-        IQueryable<T> data,
-        int pageNumber,
+        IQueryable<T> data, 
+        int pageNumber, 
         int pageSize,
-        Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null
+        Func<IQueryable<T>, IOrderedQueryable<T>> orderBy = null
     )
     {
         var totalCount = await data.CountAsync();

@@ -23,7 +23,7 @@ public class CommentHideCommandHandler : ICommandHandler<CommentHideCommand, IRe
             return Result.Failure(ReviewErrors.NotFound);
         }
 
-        comment.IsCommentHidden = request.IsHidden;
+        comment.IsCommentHidden = request.IsCommentHidden;
         await _unitOfWork.Comments.UpdateAsync(comment.Id, comment);
         await _unitOfWork.SaveChangesAsync();
 
