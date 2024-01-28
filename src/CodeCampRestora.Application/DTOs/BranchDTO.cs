@@ -15,6 +15,7 @@ public class BranchDTO
     public string Name { get; set; } = string.Empty;
     public bool IsAvailable { get; set; }
     public PriceRange? PriceRange { get; set; }
+    public string? ImagePath { get; set; }
     public List<BranchCuisineTypeDTO> CuisineTypes { get; set; }
     public BranchAddressDTO Address { get; set; }
     public List<BranchOpeningClosingTimeDTO> OpeningClosingTimes { get; set; }
