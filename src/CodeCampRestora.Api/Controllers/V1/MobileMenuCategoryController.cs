@@ -1,9 +1,7 @@
 ﻿using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
 using CodeCampRestora.Application.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodeCampRestora.Api.Controllers.V1
 {
