@@ -56,7 +56,7 @@ public class MenuCategoryService : IMenuCategoryService
         return Result.Success();
     }
 
-    public async Task<IResult<List<MenuCategoryDto>>> GetAllHomeMenuCategoryAsync()
+    public async Task<IResult<List<MenuCategoryDto>>> GetAllMobileMenuCategoryAsync()
     {
         var MenuCategories = await _unitOfWork.MenuCategory.GetAllAsync();
         var MenuCategoriesDto = MenuCategories.Adapt<List<MenuCategoryDto>>();
