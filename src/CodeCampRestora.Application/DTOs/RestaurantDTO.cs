@@ -1,4 +1,4 @@
-﻿namespace CodeCampRestora.Application.Dtos;
+namespace CodeCampRestora.Application.Dtos;
 
 public class RestaurantDto
 {

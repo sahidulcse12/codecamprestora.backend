@@ -2,23 +2,23 @@
 using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.DTOs;
 using Swashbuckle.AspNetCore.Annotations;
-using IResult = CodeCampRestora.Application.Models.IResult;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.Branches.Queries.GetById;
 using CodeCampRestora.Application.Features.Branches.Commands.CreateBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.DeleteBranch;
 using CodeCampRestora.Application.Features.Branches.Commands.UpdateBranch;
 using CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
-using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Features.Branches.Queries.GetByLocation;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
 [Route("api/v1/branch")]
-public class BranchController : ApiBaseController
+public class BranchesController : ApiBaseController
 {
-    private readonly ILogger<BranchController> _logger;
+    private readonly ILogger<BranchesController> _logger;
     private readonly IMediator _mediator;
-    
-    public BranchController(ILogger<BranchController> logger, IMediator mediator)
+
+    public BranchesController(ILogger<BranchesController> logger, IMediator mediator)
     {
         _logger = logger;
         _mediator = mediator;
@@ -85,6 +85,18 @@ public class BranchController : ApiBaseController
         var result = await Sender.Send(new DeleteBranchCommand { Id = id });
         return result;
     }
+    [HttpGet]
+    [SwaggerOperation(
+        Summary = "Get All Branches by Location",
+        Description = @"Sample Request:
+        GetAll: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
+    public async Task<IResult>GetAll(double Latitude, double Longitude)
+    {
+        var result = await Sender.Send(new GetByLocationQuery(Latitude,Longitude));
+        return result;
+    }
+
 }
 
 
