@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using CodeCampRestora.Application.DTOs;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.Branches.Queries.GetById;
@@ -32,10 +31,10 @@ public class BranchesController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Branch not found", typeof(IResult))]
-    public async Task<IResult> GetAll(Guid resturantId,int pageNumber, int pageSize)
+    public async Task<IActionResult> GetAll(Guid resturantId,int pageNumber, int pageSize)
     {
         var result = await Sender.Send(new GetAllBranchesQuery(resturantId, pageNumber,pageSize));
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpGet("{id}")]
@@ -44,10 +43,10 @@ public class BranchesController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IResult<BranchDTO>> Get(Guid id)
+    public async Task<IActionResult> Get(Guid id)
     {
         var result = await Sender.Send(new GetBranchByIdQuery(id));
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPost]
@@ -56,10 +55,10 @@ public class BranchesController : ApiBaseController
         Description = @"Sample Request:
         Post: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IResult> Post([FromBody] CreateBranchCommand newItem)
+    public async Task<IActionResult> Post([FromBody] CreateBranchCommand newItem)
     {
         var result = await Sender.Send(newItem);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPut]
@@ -68,10 +67,10 @@ public class BranchesController : ApiBaseController
         Description = @"Sample Request:
         Put: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IResult> Put(UpdateBranchCommand updatedItem)
+    public async Task<IActionResult> Put(UpdateBranchCommand updatedItem)
     {
         var result = await Sender.Send(updatedItem);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpDelete("{id}")]
@@ -80,10 +79,10 @@ public class BranchesController : ApiBaseController
         Description = @"Sample Request:
         Delete: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IResult> Delete(Guid id)
+    public async Task<IActionResult> Delete(Guid id)
     {
         var result = await Sender.Send(new DeleteBranchCommand { Id = id });
-        return result;
+        return result.ToActionResult();
     }
     [HttpGet]
     [SwaggerOperation(
@@ -91,10 +90,10 @@ public class BranchesController : ApiBaseController
         Description = @"Sample Request:
         GetAll: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IResult>GetAll(double Latitude, double Longitude)
+    public async Task<IActionResult> GetAll(double Latitude, double Longitude)
     {
         var result = await Sender.Send(new GetByLocationQuery(Latitude,Longitude));
-        return result;
+        return result.ToActionResult();
     }
 
 }

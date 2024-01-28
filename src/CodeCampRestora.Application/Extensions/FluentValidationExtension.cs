@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace CodeCampRestora.Application.Extensions;
 
-public static class FluentValidationExtensions
+public static class FluentValidationExtension
 {
     public static IRuleBuilderOptions<T, string> ValidatePassword<T>(this IRuleBuilder<T, string> ruleBuilder)
     {

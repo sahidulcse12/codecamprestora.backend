@@ -23,13 +23,14 @@ public class UserController : ApiBaseController
         }"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
-    [SwaggerResponse(StatusCodes.Status403Forbidden, "Request validation failed", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Role not found", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "User already exists", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Internal server error occurred", typeof(IResult))]
-    public async Task<IResult> Register([FromBody] UserSignupCommand command)
+    public async Task<IActionResult> Register([FromBody] UserSignupCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPost("login")]
@@ -44,12 +45,12 @@ public class UserController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(IAuthResult))]
-    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Request validation failed", typeof(IAuthResult))]
-    [SwaggerResponse(StatusCodes.Status500InternalServerError, "Internal server error occurred", typeof(IAuthResult))]
-    public async Task<IResult> Login([FromBody] UserLoginCommand command)
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IAuthResult))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Wrong user credentials", typeof(IAuthResult))]
+    public async Task<IActionResult> Login([FromBody] UserLoginCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPost("refresh")]
@@ -63,10 +64,10 @@ public class UserController : ApiBaseController
         }"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthResult))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IAuthResult))]
-    public async Task<IResult> RefreshToken([FromBody] CreateRefreshTokenCommand command)
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Refresh token creation failed", typeof(IAuthResult))]
+    public async Task<IActionResult> RefreshToken([FromBody] CreateRefreshTokenCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 }
