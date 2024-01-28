@@ -94,6 +94,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnName("text");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -211,6 +214,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
@@ -264,6 +268,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("ImagePath")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("Ingredients")

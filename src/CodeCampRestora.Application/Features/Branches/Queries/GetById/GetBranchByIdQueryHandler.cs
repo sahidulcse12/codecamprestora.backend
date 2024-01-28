@@ -33,6 +33,7 @@ namespace CodeCampRestora.Application.Features.Branches.Queries.GetById
             if (branchEO == null) throw new ResourceNotFoundException("Branch Not found");
 
             var branchDto = branchEO.Adapt<BranchDTO>();
+            
             return Result<BranchDTO>.Success(branchDto);
         }
     }

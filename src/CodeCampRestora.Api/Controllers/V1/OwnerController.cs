@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.Auths.Commands.OwnerLogin;
 using CodeCampRestora.Application.Features.Auths.Commands.CreateRefreshToken;
 using CodeCampRestora.Application.Features.Auths.Commands.RestaurantOwner.Signup;
@@ -13,10 +14,10 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "register as a restaurant owner",
         Description = @"Sample Request:
-        Post: api/v1/owner/register
+        Post: api/v1/owners/register
         {
-            ""firstName"": ""John"",
-            ""lastName"": ""Doe"",
+            ""fullName"": ""John Doe"",
+            ""restaurantName"": ""KFC"",
             ""email"": ""john@example.com"",
             ""password"": ""Aa123456.""
         }"
@@ -34,15 +35,15 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "Login as a restaurant owner",
         Description = @"Sample Request:
-        Post: api/v1/owner/login
+        Post: api/v1/owners/login
         {
             ""username"": ""john@example.com"",
             ""passoword"": ""Aa123456.""
         }"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "User doesn't exist", typeof(IResult))]
-    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Wrong user credentials", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthOwnerResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "User doesn't exist", typeof(IAuthOwnerResult))]
+    [SwaggerResponse(StatusCodes.Status401Unauthorized, "Wrong user credentials", typeof(IAuthOwnerResult))]
     public async Task<IResult> Login([FromBody] OwnerLoginCommand command)
     {
         var result = await Sender.Send(command);
@@ -53,14 +54,14 @@ public class OwnerController : ApiBaseController
     [SwaggerOperation(
         Summary = "refresh token",
         Description = @"Sample Request:
-        Post: api/v1/owner/login
+        Post: api/v1/owners/refresh
         {
             ""accessToken"": ""provided token"",
             ""refreshToken"": ""provided refresh token""
         }"
     )]
-    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthOwnerResult))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IAuthOwnerResult))]
     public async Task<IResult> RefreshToken([FromBody] CreateRefreshTokenCommand command)
     {
         var result = await Sender.Send(command);
