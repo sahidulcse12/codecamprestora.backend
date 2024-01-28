@@ -1,24 +1,21 @@
-﻿using CodeCampRestora.Application.DTOs;
+﻿using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.IsReviewHidden;
-using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
-using CodeCampRestora.Application.Models;
-using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
 [Route("api/v1/[controller]")]
 [ApiController]
 public class ReviewController : ApiBaseController
-{   
+{
     [HttpGet]
-    
-    public async Task<IResult<List<ReviewDTO>>> GetAll(int pageNumber, int pageSize)
+    public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
     {
-        var request = new GetAllReviewQuery(pageNumber,pageSize);
+        var request = new GetAllReviewQuery(pageNumber, pageSize);
         var response = await Sender.Send(request);
-        return response;
+        return response.ToActionResult();
     }
     [HttpPost]
     [SwaggerOperation(
@@ -32,7 +29,7 @@ public class ReviewController : ApiBaseController
             ""Description"":""Someting""
             }"
     )]
-    public async Task<Application.Models.IResult> CreateReviews([FromBody]CreateReviewCommand reviewCommand)
+    public async Task<Application.Models.IResult> CreateReviews([FromBody] CreateReviewCommand reviewCommand)
     {
         var result = await Sender.Send(reviewCommand);
         return result;
@@ -46,9 +43,9 @@ public class ReviewController : ApiBaseController
              ""hideReview"": true
             }"
     )]
-    public async Task<Application.Models.IResult> IsReviewHiddenUpdate([FromBody]  HiddenReviewCommand hiddenReviewCommand)
+    public async Task<IActionResult> IsReviewHiddenUpdate([FromBody] HiddenReviewCommand hiddenReviewCommand)
     {
         var result = await Sender.Send(hiddenReviewCommand);
-        return result;
+        return result.ToActionResult();
     }
 }
