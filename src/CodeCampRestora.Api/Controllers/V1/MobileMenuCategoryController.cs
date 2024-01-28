@@ -2,18 +2,31 @@
 using CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
 using CodeCampRestora.Application.Models;
 using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
-namespace CodeCampRestora.Api.Controllers.V1
+namespace CodeCampRestora.Api.Controllers.V1;
+
+[Route("api/v1")]
+public class MobileMenuCategoryController : ApiBaseController
 {
-    [Route("api/MobileHomeMenuCategory")]
-    [ApiController]
-    public class MobileMenuCategoryController : ApiBaseController
+    private readonly ILogger<BranchesController> _logger;
+
+    public MobileMenuCategoryController(ILogger<BranchesController> logger)
     {
-        [HttpGet("GetAllMobileMenuCategorty")]
-        public async Task<IResult<List<MenuCategoryDto>>> GetAllMobileMenuCategories()
-        {
-            var result = await Sender.Send(new GetAllMobileMenuCategoryQuery());
-            return result;
-        }
+        _logger = logger;
+    }
+
+    [HttpGet("GetAllMobileMenuCategorty")]
+    [SwaggerOperation(
+        Summary = "Get all menu category for a mobile app",
+        Description = @"Sample Request:
+        GetAll: api/v1/MobileHomeMenuCategory"
+    )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Catesgory is not found", typeof(IResult))]
+    public async Task<IResult<List<MenuCategoryDto>>> GetAllMobileMenuCategories()
+    {
+        var result = await Sender.Send(new GetAllMobileMenuCategoryQuery());
+        return result;
     }
 }
