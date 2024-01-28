@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using CodeCampRestora.Application.Models;
 using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Features.Orders.Queries.GetAllOrder;
 using CodeCampRestora.Application.Features.Orders.Commands.CreateOrder;
@@ -27,9 +26,9 @@ namespace CodeCampRestora.Api.Controllers.V1
         )]
         [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
         [SwaggerResponse(StatusCodes.Status404NotFound, "Orders not found", typeof(IResult))]
-        public async Task<IActionResult> GetAll(int pageNumber, int pageSize)
+        public async Task<IActionResult> GetAll(Guid branchId, int pageNumber, int pageSize)
         {
-            var request = new GetAllOrdersQuery(pageNumber, pageSize);
+            var request = new GetAllOrdersQuery(branchId, pageNumber, pageSize);
             var response = await Sender.Send(request);
             return response.ToActionResult();
         }

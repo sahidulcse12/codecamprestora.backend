@@ -20,7 +20,6 @@ public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IRe
 
     public async Task<IResult<List<BranchListDTO>>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
     {
-
         var restaurant = await _uniOfWork
             .Restaurants
             .IncludeProps(resturant => resturant.Branches)

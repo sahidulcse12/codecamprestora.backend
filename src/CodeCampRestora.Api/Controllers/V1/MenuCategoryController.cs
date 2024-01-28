@@ -15,6 +15,7 @@ public class MenuCategoryController : ApiBaseController
 {
     [HttpPost]
     [SwaggerOperation(summary: "Create a menu category")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IActionResult> Post([FromBody] CreateMenuCategoryCommand command)
     {
         var result = await Sender.Send(command);
@@ -27,6 +28,8 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Menu category not found", typeof(IResult))]
     public async Task<IActionResult> Get(
         [FromRoute, SwaggerParameter(Description = "Get menu category by id", Required = true)]
         Guid id)
@@ -41,6 +44,7 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IActionResult> GetAll(
         [FromRoute, SwaggerParameter(Description = "Get all menu categories by restaurant id", Required = true)]
         Guid id)
@@ -55,6 +59,8 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Menu item not found", typeof(IResult))]
     public async Task<IActionResult> Delete(
         [FromRoute, SwaggerParameter(Description = "Delete by id", Required = true)]
         Guid id)
@@ -65,6 +71,7 @@ public class MenuCategoryController : ApiBaseController
 
     [HttpPut]
     [SwaggerOperation(summary: "Update a menu category")]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IActionResult> Update([FromBody] UpdateMenuCategoryCommand command)
     {
         var result = await Sender.Send(command);
@@ -77,6 +84,7 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/Paginated?RestaurantId=3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c&PageNumber=1&PageSize=10"
     )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IActionResult> GetPaginated(Guid RestaurantId, int PageNumber, int PageSize)
     {
         var result = await Sender.Send(new GetPaginatedMenuCategoriesQuery(RestaurantId, PageNumber, PageSize));
@@ -89,6 +97,7 @@ public class MenuCategoryController : ApiBaseController
         Description = @"Sample Request:
         Get: api/v1/MenuCategory/UpdateDisplayOrder"
     )]
+    [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     public async Task<IActionResult> Update(List<MenuCategoryDto> menuCategories)
     {
         var result = await Sender.Send(new UpdateMenuCategoryDisplayOrderCommand(menuCategories));
