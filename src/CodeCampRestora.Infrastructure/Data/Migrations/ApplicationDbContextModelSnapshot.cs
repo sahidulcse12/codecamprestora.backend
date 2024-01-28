@@ -91,6 +91,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnName("text");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
