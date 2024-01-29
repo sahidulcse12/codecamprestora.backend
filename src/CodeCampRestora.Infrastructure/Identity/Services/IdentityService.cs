@@ -213,7 +213,7 @@ public class IdentityService : IIdentityService
             var claims = new List<Claim> {
                 new(ApplicationConstants.RestaurantIdClaim, user.RestaurantId.ToString()!)
             };
-            await GenerateTokenAsync(user, claims);
+            return await GenerateTokenAsync(user, claims);
         }
 
         return await GenerateTokenAsync(user);
@@ -239,7 +239,7 @@ public class IdentityService : IIdentityService
         var securityToken = new TokenBuilder()
             .AddIssuer(_configuration["JWT:ValidIssuer"]!)
             .AddAudience(_configuration["JWT:ValidAudience"]!)
-            .AddExpiry(_dateTime.Now.AddMinutes(2))
+            .AddExpiry(_dateTime.Now.AddMinutes(1))
             .AddNotBefore(_dateTime.Now)
             .AddClaims(authClaims)
             .AddKey(_configuration["JWT:Secret"]!)
