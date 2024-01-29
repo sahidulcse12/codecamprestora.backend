@@ -72,7 +72,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("BranchId")
                         .IsUnique();
 
-                    b.ToTable("Address");
+                    b.ToTable("Address", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.Branch", b =>
@@ -90,6 +90,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("ImagePath")
+                        .HasColumnName("text");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -112,7 +115,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Branches");
+                    b.ToTable("Branches", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.CuisineType", b =>
@@ -146,7 +149,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("CuisineType");
+                    b.ToTable("CuisineType", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.OpeningClosingTime", b =>
@@ -188,7 +191,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("OpeningClosingTime");
+                    b.ToTable("OpeningClosingTime", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.MenuCategory", b =>
@@ -229,7 +232,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("MenuCategories");
+                    b.ToTable("MenuCategories", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.MenuItem", b =>
@@ -289,7 +292,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems");
+                    b.ToTable("MenuItems", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.Order", b =>
@@ -372,7 +375,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders");
+                    b.ToTable("Orders", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.OrderItem", b =>
@@ -418,7 +421,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems");
+                    b.ToTable("OrderItems", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Review", b =>
@@ -460,7 +463,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("Reviews");
+                    b.ToTable("Reviews", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComment", b =>
@@ -500,7 +503,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("ReviewComments");
+                    b.ToTable("ReviewComments", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Staff", b =>
@@ -523,7 +526,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Staffs");
+                    b.ToTable("Staffs", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Identity.ApplicationUser", b =>
@@ -546,11 +549,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
 
-                    b.Property<string>("FirstName")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("LastName")
+                    b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("text");
 
@@ -631,7 +630,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens");
+                    b.ToTable("RefreshTokens", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Category", b =>
@@ -665,7 +664,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Category");
+                    b.ToTable("Category", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Restaurant", b =>
@@ -698,7 +697,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants");
+                    b.ToTable("Restaurants", (string)null);
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Identity.Models.ApplicationRole", b =>
