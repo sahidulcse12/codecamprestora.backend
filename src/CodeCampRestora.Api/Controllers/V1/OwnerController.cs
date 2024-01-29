@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Models;
+using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Features.Auths.Commands.OwnerLogin;
 using CodeCampRestora.Application.Features.Auths.Commands.CreateRefreshToken;
 using CodeCampRestora.Application.Features.Auths.Commands.RestaurantOwner.Signup;
@@ -23,12 +23,17 @@ public class OwnerController : ApiBaseController
         }"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
-    [SwaggerResponse(StatusCodes.Status403Forbidden, "Request validation failed", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "Role not found", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status403Forbidden, "User already exists", typeof(IResult))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status500InternalServerError, "Internal server error occurred", typeof(IResult))]
-    public async Task<IResult> Register([FromBody] OwnerSignupCommand command)
+    public async Task<IActionResult> Register(
+        [FromBody, SwaggerRequestBody(Description = "Restaurant owner signup payload", Required = true)]
+        OwnerSignupCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        if (result.IsSuccess) return Ok(result);
+        return result.ToActionResult();
     }
 
     [HttpPost("login")]
@@ -42,12 +47,15 @@ public class OwnerController : ApiBaseController
         }"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthOwnerResult))]
-    [SwaggerResponse(StatusCodes.Status404NotFound, "User doesn't exist", typeof(IAuthOwnerResult))]
+    [SwaggerResponse(StatusCodes.Status404NotFound, "User not found", typeof(IAuthOwnerResult))]
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IAuthOwnerResult))]
     [SwaggerResponse(StatusCodes.Status401Unauthorized, "Wrong user credentials", typeof(IAuthOwnerResult))]
-    public async Task<IResult> Login([FromBody] OwnerLoginCommand command)
+    public async Task<IActionResult> Login(
+        [FromBody, SwaggerRequestBody(Description = "Restaurant owner login payload", Required = true)]
+        OwnerLoginCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPost("refresh")]
@@ -61,10 +69,12 @@ public class OwnerController : ApiBaseController
         }"
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IAuthOwnerResult))]
-    [SwaggerResponse(StatusCodes.Status400BadRequest, "Request validation failed", typeof(IAuthOwnerResult))]
-    public async Task<IResult> RefreshToken([FromBody] CreateRefreshTokenCommand command)
+    [SwaggerResponse(StatusCodes.Status400BadRequest, "Refresh token creation failed", typeof(IAuthOwnerResult))]
+    public async Task<IActionResult> RefreshToken(
+        [FromBody, SwaggerRequestBody(Description = "Refresh token creation payload", Required = true)]
+        CreateRefreshTokenCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 }
