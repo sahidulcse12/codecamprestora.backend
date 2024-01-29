@@ -1,6 +1,10 @@
-﻿namespace CodeCampRestora.Application.Features.MobieMenuCategories.PriceRange.Queries;
+﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
+using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Models;
 
-public class GetPricesRangeQuery
+namespace CodeCampRestora.Application.Features.MobieMenuCategories.PriceRange.Queries;
+
+public class GetPricesRangeQuery : IQuery<IResult<List<BranchListDTO>>>
 {
 }
 
