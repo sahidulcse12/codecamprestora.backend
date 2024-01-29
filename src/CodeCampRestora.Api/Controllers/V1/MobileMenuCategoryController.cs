@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
 using Swashbuckle.AspNetCore.Annotations;
-using CodeCampRestora.Application.Features.MobieMenuCategories.PriceRange.Queries;
+using CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
+using CodeCampRestora.Domain.Enums;
 
 
 namespace CodeCampRestora.Api.Controllers.V1;
@@ -30,15 +31,16 @@ public class MobileMenuCategoryController : ApiBaseController
         return result.ToActionResult();
     }
 
-    [HttpGet("GetPriceRange")]
+    [HttpGet("GetPriceRange/{slug}")]
     [SwaggerOperation(
-        Summary = "Get Price Range",
+        Summary = "Get Branch By Price Range",
         Description = @"Sample Request:
         GetAll: api/v1/GetPriceRange"
     )]
-    public async Task<IActionResult> GetPriceRange()
+
+    public async Task<IActionResult> GetPriceRange(PriceRange slug)
     {
-        var result = await Sender.Send(new GetPricesRangeQuery());
+        var result = await Sender.Send(new GetPricesRangeQuery(slug));
         return result.ToActionResult();
     }
 }

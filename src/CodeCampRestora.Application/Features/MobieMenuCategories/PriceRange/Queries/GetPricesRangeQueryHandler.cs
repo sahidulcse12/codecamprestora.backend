@@ -5,7 +5,7 @@ using CodeCampRestora.Application.Models;
 using Mapster;
 using Microsoft.EntityFrameworkCore;
 
-namespace CodeCampRestora.Application.Features.MobieMenuCategories.PriceRange.Queries;
+namespace CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
 public class GetPricesRangeQueryHandler : IQueryHandler<GetPricesRangeQuery, IResult<List<BranchListDTO>>>
 {
     private readonly IUnitOfWork _uniOfWork;
@@ -13,12 +13,16 @@ public class GetPricesRangeQueryHandler : IQueryHandler<GetPricesRangeQuery, IRe
     {
         _uniOfWork = unitOfWork;
     }
+
     public async Task<IResult<List<BranchListDTO>>> Handle(GetPricesRangeQuery request, CancellationToken cancellationToken)
     {
-        var branch = await _uniOfWork.Branches.IncludeProps(i => i.PriceRange).ToListAsync();
+        var branches = _uniOfWork
+               .Branches
+               .GetByFilter(branch => branch.PriceRange == request.PriceRange);
 
-        var branchdto = branch.Adapt<BranchListDTO>();
-        return Result<List<BranchListDTO>>.Success(new List<BranchListDTO> { branchdto });
+        var branchesDTO = branches.Select(branch => branch.Adapt<BranchListDTO>()).ToList();
+
+        return Result<List<BranchListDTO>>.Success(branchesDTO);
     }
 }
 
