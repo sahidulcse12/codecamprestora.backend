@@ -3,6 +3,7 @@ using Swashbuckle.AspNetCore.Annotations;
 using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.IsReviewHidden;
+using CodeCampRestora.Application.Features.Branches.Queries.GetById;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -34,6 +35,18 @@ public class ReviewController : ApiBaseController
         var result = await Sender.Send(reviewCommand);
         return result;
     }
+    [HttpGet("{id}")]
+    [SwaggerOperation(
+        Summary = "Get a review by BranchID",
+        Description = @"Sample Request:
+        Get: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
+    )]
+    public async Task<IActionResult> Get(Guid id)
+    {
+        var result = await Sender.Send(new GetBranchByIdQuery(id));
+        return result.ToActionResult();
+    }
+
     [HttpPatch]
     [SwaggerOperation(
         Summary = "Hide or Show a Review",
