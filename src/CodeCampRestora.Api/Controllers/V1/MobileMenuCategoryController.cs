@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.Features.MobieMenuCategories.Queries;
-using CodeCampRestora.Application.Models;
 using Swashbuckle.AspNetCore.Annotations;
+using CodeCampRestora.Application.Features.MobieMenuCategories.PriceRange.Queries;
 
 
 namespace CodeCampRestora.Api.Controllers.V1;
@@ -24,10 +24,21 @@ public class MobileMenuCategoryController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Catesgory is not found", typeof(IResult))]
-        public async Task<IActionResult> GetAllMobileMenuCategories()
-        {
-            var result = await Sender.Send(new GetAllMobileMenuCategoryQuery());
-            return result.ToActionResult();
-        }
+    public async Task<IActionResult> GetAllMobileMenuCategories()
+    {
+        var result = await Sender.Send(new GetAllMobileMenuCategoryQuery());
+        return result.ToActionResult();
+    }
+
+    [HttpGet("GetPriceRange")]
+    [SwaggerOperation(
+        Summary = "Get Price Range",
+        Description = @"Sample Request:
+        GetAll: api/v1/GetPriceRange"
+    )]
+    public async Task<IActionResult> GetPriceRange()
+    {
+        var result = await Sender.Send(new GetPricesRangeQuery());
+        return result.ToActionResult();
     }
 }
