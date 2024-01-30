@@ -24,6 +24,7 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
         //    byte[] imageBytes = Convert.FromBase64String(image.Base64Url);
         //}
         //   var imageEO = request.Adapt<List<Image>>();
+
             var rPaths = await _imageService.UploadMultipleImagesAsync(request.Images);
             var relativePaths = rPaths.Data;
         
