@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CodeCampRestora.Application.Features.Branches.Queries.GetAllBranch;
 
-public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IResult<List<BranchListDTO>>>
+public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IResult<PaginationDto<BranchListDTO>>>
 {
     private readonly IUnitOfWork _uniOfWork;
     public GetAllBranchQueryHandeller(IUnitOfWork uniOfWork)
@@ -18,7 +18,7 @@ public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IRe
         _uniOfWork = uniOfWork;
     }
 
-    public async Task<IResult<List<BranchListDTO>>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
+    public async Task<IResult<PaginationDto<BranchListDTO>>> Handle(GetAllBranchesQuery request, CancellationToken cancellationToken)
     {
         var restaurant = await _uniOfWork
             .Restaurants
@@ -27,14 +27,15 @@ public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IRe
 
         if (restaurant is null)
         {
-            return Result<List<BranchListDTO>>.Failure(
+            return Result<PaginationDto<BranchListDTO>>.Failure(
                 StatusCodes.Status404NotFound,
                 BranchErrors.NotFound);
         }
 
         var result = await _uniOfWork.Branches.GetBranchesByRestaurant(restaurant,"Address,CuisineTypes,OpeningClosingTimes",request.PageNumber, request.PageSize);
         var branchListDto = result.Adapt<List<BranchListDTO>>();
+        var paginationDto = new PaginationDto<BranchListDTO> (branchListDto, result.TotalCount,result.TotalPages);
 
-        return Result<List<BranchListDTO>>.Success(branchListDto);
+        return Result<PaginationDto<BranchListDTO>>.Success(paginationDto);
     }
 }

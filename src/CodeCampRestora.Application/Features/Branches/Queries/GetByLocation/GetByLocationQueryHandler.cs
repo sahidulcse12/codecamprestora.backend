@@ -37,20 +37,16 @@ public class GetByLocationQueryHandler : IQueryHandler<GetByLocationQuery, IResu
            .Select(branch =>  new
            {
                Branch = branch,
-               Distance = new GeoCoordinate(branch.Address.Longitude, branch.Address.Latitude)
+               Distance = new GeoCoordinate(branch.Address.Latitude, branch.Address.Longitude)
                                .GetDistanceTo(requestedLocation)
            })
-           .OrderBy(x => x.Distance)
-           .First();
-        Console.WriteLine(nearestBranch);
+            .OrderBy(x => x.Distance)
+           .Take(10)
+           .ToList();
 
+        var nearestBranchDto = nearestBranch.Select(branch => branch.Branch.Adapt<BranchListDTO>()).ToList();
 
-        var nearestBranchDto = nearestBranch.Branch.Adapt<BranchListDTO>();
-
-
-
-        return Result<List<BranchListDTO>>.Success(new List<BranchListDTO> { nearestBranchDto });
-
+        return Result<List<BranchListDTO>>.Success(nearestBranchDto);
 
     }
 
