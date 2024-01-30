@@ -25,10 +25,8 @@ public class CreateImageCommandHandler : ICommandHandler<CreateImageCommand, IRe
         //}
         //   var imageEO = request.Adapt<List<Image>>();
 
-            var rPaths = await _imageService.UploadMultipleImagesAsync(request.Images);
-            var relativePaths = rPaths.Data;
-        
-
+        var rPaths = await _imageService.UploadMultipleImagesAsync(request.Images);
+        var relativePaths = rPaths.Data;
         
         return Result<List<ImageDTO>>.Success(new List<ImageDTO>());
     }

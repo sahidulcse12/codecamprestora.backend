@@ -2,6 +2,7 @@
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.Branches;
 using GeoCoordinatePortable;
@@ -37,22 +38,21 @@ public class GetByLocationQueryHandler : IQueryHandler<GetByLocationQuery, IResu
            .Select(branch =>  new
            {
                Branch = branch,
-               Distance = new GeoCoordinate(branch.Address.Longitude, branch.Address.Latitude)
+               Distance = new GeoCoordinate(branch.Address.Latitude, branch.Address.Longitude)
                                .GetDistanceTo(requestedLocation)
            })
-           .OrderBy(x => x.Distance)
-           .First();
-        Console.WriteLine(nearestBranch);
+            .OrderBy(x => x.Distance)
+           .Take(10)
+           .ToList();
 
+        var nearestBranchDto = nearestBranch.Select(branch => branch.Branch.Adapt<BranchListDTO>()).ToList();
 
-        var nearestBranchDto = nearestBranch.Branch.Adapt<BranchListDTO>();
-
-
-
-        return Result<List<BranchListDTO>>.Success(new List<BranchListDTO> { nearestBranchDto });
-
+        return Result<List<BranchListDTO>>.Success(nearestBranchDto);
 
     }
 
-
+    public Task<IResult<List<ReviewDTO>>> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }
