@@ -2,6 +2,7 @@
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.Branches;
 using Mapster;
@@ -37,5 +38,10 @@ public class GetAllBranchQueryHandeller : IQueryHandler<GetAllBranchesQuery, IRe
         var paginationDto = new PaginationDto<BranchListDTO> (branchListDto, result.TotalCount,result.TotalPages);
 
         return Result<PaginationDto<BranchListDTO>>.Success(paginationDto);
+    }
+
+    public Task<IResult<List<ReviewDTO>>> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }

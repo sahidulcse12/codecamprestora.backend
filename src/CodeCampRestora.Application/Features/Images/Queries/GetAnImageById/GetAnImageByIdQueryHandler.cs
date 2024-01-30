@@ -2,6 +2,7 @@ using CodeCampRestora.Application.DTOs;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
 
 namespace CodeCampRestora.Application.Features.Images.Queries.GetAnImageById;
 
@@ -20,5 +21,10 @@ public class GetAnImageByIdQueryHandler : IQueryHandler<GetAnImageByIdQuery, IRe
         //var result = await _imageService.GetAllImageAsync(new List<string>() { "images//257511e4-8cd1-40de-8814-2e40fa5a5de8_mosabbir.jpg", "images//3581dcfe-f4d9-431b-bef4-b847095afa56_signature.jpg" });
 
         return (IResult<ImageDTO>)result;
+    }
+
+    public Task<IResult<List<ReviewDTO>>> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
     }
 }
