@@ -1,9 +1,8 @@
 ﻿using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
-using CodeCampRestora.Application.Models;
 using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
-using MediatR;
+using CodeCampRestora.Application.Models;
 using Mapster;
 namespace CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
 
@@ -23,12 +22,7 @@ public class GetAllReviewQueryHandler : IQueryHandler<GetAllReviewQuery, IResult
         return Result<List<ReviewDTO>>.Success(reviewsDto);
     }
 
-    Task<IResult<List<ReviewDTO>>> IQueryHandler<GetAllReviewQuery, IResult<List<ReviewDTO>>>.Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
-    {
-        throw new NotImplementedException();
-    }
-
-    Task<IResult<List<ReviewDTO>>> IRequestHandler<GetAllReviewQuery, IResult<List<ReviewDTO>>>.Handle(GetAllReviewQuery request, CancellationToken cancellationToken)
+    public Task<IResult<List<ReviewDTO>>> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();
     }

@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Swashbuckle.AspNetCore.Annotations;
-using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
-using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
+﻿using CodeCampRestora.Application.Features.Reviews.Commands.CreateReview;
 using CodeCampRestora.Application.Features.Reviews.Commands.IsReviewHidden;
-using CodeCampRestora.Application.Features.Branches.Queries.GetById;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetAllReview;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
+using Microsoft.AspNetCore.Mvc;
+using Swashbuckle.AspNetCore.Annotations;
 
 namespace CodeCampRestora.Api.Controllers.V1;
 
@@ -30,20 +30,21 @@ public class ReviewController : ApiBaseController
             ""Description"":""Someting""
             }"
     )]
-    public async Task<Application.Models.IResult> CreateReviews([FromBody] CreateReviewCommand reviewCommand)
+    public async Task<IActionResult> CreateReviews([FromBody] CreateReviewCommand reviewCommand)
     {
         var result = await Sender.Send(reviewCommand);
-        return result;
+        return result.ToActionResult();
     }
-    [HttpGet("{id}")]
+    [HttpGet]
+    [Route("{BranchId:Guid}")]
     [SwaggerOperation(
         Summary = "Get a review by BranchID",
         Description = @"Sample Request:
         Get: api/v1/branch/3d8cd15b-6414-4bbc-92f7-5d6e9d3e5c9c"
     )]
-    public async Task<IActionResult> Get(Guid id)
+    public async Task<IActionResult> Get(Guid BranchId, int pageNumber, int pageSize)
     {
-        var result = await Sender.Send(new GetBranchByIdQuery(id));
+        var result = await Sender.Send(new GetReviewByIdQuery(BranchId, pageNumber,pageSize));
         return result.ToActionResult();
     }
 

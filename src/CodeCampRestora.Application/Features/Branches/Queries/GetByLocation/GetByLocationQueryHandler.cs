@@ -2,6 +2,7 @@
 using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.DTOs;
+using CodeCampRestora.Application.Features.Reviews.Queries.GetReviewById;
 using CodeCampRestora.Application.Models;
 using CodeCampRestora.Domain.Entities.Branches;
 using GeoCoordinatePortable;
@@ -54,5 +55,8 @@ public class GetByLocationQueryHandler : IQueryHandler<GetByLocationQuery, IResu
 
     }
 
-
+    public Task<IResult<List<ReviewDTO>>> Handle(GetReviewByIdQuery request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }
