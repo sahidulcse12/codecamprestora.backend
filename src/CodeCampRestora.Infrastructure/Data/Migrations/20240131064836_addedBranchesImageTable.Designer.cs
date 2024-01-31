@@ -3,6 +3,7 @@ using System;
 using CodeCampRestora.Infrastructure.Data.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace CodeCampRestora.Infrastructure.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240131064836_addedBranchesImageTable")]
+    partial class addedBranchesImageTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -72,7 +75,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("BranchId")
                         .IsUnique();
 
-                    b.ToTable("Address", (string)null);
+                    b.ToTable("Address");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.Branch", b =>
@@ -115,7 +118,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Branches", (string)null);
+                    b.ToTable("Branches");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.BranchImage", b =>
@@ -151,7 +154,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("BranchImage", (string)null);
+                    b.ToTable("BranchImage");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.CuisineType", b =>
@@ -185,7 +188,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("CuisineType", (string)null);
+                    b.ToTable("CuisineType");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Branches.OpeningClosingTime", b =>
@@ -227,7 +230,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("OpeningClosingTime", (string)null);
+                    b.ToTable("OpeningClosingTime");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.MenuCategory", b =>
@@ -268,7 +271,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("MenuCategories", (string)null);
+                    b.ToTable("MenuCategories");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.MenuItem", b =>
@@ -328,7 +331,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("MenuItems", (string)null);
+                    b.ToTable("MenuItems");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.Order", b =>
@@ -411,7 +414,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Orders.OrderItem", b =>
@@ -457,7 +460,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("OrderId");
 
-                    b.ToTable("OrderItems", (string)null);
+                    b.ToTable("OrderItems");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Review", b =>
@@ -499,7 +502,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("BranchId");
 
-                    b.ToTable("Reviews", (string)null);
+                    b.ToTable("Reviews");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComment", b =>
@@ -539,7 +542,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("ReviewComments", (string)null);
+                    b.ToTable("ReviewComments");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Entities.Staff", b =>
@@ -562,7 +565,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.HasIndex("ApplicationUserId")
                         .IsUnique();
 
-                    b.ToTable("Staffs", (string)null);
+                    b.ToTable("Staffs");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Domain.Identity.ApplicationUser", b =>
@@ -666,7 +669,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RefreshTokens", (string)null);
+                    b.ToTable("RefreshTokens");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Category", b =>
@@ -700,7 +703,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("RestaurantId");
 
-                    b.ToTable("Category", (string)null);
+                    b.ToTable("Category");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Restaurant", b =>
@@ -733,7 +736,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Restaurants", (string)null);
+                    b.ToTable("Restaurants");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Identity.Models.ApplicationRole", b =>
