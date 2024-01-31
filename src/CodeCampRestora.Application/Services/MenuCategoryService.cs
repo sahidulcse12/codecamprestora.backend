@@ -85,23 +85,25 @@ public class MenuCategoryService : IMenuCategoryService
             pageNumber, 
             pageSize
         );
-        
-        foreach ( var menuCategory in menuCategoriesEO)
-        {
-            var imagePath = await _imageService.GetImageByFilePathAsync(menuCategory.ImagePath);
-            menuCategory.ImagePath = imagePath.Data;
-        }
 
         var menuCategoriesDto = menuCategoriesEO.Adapt<List<MenuCategoryDto>>();
+        
+        foreach ( var menuCategory in menuCategoriesDto)
+        {
+            var imagePath = await _imageService.GetImageByFilePathAsync(menuCategory.ImagePath);
+            menuCategory.Base64Url = imagePath.Data;
+        }
+
+        
         var response = new PaginationDto<MenuCategoryDto>(menuCategoriesDto, menuCategoriesEO.TotalCount, menuCategoriesEO.TotalPages);
         return Result<PaginationDto<MenuCategoryDto>>.Success(response);
     }
 
     public async Task<Models.IResult> UpdateMenuCategoryAsync(UpdateMenuCategoryCommand request)
     {
-        var menuCategoriesEO = await _unitOfWork.MenuCategory.GetByIdAsync(request.Id);
+        var menuCategoryEO = await _unitOfWork.MenuCategory.GetByIdAsync(request.Id);
 
-        if (menuCategoriesEO == null)
+        if (menuCategoryEO == null)
         {
             return Result.Failure(
                 StatusCodes.Status404NotFound,
@@ -126,5 +128,27 @@ public class MenuCategoryService : IMenuCategoryService
             await _unitOfWork.SaveChangesAsync();
         }
         return result;
+    }
+
+    public async Task<Models.IResult> UpdateMenuCategoryImageAsync(Guid menuCategoryId, ImageDTO image)
+    {
+        var entity = await _unitOfWork.MenuCategory.GetByIdAsync(menuCategoryId);
+
+        if (entity == null)
+        {
+            Result.Failure(
+                StatusCodes.Status404NotFound,
+                Error.NotFound($"Menu category not found with id: {menuCategoryId}")
+            );
+        }
+        var imagePath = await _imageService.UploadImageAsync(image);
+        if (!imagePath.IsSuccess)
+        {
+            return Result.Failure(StatusCodes.Status409Conflict);
+        }
+
+        entity.ImagePath = imagePath.Data;
+        await _unitOfWork.SaveChangesAsync();
+        return Result.Success(200);
     }
 }
