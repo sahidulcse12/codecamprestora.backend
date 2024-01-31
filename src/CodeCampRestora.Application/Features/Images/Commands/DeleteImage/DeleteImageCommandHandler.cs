@@ -1,5 +1,5 @@
-using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Models;
+using CodeCampRestora.Application.Common.Interfaces.MediatRs;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 
 namespace CodeCampRestora.Application.Features.Images.Commands.DeleteImage;
@@ -15,7 +15,7 @@ public class DeleteImageCommandHandler : ICommandHandler<DeleteImageCommand, IRe
 
     public async Task<IResult> Handle(DeleteImageCommand request, CancellationToken cancellationToken)
     {
-        var result = await _imageService.DeleteImageByIdAsync(request.Id);
+        var result = await _imageService.DeleteImageAsync($"images//{request.Id}_mosabbir.jpg");
         return result;
     }
 }

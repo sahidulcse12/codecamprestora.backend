@@ -18,7 +18,8 @@ public class CreateRestaurantCommandHandler : ICommandHandler<CreateRestaurantCo
     public async Task<IResult> Handle(CreateRestaurantCommand request, CancellationToken cancellationToken)
     {
         var restaurantModel = request.Adapt<Restaurant>();
-        await _restaurantService.CreateRestaurant(restaurantModel);
+
+        await _restaurantService.CreateRestaurantAsync(restaurantModel);
         return Result.Success();
     }
 }

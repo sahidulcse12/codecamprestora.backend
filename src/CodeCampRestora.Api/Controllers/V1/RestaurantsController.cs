@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Swashbuckle.AspNetCore.Annotations;
-namespace CodeCampRestora.Api.Controllers.V1;
-using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.RestaurantCQ.Commands.UpdateRestaurant;
 using CodeCampRestora.Application.Features.RestaurantCQ.Commands.CreateRestaurant;
-using CodeCampRestora.Application.Models;
+
+namespace CodeCampRestora.Api.Controllers.V1;
 
 public class RestaurantsController : ApiBaseController
 {
     // TODO: End point will be removed later
-    [HttpPost]               
+    [HttpPost]
     [SwaggerOperation(
     Summary = "Create a restaurant",
     Description = @"Sample Request:
@@ -20,10 +19,10 @@ public class RestaurantsController : ApiBaseController
     }"
 )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
-    public async Task<IResult> Create([FromBody] CreateRestaurantCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateRestaurantCommand command)
     {
         var result = await Sender.Send(command);
-        return Result.Success();
+        return result.ToActionResult();
     }
 
     [HttpPut]
@@ -39,12 +38,9 @@ public class RestaurantsController : ApiBaseController
     )]
     [SwaggerResponse(StatusCodes.Status200OK, "Request Success", typeof(IResult))]
     [SwaggerResponse(StatusCodes.Status404NotFound, "Image not found", typeof(IResult))]
-    public async Task<IResult> Update([FromBody] UpdateRestaurantCommand command)
+    public async Task<IActionResult> Update([FromBody] UpdateRestaurantCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
-
-
 }
-

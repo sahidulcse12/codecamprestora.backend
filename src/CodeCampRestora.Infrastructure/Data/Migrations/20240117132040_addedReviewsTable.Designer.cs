@@ -94,6 +94,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("boolean");
 
+                    b.Property<string>("ImagePath")
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -210,6 +213,10 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("integer");
 
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
 
@@ -260,8 +267,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<int?>("DisplayOrder")
                         .HasColumnType("integer");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Ingredients")
                         .IsRequired()
@@ -297,6 +305,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Property<Guid>("BranchId")
                         .HasColumnType("uuid");
 
+                    b.Property<bool>("IsReviewHidden")
+                        .HasColumnType("boolean");
+
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -306,9 +317,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.Property<string>("Description")
                         .HasColumnType("text");
-
-                    b.Property<bool>("HideReview")
-                        .HasColumnType("boolean");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -328,7 +336,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.ToTable("Reviews");
                 });
 
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComment", b =>
+            modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComments", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,7 +373,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
 
                     b.HasIndex("ReviewId");
 
-                    b.ToTable("ReviewComment");
+                    b.ToTable("ReviewComments");
                 });
 
             modelBuilder.Entity("CodeCampRestora.Infrastructure.Entities.Category", b =>
@@ -408,9 +416,6 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("Created")
                         .HasColumnType("timestamp with time zone");
 
@@ -418,8 +423,9 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("ImageId")
-                        .HasColumnType("uuid");
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("timestamp with time zone");
@@ -497,7 +503,7 @@ namespace CodeCampRestora.Infrastructure.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComment", b =>
+            modelBuilder.Entity("CodeCampRestora.Domain.Entities.ReviewComments", b =>
                 {
                     b.HasOne("CodeCampRestora.Domain.Entities.Review", "Review")
                         .WithMany("ReviewComments")

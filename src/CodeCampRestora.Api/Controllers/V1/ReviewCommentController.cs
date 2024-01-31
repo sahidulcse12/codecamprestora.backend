@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using CodeCampRestora.Application.Features.ReviewComments;
-using IResult = CodeCampRestora.Application.Models.IResult;
 using CodeCampRestora.Application.Features.ReviewComments.CommentHideCommand;
 
 namespace CodeCampRestora.Api.Controllers.V1;
@@ -10,16 +9,16 @@ namespace CodeCampRestora.Api.Controllers.V1;
 public class ReviewCommentController : ApiBaseController
 {
     [HttpPost]
-    public async Task<IResult> Create([FromBody] CreateReviewCommentCommand command)
+    public async Task<IActionResult> Create([FromBody] CreateReviewCommentCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 
     [HttpPatch]
-    public async Task<IResult> CommentHide([FromBody] CommentHideCommand command)
+    public async Task<IActionResult> CommentHide([FromBody] CommentHideCommand command)
     {
         var result = await Sender.Send(command);
-        return result;
+        return result.ToActionResult();
     }
 }
