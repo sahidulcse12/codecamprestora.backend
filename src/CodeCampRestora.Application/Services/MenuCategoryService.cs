@@ -85,12 +85,14 @@ public class MenuCategoryService : IMenuCategoryService
             pageNumber, 
             pageSize
         );
-        var menuCategoriesDto = menuCategoriesEO.Adapt<List<MenuCategoryDto>>();
+        
         foreach ( var menuCategory in menuCategoriesEO)
         {
             var imagePath = await _imageService.GetImageByFilePathAsync(menuCategory.ImagePath);
             menuCategory.ImagePath = imagePath.Data;
         }
+
+        var menuCategoriesDto = menuCategoriesEO.Adapt<List<MenuCategoryDto>>();
         var response = new PaginationDto<MenuCategoryDto>(menuCategoriesDto, menuCategoriesEO.TotalCount, menuCategoriesEO.TotalPages);
         return Result<PaginationDto<MenuCategoryDto>>.Success(response);
     }
