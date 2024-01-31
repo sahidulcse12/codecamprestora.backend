@@ -2,6 +2,7 @@
 using CodeCampRestora.Application.Common.Interfaces.Repositories;
 using CodeCampRestora.Application.Common.Interfaces.Services;
 using CodeCampRestora.Application.Models;
+using CodeCampRestora.Domain.Entities.Branches;
 using Microsoft.EntityFrameworkCore;
 
 
@@ -19,14 +20,35 @@ public class UploadBranchImageCommandHandler : ICommandHandler<UploadBranchImage
     }
     public async Task<IResult> Handle(UploadBranchImageCommand request, CancellationToken cancellationToken)
     {
-        //var uploadimagepath = await _imageService.UploadMultipleImagesAsync(request.Images);
+        var result = await _imageService.UploadMultipleImagesAsync(request.Images);
 
-        //var branchEO = await _unitOfWork.Branches.IncludeProps(branch => branch.Images).ToListAsync();
+        // var branchEOs = await _unitOfWork.Branches.IncludeProps(branch => branch.Images,branch => branch.OpeningClosingTimes,branch => branch.CuisineTypes,branch => branch.Address).ToListAsync();
 
-        //branchEO = uploadimagepath.Data;
+        var branches = await _unitOfWork.Branches.IncludeProps(branch => branch.Images).ToListAsync();
+        foreach (var branch in branches)
+        {
+            if(branch.Id == request.Id)
+            {
+                if (result.IsSuccess)
+                {
 
-        //await _unitOfWork.Branches.UpdateAsync(branchEO.Id, branchEO);
-        //await _unitOfWork.SaveChangesAsync();
+                    var imagePaths = result.Data;
+                    foreach (var imagePath in imagePaths)
+                    {
+                        var branchImageList = new List<BranchImage>();
+                        branchImageList.Add(new BranchImage() {BranchId = branch.Id, ImagePath = imagePath });
+
+                        branch.Images = branchImageList;
+
+                    }
+                }
+
+                await _unitOfWork.Branches.UpdateAsync(branch.Id, branch);
+                await _unitOfWork.SaveChangesAsync();
+                
+            }
+        }
         return Result.Success(200);
+
     }
 }
