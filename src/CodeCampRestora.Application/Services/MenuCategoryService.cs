@@ -56,11 +56,11 @@ public class MenuCategoryService : IMenuCategoryService
         return Result<List<MenuCategoryDto>>.Success(MenuCategoriesDto);
     }
 
-    public async Task<IResult<List<MenuCategoryDto>>> GetAllMenuCategoryAsync(Guid Id)
+    public async Task<IResult<List<MenuCategoryGetAllDto>>> GetAllMenuCategoryAsync(Guid Id)
     {
         var MenuCategories = await _unitOfWork.MenuCategory.GetAllByIdAsync(Id);
-        var MenuCategoriesDto = MenuCategories.Adapt<List<MenuCategoryDto>>();
-        return Result<List<MenuCategoryDto>>.Success(MenuCategoriesDto);
+        var MenuCategoriesDto = MenuCategories.Adapt<List<MenuCategoryGetAllDto>>();
+        return Result<List<MenuCategoryGetAllDto>>.Success(MenuCategoriesDto);
     }
 
     public async Task<IResult<MenuCategoryDto>> GetMenuCategoryByIdAsync(Guid Id)
