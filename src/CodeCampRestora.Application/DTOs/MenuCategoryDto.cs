@@ -8,4 +8,10 @@ namespace CodeCampRestora.Application.DTOs
         public string ImagePath { get; set; }
         public Guid RestaurantId { get; set; }
     }
+
+    public class MenuCategoryGetAllDto
+    {
+        public Guid Id { get; set; }
+        public string Name { get; set; }
+    }
 }
