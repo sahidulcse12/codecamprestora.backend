@@ -339,4 +339,11 @@ public class IdentityService : IIdentityService
 
         return Result.Success();
     }
+
+    public async Task<IAuthResult> CreateStaff(ApplicationUser user)
+    {
+        var result = await _applicationUserManager.CreateAsync(user , "Ss123456.");
+
+        return (AuthResult) AuthResult.Success();
+    }
 }
