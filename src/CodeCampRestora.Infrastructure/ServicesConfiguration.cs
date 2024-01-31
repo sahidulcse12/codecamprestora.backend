@@ -54,8 +54,7 @@ public static class ServicesConfiguration
         });
 
         services.AddScoped<AuditableEntitiesInterceptor>();
-        // var connectionStringKey = "ProductionConnection";
-        var connectionStringKey = "DefaultConnection";
+        var connectionStringKey = "ProductionConnection";
         var assemblyName = Assembly.GetExecutingAssembly().FullName;
         services.AddDbContext<ApplicationDbContext>((provider, options) =>
         {
